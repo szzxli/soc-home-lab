@@ -85,6 +85,10 @@ SUSPICIOUS_API_CALLS: Dict[str, Tuple[str, str]] = {
         "medium",
         "EC2 instances launched — investigate for cryptojacking / resource abuse.",
     ),
+    "GetSecretValue": (
+        "high",
+        "Secrets Manager secret retrieved — check for credential theft.",
+    ),
 }
 
 ABUSEIPDB_CHECK_URL = "https://api.abuseipdb.com/api/v2/check"
