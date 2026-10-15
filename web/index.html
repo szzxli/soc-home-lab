@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOC Home Lab — Hands-on Cybersecurity Projects</title>
+<meta name="description" content="Five open-source, hands-on SOC projects: mini-SOC on AWS, CloudTrail IOC analyzer, phishing analysis lab, ELF binary triage, SOC agent skills.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<div class="prompt">$ whoami</div>
+<h1>SOC <span class="accent">HOME LAB</span></h1>
+<p class="sub">Five hands-on cybersecurity projects, built to demonstrate verifiable, practical SOC skills. Open source (MIT).</p>
+<p>
+<a class="btn btn-ghost" href="demo.html">▶ Try the live IOC analyzer demo</a>
+<a class="btn btn-ghost" href="https://github.com/szzxli/soc-home-lab">GitHub repo</a>
+</p>
+</header>
+
+<div class="notice">
+⚠ All datasets, log samples, and email artifacts in these projects are <b>synthetic training samples</b> — clearly labeled as such. No real incidents, real logs, or real phishing emails are presented here.
+</div>
+
+<div class="card">
+<h2><span class="num">01</span> — mini-soc</h2>
+<p class="problem"><b>Problem:</b> SOC analysts need to know how cloud detections actually fire — not just theory.</p>
+<p><b>What it is:</b> A minimal AWS detection stack (VPC → CloudTrail → S3 → GuardDuty → SecurityHub) deployed with Terraform, three adversary-emulation scenarios using Stratus Red Team (verified technique IDs), a triage guide, and blank incident report templates.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">CloudTrail analysis</span><span class="badge">GuardDuty triage</span><span class="badge">Incident response workflow</span><span class="badge">Terraform IaC</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/01-mini-soc">→ 01-mini-soc on GitHub</a></p>
+</div>
+
+<div class="card">
+<h2><span class="num">02</span> — python-ioc-analyzer</h2>
+<p class="problem"><b>Problem:</b> Tier-1 analysts drown in raw CloudTrail logs; simple heuristics catch the obvious badness fast.</p>
+<p><b>What it is:</b> A working CLI tool that parses CloudTrail JSON, flags anomalous logins / failed-login spikes / risky IAM changes, enriches IPs via AbuseIPDB, and emits a Markdown report. Ships with synthetic sample data and a passing pytest suite.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Python scripting</span><span class="badge">Log analysis</span><span class="badge">IOC enrichment</span><span class="badge">Detection heuristics</span></p>
+<p class="links"><a href="demo.html">▶ Try it live in your browser</a> · <a href="https://github.com/szzxli/soc-home-lab/tree/main/02-python-ioc-analyzer">→ 02-python-ioc-analyzer on GitHub</a></p>
+</div>
+
+<div class="card">
+<h2><span class="num">03</span> — phishing-analysis-lab</h2>
+<p class="problem"><b>Problem:</b> Phishing triage is daily Tier-1 SOC work — header forensics, auth-result interpretation, URL deobfuscation.</p>
+<p><b>What it is:</b> A full walkthrough of a reconstructed training-sample phish, a header-analysis cheatsheet, a blank analysis report template, and a self-test guide using GoPhish (own mailbox only).</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Email header forensics</span><span class="badge">SPF/DKIM/DMARC</span><span class="badge">URL analysis</span><span class="badge">Phishing triage</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/03-phishing-analysis-lab">→ 03-phishing-analysis-lab on GitHub</a></p>
+</div>
+
+<div class="card">
+<h2><span class="num">04</span> — rea-triage</h2>
+<p class="problem"><b>Problem:</b> Powerful binary-analysis tooling exists, but it isn't human-friendly for quick triage.</p>
+<p><b>What it is:</b> A one-command ELF binary triage CLI (<code>triage.py &lt;binary&gt;</code>): section-entropy packing heuristics, W^X detection, suspicious-import watchlist, string IOC extraction, score-based verdict (benign/suspicious/malicious), and a one-page analyst report. Optional REA provider enrichment; degrades honestly without it.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Static binary analysis</span><span class="badge">ELF internals</span><span class="badge">Malware triage heuristics</span><span class="badge">Detection engineering</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/04-rea-triage">→ 04-rea-triage on GitHub</a></p>
+</div>
+
+<div class="card">
+<h2><span class="num">05</span> — soc-skills</h2>
+<p class="problem"><b>Problem:</b> Agent skill packs exist for software engineering — nothing in them speaks SOC.</p>
+<p><b>What it is:</b> Five agent skills for the Tier-1 analyst loop, each distilled from a working project in this repo: <code>alert-triage</code>, <code>incident-report</code>, <code>cloudtrail-ioc</code>, <code>phishing-analysis</code>, <code>binary-triage</code>. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Detection triage</span><span class="badge">Incident documentation</span><span class="badge">Knowledge distillation</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/05-soc-skills">→ 05-soc-skills on GitHub</a></p>
+</div>
+
+<footer>
+<p>SOC Home Lab · <a href="https://github.com/szzxli/soc-home-lab">github.com/szzxli/soc-home-lab</a> · MIT License</p>
+<p>Built hands-on: every attack run, every detection, every report written by the author — nothing fabricated.</p>
+</footer>
+</div>
+</body>
+</html>

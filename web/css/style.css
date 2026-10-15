@@ -1,0 +1,134 @@
+/* SOC Home Lab — dark terminal theme */
+:root {
+  --bg: #0a0e14;
+  --panel: #11161f;
+  --border: #1f2937;
+  --green: #33ff66;
+  --amber: #ffb000;
+  --red: #ff4444;
+  --blue: #58a6ff;
+  --text: #c9d1d9;
+  --dim: #8b949e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "SF Mono", "Cascadia Code", Consolas, Menlo, monospace;
+  font-size: 15px;
+  line-height: 1.6;
+}
+a { color: var(--blue); }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 64px; }
+header.top {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+header.top .prompt { color: var(--green); }
+h1 { font-size: 1.6rem; margin: 8px 0; color: #fff; }
+h1 .accent { color: var(--green); }
+.sub { color: var(--dim); }
+.badge {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  color: var(--dim);
+  margin: 2px 4px 2px 0;
+}
+.notice {
+  border: 1px solid var(--amber);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 16px 0;
+  font-size: 13px;
+  color: var(--amber);
+  background: rgba(255, 176, 0, 0.06);
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  margin: 16px 0;
+}
+.card h2 { margin: 0 0 4px; font-size: 1.15rem; color: #fff; }
+.card h2 .num { color: var(--green); }
+.card .problem { color: var(--dim); font-size: 14px; margin: 8px 0; }
+.card .problem b { color: var(--amber); font-weight: normal; }
+.card p { margin: 8px 0; }
+.card .skills { font-size: 13px; color: var(--dim); }
+.card .skills b { color: var(--text); font-weight: normal; }
+.card .links { margin-top: 10px; font-size: 14px; }
+.btn {
+  display: inline-block;
+  background: var(--green);
+  color: #04140a;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn:hover { filter: brightness(1.1); }
+.btn-ghost {
+  background: transparent;
+  color: var(--green);
+  border: 1px solid var(--green);
+}
+textarea {
+  width: 100%;
+  min-height: 160px;
+  background: #05070b;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 13px;
+}
+.controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin: 12px 0; }
+.controls label { font-size: 13px; color: var(--dim); }
+.controls input {
+  width: 64px;
+  background: #05070b;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: inherit;
+}
+#report { margin-top: 16px; }
+.finding {
+  border-left: 3px solid var(--dim);
+  padding: 8px 12px;
+  margin: 10px 0;
+  background: var(--panel);
+  border-radius: 0 6px 6px 0;
+}
+.finding.high { border-color: var(--red); }
+.finding.medium { border-color: var(--amber); }
+.finding .meta { font-size: 13px; color: var(--dim); }
+.finding .ev { font-size: 13px; margin-top: 4px; }
+.risk-high { color: var(--red); font-weight: bold; }
+.risk-medium { color: var(--amber); font-weight: bold; }
+.risk-low { color: var(--green); font-weight: bold; }
+table.sum { border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+table.sum td, table.sum th {
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  text-align: left;
+}
+table.sum th { color: var(--dim); font-weight: normal; }
+footer { margin-top: 48px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--border); padding-top: 16px; }
+@media (max-width: 600px) {
+  body { font-size: 14px; }
+  h1 { font-size: 1.3rem; }
+  .controls { flex-direction: column; align-items: stretch; }
+}
