@@ -29,6 +29,16 @@ Only dependency is `pyelftools` (pure Python). `pytest` for the test suite.
 python triage.py /bin/ls --output report.md
 ```
 
+Try the synthetic demo (works on any OS, no real malware involved).
+`generate_demo.py` builds a minimal ELF with a high-entropy section and
+planted IOC strings, purely from Python stdlib:
+
+```bash
+python sample_data/generate_demo.py
+python triage.py sample_data/synthetic_demo.elf --output report.md
+# expect: verdict=malicious (score 11, 6 findings)
+```
+
 Options:
 
 | Flag | Description |
@@ -79,6 +89,8 @@ python -m pytest tests/ -v
 04-rea-triage/
 ├── triage.py        # collect → heuristics → score → report
 ├── requirements.txt # pyelftools, pytest
+├── sample_data/
+│   └── generate_demo.py  # builds a synthetic demo ELF (stdlib only)
 └── tests/
     └── test_triage.py
 ```
