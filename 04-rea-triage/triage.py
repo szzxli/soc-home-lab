@@ -111,6 +111,10 @@ SUSPICIOUS_IMPORTS: Dict[str, Tuple[str, str]] = {
         "low",
         "Outbound connection — notable in combination with socket.",
     ),
+    "unshare": (
+        "medium",
+        "Namespace manipulation — container escape / sandbox evasion indicator.",
+    ),
 }
 
 # String IOC patterns: label -> (compiled regex, severity, rationale).
