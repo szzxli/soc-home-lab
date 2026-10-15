@@ -1,0 +1,23 @@
+# Terraform / Python
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+!example.tfvars
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# Secrets — never commit
+.env
+*api_key*
+*credentials*
