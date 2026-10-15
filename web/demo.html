@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IOC Analyzer — Live Demo · SOC Home Lab</title>
+<meta name="description" content="Run the CloudTrail IOC analyzer's heuristic detectors in your browser on synthetic demo data.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<div class="prompt">$ ./ioc_analyzer.py --input sample_cloudtrail.json</div>
+<h1>IOC Analyzer <span class="accent">· live demo</span></h1>
+<p class="sub">The three heuristic detectors from <a href="https://github.com/szzxli/soc-home-lab/tree/main/02-python-ioc-analyzer">02-python-ioc-analyzer</a>, ported to JavaScript and running entirely in your browser. No server, no data leaves this page.</p>
+<p><a href="index.html">← back to all projects</a></p>
+</header>
+
+<div class="notice">
+⚠ <b>Synthetic demo data.</b> The built-in log below is fabricated training data (same file shipped with the repo). Paste your own CloudTrail JSON to analyze real records — they never leave your browser.
+</div>
+
+<div class="card">
+<h2>1 · Input</h2>
+<div class="controls">
+<button class="btn" id="runSample">▶ Run on built-in sample log</button>
+<button class="btn btn-ghost" id="runCustom">Run on pasted JSON ↓</button>
+<label>window <input id="winMin" type="number" value="10" min="1"> min</label>
+<label>threshold <input id="bfThresh" type="number" value="5" min="2"> failures</label>
+</div>
+<textarea id="customJson" placeholder='Paste CloudTrail JSON here — {"Records": [...]} or a bare [...] array — then click "Run on pasted JSON".'></textarea>
+<div class="meta" id="inputInfo" style="font-size:13px;color:var(--dim);margin-top:8px;"></div>
+</div>
+
+<div class="card">
+<h2>2 · Report</h2>
+<div id="report"><p class="sub">No analysis run yet.</p></div>
+</div>
+
+<div class="card">
+<h2>How the detectors work</h2>
+<p><span class="badge">unusual_geo</span> Successful <code>ConsoleLogin</code> from an IP outside a tiny built-in table of common ranges — <b>demo heuristic only</b>, a production system should use a real GeoIP database (e.g. MaxMind GeoLite2).</p>
+<p><span class="badge">brute_force</span> ≥ N failed <code>ConsoleLogin</code> attempts from one IP inside a sliding window (default 5 in 10 min) — one finding per IP, earliest window wins.</p>
+<p><span class="badge">suspicious_api</span> Watchlist of high-risk API calls: <code>PutUserPolicy</code>, <code>AttachUserPolicy</code>, <code>AttachRolePolicy</code> (high), <code>CreateAccessKey</code> / <code>RunInstances</code> (medium), <code>DeleteTrail</code> / <code>StopLogging</code> (high).</p>
+<p class="sub">AbuseIPDB enrichment is skipped in this browser build — exactly like the CLI behaves without an <code>ABUSEIPDB_API_KEY</code> set.</p>
+</div>
+
+<footer>
+<p>SOC Home Lab · <a href="https://github.com/szzxli/soc-home-lab">github.com/szzxli/soc-home-lab</a> · MIT License</p>
+</footer>
+</div>
+
+<script>
+const SAMPLE_LOG = {"Records":[{"awsRegion":"us-east-1","eventName":"ConsoleLogin","eventSource":"signin.amazonaws.com","eventTime":"2026-10-10T08:02:11Z","eventType":"AwsConsoleSignIn","eventVersion":"1.08","responseElements":{"ConsoleLogin":"Success"},"sourceIPAddress":"13.52.44.19","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","eventName":"ListBuckets","eventSource":"s3.amazonaws.com","eventTime":"2026-10-10T08:05:40Z","eventVersion":"1.08","requestParameters":null,"sourceIPAddress":"13.52.44.19","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","eventName":"DescribeInstances","eventSource":"ec2.amazonaws.com","eventTime":"2026-10-10T08:11:02Z","eventVersion":"1.08","requestParameters":{"instancesSet":{}},"sourceIPAddress":"13.52.44.19","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","eventName":"GetSessionToken","eventSource":"sts.amazonaws.com","eventTime":"2026-10-10T09:14:55Z","eventVersion":"1.08","requestParameters":{"durationSeconds":3600},"sourceIPAddress":"72.14.9.120","userIdentity":{"principalId":"AIDAEXAMPLEAMIN","type":"IAMUser","userName":"admin-bot"}},{"awsRegion":"us-east-1","eventName":"AssumeRole","eventSource":"sts.amazonaws.com","eventTime":"2026-10-10T09:20:31Z","eventVersion":"1.08","requestParameters":{"roleArn":"arn:aws:iam::123456789012:role/BackupRole"},"sourceIPAddress":"52.95.110.8","userIdentity":{"principalId":"AIDAEXAMPLESVC","type":"IAMUser","userName":"svc-backup"}},{"awsRegion":"us-east-1","eventName":"DescribeVpcs","eventSource":"ec2.amazonaws.com","eventTime":"2026-10-10T09:44:07Z","eventVersion":"1.08","requestParameters":{},"sourceIPAddress":"13.52.44.19","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","eventName":"DescribeSecurityGroups","eventSource":"ec2.amazonaws.com","eventTime":"2026-10-10T10:02:48Z","eventVersion":"1.08","requestParameters":{},"sourceIPAddress":"72.14.9.120","userIdentity":{"principalId":"AIDAEXAMPLEAMIN","type":"IAMUser","userName":"admin-bot"}},{"awsRegion":"us-east-1","eventName":"ConsoleLogin","eventSource":"signin.amazonaws.com","eventTime":"2026-10-10T11:30:19Z","eventType":"AwsConsoleSignIn","eventVersion":"1.08","responseElements":{"ConsoleLogin":"Success"},"sourceIPAddress":"185.220.101.4","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","errorCode":"Failed authentication","eventName":"ConsoleLogin","eventSource":"signin.amazonaws.com","eventTime":"2026-10-10T12:01:03Z","eventType":"AwsConsoleSignIn","eventVersion":"1.08","responseElements":{"ConsoleLogin":"Failure"},"sourceIPAddress":"91.108.55.77","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","errorCode":"Failed authentication","eventName":"ConsoleLogin","eventSource":"signin.amazonaws.com","eventTime":"2026-10-10T12:02:17Z","eventType":"AwsConsoleSignIn","eventVersion":"1.08","responseElements":{"ConsoleLogin":"Failure"},"sourceIPAddress":"91.108.55.77","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","errorCode":"Failed authentication","eventName":"ConsoleLogin","eventSource":"signin.amazonaws.com","eventTime":"2026-10-10T12:03:44Z","eventType":"AwsConsoleSignIn","eventVersion":"1.08","responseElements":{"ConsoleLogin":"Failure"},"sourceIPAddress":"91.108.55.77","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","errorCode":"Failed authentication","eventName":"ConsoleLogin","eventSource":"signin.amazonaws.com","eventTime":"2026-10-10T12:05:09Z","eventType":"AwsConsoleSignIn","eventVersion":"1.08","responseElements":{"ConsoleLogin":"Failure"},"sourceIPAddress":"91.108.55.77","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","errorCode":"Failed authentication","eventName":"ConsoleLogin","eventSource":"signin.amazonaws.com","eventTime":"2026-10-10T12:06:52Z","eventType":"AwsConsoleSignIn","eventVersion":"1.08","responseElements":{"ConsoleLogin":"Failure"},"sourceIPAddress":"91.108.55.77","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","errorCode":"Failed authentication","eventName":"ConsoleLogin","eventSource":"signin.amazonaws.com","eventTime":"2026-10-10T12:08:36Z","eventType":"AwsConsoleSignIn","eventVersion":"1.08","responseElements":{"ConsoleLogin":"Failure"},"sourceIPAddress":"91.108.55.77","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","eventName":"PutUserPolicy","eventSource":"iam.amazonaws.com","eventTime":"2026-10-10T13:22:10Z","eventVersion":"1.08","requestParameters":{"policyName":"PersistPolicy","userName":"svc-backup"},"sourceIPAddress":"185.220.101.4","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","eventName":"AttachUserPolicy","eventSource":"iam.amazonaws.com","eventTime":"2026-10-10T13:25:47Z","eventVersion":"1.08","requestParameters":{"policyArn":"arn:aws:iam::aws:policy/AdministratorAccess","userName":"jdoe"},"sourceIPAddress":"185.220.101.4","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","eventName":"RunInstances","eventSource":"ec2.amazonaws.com","eventTime":"2026-10-10T13:31:55Z","eventVersion":"1.08","requestParameters":{"instancesSet":{"items":[{"imageId":"ami-0123456789abcdef0","instanceType":"c5.4xlarge","maxCount":4,"minCount":4}]}},"sourceIPAddress":"185.220.101.4","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","eventName":"ListBuckets","eventSource":"s3.amazonaws.com","eventTime":"2026-10-10T14:15:22Z","eventVersion":"1.08","requestParameters":null,"sourceIPAddress":"13.52.44.19","userIdentity":{"principalId":"AIDAEXAMPLEJDOE","type":"IAMUser","userName":"jdoe"}},{"awsRegion":"us-east-1","eventName":"DescribeInstances","eventSource":"ec2.amazonaws.com","eventTime":"2026-10-10T15:02:09Z","eventVersion":"1.08","requestParameters":{"instancesSet":{}},"sourceIPAddress":"72.14.9.120","userIdentity":{"principalId":"AIDAEXAMPLEAMIN","type":"IAMUser","userName":"admin-bot"}}],"_comment":"SYNTHETIC TRAINING SAMPLE — NOT REAL LOG DATA. All events, IPs, user names, and timestamps below are fabricated for training/testing the ioc_analyzer.py project. Do not treat as real AWS CloudTrail output."};
+</script>
+<script src="js/ioc.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const info = $("inputInfo"), report = $("report");
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function render(records, findings, label) {
+    const s = iocBuildSummary(records, findings);
+    let h = "";
+    h += "<table class='sum'>";
+    h += "<tr><th>Records analyzed</th><td>" + s.total_records + "</td></tr>";
+    h += "<tr><th>Time range</th><td>" + esc(s.time_range) + "</td></tr>";
+    h += "<tr><th>Unique source IPs</th><td>" + s.unique_source_ips + "</td></tr>";
+    h += "<tr><th>Unique actors</th><td>" + s.unique_actors + "</td></tr>";
+    h += "<tr><th>Total findings</th><td><b>" + s.total_findings + "</b></td></tr>";
+    const rc = Object.keys(s.findings_by_risk).map(k =>
+      "<span class='risk-" + k + "'>" + k + ": " + s.findings_by_risk[k] + "</span>").join(" · ");
+    h += "<tr><th>By risk</th><td>" + (rc || "—") + "</td></tr>";
+    h += "</table>";
+    h += "<p class='sub'>Top events: " + s.top_events.slice(0, 6).map(e => esc(e[0]) + " (" + e[1] + ")").join(", ") + "</p>";
+    if (!findings.length) {
+      h += "<p>No suspicious activity detected by the heuristic detectors.</p>";
+    } else {
+      findings.forEach((f, i) => {
+        h += "<div class='finding " + f.risk + "'>" +
+          "<div><span class='risk-" + f.risk + "'>[" + f.risk.toUpperCase() + "]</span> " +
+          "<b>" + esc(f.detector) + "</b> · " + esc(f.event) + "</div>" +
+          "<div class='meta'>" + esc(f.time) + " · actor " + esc(f.actor) + " · IP " + esc(f.ip) + "</div>" +
+          "<div class='ev'>" + esc(f.evidence) + "</div></div>";
+      });
+    }
+    h += "<p class='sub'>IP enrichment (AbuseIPDB): <b>skipped</b> — not available in the browser build.</p>";
+    report.innerHTML = h;
+    info.textContent = label + ": " + records.length + " records, " + findings.length + " findings.";
+    report.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function runOn(data, label) {
+    let records;
+    try {
+      records = iocParseRecords(typeof data === "string" ? JSON.parse(data) : data);
+    } catch (e) {
+      report.innerHTML = "<p style='color:var(--red)'>Invalid JSON: " + esc(e.message) + "</p>";
+      return;
+    }
+    if (!records.length) {
+      report.innerHTML = "<p style='color:var(--amber)'>No records found. Expect {\"Records\": [...]} or a bare [...] array.</p>";
+      return;
+    }
+    const w = Math.max(1, parseInt($("winMin").value, 10) || 10);
+    const t = Math.max(2, parseInt($("bfThresh").value, 10) || 5);
+    const findings = iocDetectAll(records, w, t);
+    render(records, findings, label);
+  }
+
+  $("runSample").addEventListener("click", () => runOn(SAMPLE_LOG, "Built-in synthetic sample"));
+  $("runCustom").addEventListener("click", () => {
+    const v = $("customJson").value.trim();
+    if (!v) { report.innerHTML = "<p style='color:var(--amber)'>Paste some JSON first.</p>"; return; }
+    runOn(v, "Pasted JSON");
+  });
+})();
+</script>
+</body>
+</html>
