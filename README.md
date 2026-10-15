@@ -23,11 +23,17 @@ Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a
 **What it is:** A full walkthrough of a reconstructed training-sample phish, a header-analysis cheatsheet, a blank analysis report template, and a self-test guide using GoPhish (own mailbox only).
 **Skills:** Email header forensics, SPF/DKIM/DMARC, URL analysis, phishing triage.
 
+### 04 — [rea-triage](./04-rea-triage/)
+**Problem:** This week's #1 trending `morluto/rea` exposes 50+ agent-facing subcommands and machine-oriented Evidence JSON — powerful, but not human-friendly for quick triage.
+**What it is:** A one-command ELF binary triage CLI (`triage.py <binary>`) built on the REA *idea*: section-entropy packing heuristics, W^X detection, suspicious-import watchlist, string IOC extraction, score-based verdict (benign/suspicious/malicious), and a one-page analyst report. Optional REA `inspect-binary-layout` enrichment when the provider is configured; degrades honestly without it.
+**Skills:** Static binary analysis, ELF internals, malware triage heuristics, detection engineering.
+
 ## Resume bullets (copy-ready)
 
 - Built a mini-SOC on AWS (CloudTrail, GuardDuty, SecurityHub via Terraform); emulated adversary techniques with Stratus Red Team and authored triage runbooks for GuardDuty findings.
 - Developed a Python CLI tool that parses CloudTrail logs, applies detection heuristics (impossible-travel logins, brute-force spikes, risky IAM changes), and enriches IOCs via AbuseIPDB — with synthetic test data and a passing pytest suite.
 - Performed structured phishing email analysis (header forensics, SPF/DKIM/DMARC interpretation, URL deobfuscation, IOC extraction) on reconstructed training samples; documented Tier-1 response procedures.
+- Built a one-command ELF binary triage tool (inspired by trending `morluto/rea`): static heuristics (section entropy, W^X, suspicious imports, string IOCs), score-based verdict, analyst-ready report; optional REA provider enrichment.
 - Authored incident report templates and detection triage guides following SOC documentation standards.
 
 ## Skills matrix
