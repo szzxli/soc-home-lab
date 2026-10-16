@@ -3,11 +3,10 @@
 One-command ELF binary triage: heuristics + score-based verdict + a
 one-page analyst report.
 
-Inspired by this week's #1 GitHub trending project
-[`morluto/rea`](https://github.com/morluto/rea) ("reverse engineer anything
-with agents"). REA exposes 50+ granular agent-facing subcommands and emits
-machine-oriented Evidence JSON. rea-triage is the human-friendly layer on
-top of that *idea*: one command in, one readable page out.
+Static heuristics (section entropy, W^X segments, suspicious imports, string
+IOCs) roll up into a score-based verdict. One command in, one readable page
+out. Heuristic triage signals are not convictions — the tool never executes
+samples.
 
 > **Honesty note:** verdicts are *triage signals*, not convictions.
 > "malicious" means "prioritize for deep analysis (Ghidra / REA / sandbox)",
