@@ -15,6 +15,7 @@ from a working home-lab project in this repo:
 | `cloudtrail-ioc` | CloudTrail heuristics: geo anomalies, brute force, risky IAM | `02-python-ioc-analyzer` |
 | `phishing-analysis` | Header forensics → SPF/DKIM/DMARC → URL → verdict | `03-phishing-analysis-lab` |
 | `binary-triage` | Static ELF triage → scored verdict + one-page report | `04-rea-triage` |
+| `detection-engineering` | Write + validate detection rules (Sigma), tune TP/FP, ship with test evidence | `02-python-ioc-analyzer` Sigma module |
 
 ## Install
 
