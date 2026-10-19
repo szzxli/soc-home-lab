@@ -1,0 +1,23 @@
+title: Suspicious Encoded Command Line
+id: a1b2c3d4-0000-4000-8000-000000000002
+status: test
+description: Detects process creation events whose command line contains
+    encoded-command or in-memory execution indicators commonly abused for
+    defense evasion.
+author: home-lab
+date: 2026/10/19
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    CommandLine|contains:
+      - '-EncodedCommand'
+      - '-enc '
+      - 'FromBase64String'
+      - 'IEX('
+      - 'Invoke-Mimikatz'
+  filter_legit:
+    Image|endswith: '\legit-admin-tool.exe'
+  condition: selection and not filter_legit
+level: high

@@ -13,7 +13,7 @@ Repository: https://github.com/szzxli/soc-home-lab
 | `header-analysis-cheatsheet.md` | Quick-reference: key header fields, SPF/DKIM/DMARC verdict tables, and a one-line recognition guide for common obfuscation techniques |
 | `sample-walkthrough.md` | Full end-to-end analysis of a **reconstructed training sample** (labeled `RECONSTRUCTED TRAINING SAMPLE — not a real phish received`): headers → auth → multi-layer URL decoding → attachment IOCs → verdict → Tier-1 response steps |
 | `gophish-selftest-guide.md` | How to send a simulated phish to **your own mailbox only** with GoPhish, then analyze it yourself using this project's method. Includes a compliance box with legal boundaries. |
-| `report-template.md` | Blank phishing analysis report template (metadata / headers / auth / IOCs / verdict / actions) — ships blank by design, never pre-filled with a fabricated case |
+| `report-template.md` | Blank phishing analysis report template in four stages — forensics → threat-intel enrichment → assisted reasoning → explainable verdict (every signal shown with its contribution) — ships blank by design, never pre-filled with a fabricated case |
 
 ---
 
@@ -24,7 +24,7 @@ Follow this order — each step builds on the previous one:
 1. **Read the cheatsheet** (`header-analysis-cheatsheet.md`). Learn what each header field means and how to read SPF/DKIM/DMARC results at a glance. This is your desk reference for everything after.
 2. **Follow the walkthrough** (`sample-walkthrough.md`). Trace a complete analysis: Received-chain reading, `Return-Path` vs `From` vs `Reply-To` mismatch, line-by-line `Authentication-Results` interpretation, multi-layer URL deobfuscation (URL-decode → Base64-decode → landing analysis), attachment IOC extraction, verdict with severity rating, and the Tier-1 response playbook.
 3. **Phish yourself** (`gophish-selftest-guide.md`). Set up GoPhish, send a simulated phish to your own mailbox **only**, then analyze it with the walkthrough method *before* clicking anything. Compare your verdict against what GoPhish recorded.
-4. **Write it up** (`report-template.md`). Document your self-test (or any future real report) using the template. Practice writing verdicts with evidence, severity, confidence, and recommended actions — this is what hiring managers want to see.
+4. **Write it up** (`report-template.md`). Document your self-test (or any future real report) using the four-stage template: extract the evidence first, enrich IOCs second, reason over the structured evidence third, then write a verdict anyone can re-derive from your signal table. Practice writing verdicts with evidence, severity, confidence, and recommended actions — this is what hiring managers want to see.
 
 ---
 

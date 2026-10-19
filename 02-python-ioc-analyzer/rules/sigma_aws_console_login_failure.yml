@@ -1,0 +1,16 @@
+title: AWS Console Login Failure
+id: a1b2c3d4-0000-4000-8000-000000000001
+status: test
+description: Detects failed AWS Management Console login attempts. A burst of
+    these is a brute-force indicator; a single one is worth a look.
+author: home-lab
+date: 2026/10/19
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventName: 'ConsoleLogin'
+    responseElements.ConsoleLogin: 'Failure'
+  condition: selection
+level: medium

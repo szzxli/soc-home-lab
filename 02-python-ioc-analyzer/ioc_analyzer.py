@@ -85,10 +85,6 @@ SUSPICIOUS_API_CALLS: Dict[str, Tuple[str, str]] = {
         "medium",
         "EC2 instances launched — investigate for cryptojacking / resource abuse.",
     ),
-    "GetSecretValue": (
-        "high",
-        "Secrets Manager secret retrieved — check for credential theft.",
-    ),
 }
 
 ABUSEIPDB_CHECK_URL = "https://api.abuseipdb.com/api/v2/check"
@@ -548,6 +544,15 @@ def build_arg_parser() -> argparse.ArgumentParser:
         default=5,
         help="Failed logins within the window that trigger a finding (default: 5).",
     )
+    parser.add_argument(
+        "--sigma-rules",
+        default=None,
+        metavar="DIR",
+        help=(
+            "Optional directory of Sigma YAML rules evaluated by sigma_engine "
+            "against the same records; Sigma findings are merged into the report."
+        ),
+    )
     return parser
 
 
@@ -569,6 +574,23 @@ def main(argv: Optional[List[str]] = None) -> int:
         brute_force_window=args.window_minutes,
         brute_force_threshold=args.brute_force_threshold,
     )
+
+    # Optional Sigma rule layer: same records, community-standard rule format.
+    if args.sigma_rules:
+        try:
+            from sigma_engine import load_rules, scan_records
+
+            sigma_rules, load_problems = load_rules(args.sigma_rules)
+            sigma_findings, scan_problems = scan_records(sigma_rules, records)
+            findings.extend(sigma_findings)
+            findings.sort(key=lambda f: str(f.get("time")))
+            for problem in load_problems + scan_problems:
+                print(f"Sigma warning: {problem}", file=sys.stderr)
+            print(f"Sigma: {len(sigma_rules)} rule(s), "
+                  f"{len(sigma_findings)} finding(s).")
+        except ImportError:
+            print("Sigma warning: pysigma is not installed; "
+                  "--sigma-rules ignored.", file=sys.stderr)
 
     api_key = os.environ.get(ABUSEIPDB_API_KEY_ENV)
     findings, enrichment_skipped = enrich_findings(findings, api_key)

@@ -47,6 +47,34 @@ Options:
 Risk levels: **high** (act now — contain and investigate), **medium** (investigate),
 **low** (context).
 
+## Sigma rule engine (optional)
+
+In addition to the built-in heuristics, the analyzer can evaluate
+[Sigma](https://github.com/SigmaHQ/sigma)-format detection rules — the open,
+vendor-neutral standard for log detection rules — against the same records:
+
+```bash
+python ioc_analyzer.py --input sample_data/sample_cloudtrail.json \
+    --sigma-rules rules --output report.md
+```
+
+- `sigma_engine.py` parses rules with `pysigma` and matches them against
+  plain dict log records. Supported subset: field/value selections
+  (`contains` / `startswith` / `endswith` / `windash` / `re` modifiers,
+  wildcards, numbers, CIDR, `exists`), `selection and not filter`-style
+  conditions, `1 of` / `all of` quantifiers, dotted nested fields.
+- `rules/` ships three example rules: failed console logins, suspicious
+  encoded command lines, and CloudTrail logging being disabled.
+- Rules using unsupported features (e.g. `base64` encodings, `near`
+  correlation, `count() by` aggregation) are skipped with a warning —
+  a bad rule never crashes a scan.
+- Sigma findings merge into the same report table, tagged with the rule
+  title and id in the evidence column.
+
+Field names in a rule must match the keys of your log records (dot notation
+for nested objects, e.g. `responseElements.ConsoleLogin`); there is no
+implicit field mapping.
+
 ## AbuseIPDB enrichment (optional)
 
 Set the `ABUSEIPDB_API_KEY` environment variable to enrich flagged IPs:
@@ -78,19 +106,27 @@ and **Recommendations** for next steps.
 python -m pytest tests/ -v
 ```
 
-The suite covers all three detectors (flagged and clean cases) plus the
-no-API-key enrichment path — 9 tests using small inline synthetic fixtures.
+The suite covers all three heuristic detectors (flagged and clean cases),
+the no-API-key enrichment path, and the Sigma engine (rule loading, matching,
+filters, malformed-rule and unsupported-feature handling) — 16 tests using
+small inline synthetic fixtures.
 
 ## Project structure
 
 ```
 02-python-ioc-analyzer/
 ├── ioc_analyzer.py            # the analyzer (parse → detect → enrich → report)
-├── requirements.txt           # requests, pytest
+├── sigma_engine.py            # Sigma rule matching engine (subset of the open spec)
+├── requirements.txt           # requests, pytest, pysigma
+├── rules/                     # example Sigma rules (YAML)
+│   ├── sigma_aws_console_login_failure.yml
+│   ├── sigma_suspicious_encoded_command.yml
+│   └── sigma_cloudtrail_logging_disabled.yml
 ├── sample_data/
 │   └── sample_cloudtrail.json # SYNTHETIC training sample (labeled in-file)
 └── tests/
-    └── test_analyzer.py       # pytest suite
+    ├── test_analyzer.py       # pytest suite (heuristics)
+    └── test_sigma_engine.py   # pytest suite (Sigma engine)
 ```
 
 ## Limitations

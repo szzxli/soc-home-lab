@@ -1,0 +1,17 @@
+title: CloudTrail Logging Disabled
+id: a1b2c3d4-0000-4000-8000-000000000003
+status: test
+description: Detects API calls that disable or delete CloudTrail logging, a
+    classic defense-evasion step before malicious activity.
+author: home-lab
+date: 2026/10/19
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventName:
+      - 'DeleteTrail'
+      - 'StopLogging'
+  condition: selection
+level: high
