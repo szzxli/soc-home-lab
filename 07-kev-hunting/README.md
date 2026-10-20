@@ -17,11 +17,17 @@ enough of the attack chain to hunt on.
   Companion: `../../soc-skills/labs/cve-2026-85097-bricksforge-rce.md`
   + `cve-2026-85097-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `samples/bricksforge-access.log`.
+- **CVE-2026-104935** — Ivanti Connect Secure welcome.cgi auth bypass by
+  X-DSCGI-PATH spoofing (CVSS 8.6, CWE-290) → unauthenticated RCE. UTA0576
+  exploited it in the wild from 2026-10-03; bypass/RCE patched 2026-10-13 but
+  the chained dsinvoked/DSCache **privesc is still unpatched** (2026-10-19).
+  In-memory execution + log wiping → detection pivots to anomalous
+  X-DSCGI-PATH values (needs header-enriched logging) + memory forensics.
+  Companion: `../../soc-skills/labs/cve-2026-104935-ivanti-connect-secure.md`
+  + `cve-2026-104935-detect.py` (validated TP=1 FP=0 on synthetic log)
+  + `hunt-checklist-cve-2026-104935.md` + `samples/ivanti-welcome-cgi.log`.
 
 **New this week — intel only (no public lab environment, KEV-listed):**
-- **CVE-2026-104935** — Ivanti Connect Secure auth bypass by spoofing (CVSS 8.6,
-  CWE-290) → unauthenticated RCE. Zero-day, Volexity + Rapid7 analysis. No lab
-  (commercial VPN appliance).
 - **CVE-2026-0322** — Palo Alto PAN-OS code injection (CVSS 8.6), authenticated
   mgmt-interface RCE as root. No lab (needs real firewall).
 - **CVE-2026-96951** — Microsoft Windows MotW security-feature bypass (CVSS 8.8),

@@ -1,0 +1,30 @@
+# SYNTHETIC training log for CVE-2026-104935 lab — generated 2026-10-19.
+# Extended combined-log format with X-DSCGI-PATH captured as a trailing quoted
+# field (header-enriched logging: WAF / reverse proxy / ICS debug logging).
+# Stock ICS access logs do NOT record this header — without enrichment the
+# detector is blind at the HTTP layer.
+# Contains one full attack chain (203.0.113.78: header-spoof -> tmp-md5 race
+# burst -> second command), one recon-only prober (203.0.113.99), plus benign
+# traffic. No real attacker data. TEST-NET-1/2/3 addresses only.
+# Attack: POST /dana-na/auth/url_default/welcome.cgi with X-DSCGI-PATH spoof
+203.0.113.78 - - [03/Oct/2026:14:02:11 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 1832 "-" "python-requests/2.31" "X-DSCGI-PATH: /home/webserver/htdocs/dana/fb/smb/wu.cgi"
+# Attack: parallel race requests executing the uploaded .zip-named perl script
+# before wu.cgi deletes it — /home/runtime/tmp/<md5(filename)>
+203.0.113.78 - - [03/Oct/2026:14:02:31 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 964 "-" "python-requests/2.31" "X-DSCGI-PATH: /home/runtime/tmp/5d41402abc4b2a76b9719d911017c592"
+203.0.113.78 - - [03/Oct/2026:14:02:33 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 964 "-" "python-requests/2.31" "X-DSCGI-PATH: /home/runtime/tmp/5d41402abc4b2a76b9719d911017c592"
+203.0.113.78 - - [03/Oct/2026:14:02:35 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 964 "-" "python-requests/2.31" "X-DSCGI-PATH: /home/runtime/tmp/5d41402abc4b2a76b9719d911017c592"
+203.0.113.78 - - [03/Oct/2026:14:02:38 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 964 "-" "python-requests/2.31" "X-DSCGI-PATH: /home/runtime/tmp/5d41402abc4b2a76b9719d911017c592"
+203.0.113.78 - - [03/Oct/2026:14:02:41 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 964 "-" "python-requests/2.31" "X-DSCGI-PATH: /home/runtime/tmp/5d41402abc4b2a76b9719d911017c592"
+203.0.113.78 - - [03/Oct/2026:14:02:44 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 964 "-" "python-requests/2.31" "X-DSCGI-PATH: /home/runtime/tmp/5d41402abc4b2a76b9719d911017c592"
+# Attack: second command — the whole chain re-runs per command (in-band, no C2)
+203.0.113.78 - - [03/Oct/2026:14:05:02 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 1832 "-" "python-requests/2.31" "X-DSCGI-PATH: /home/webserver/htdocs/dana/fb/smb/wu.cgi"
+# Recon-only prober: spoof with no follow-through — SUSPICIOUS, not incident
+203.0.113.99 - - [03/Oct/2026:15:44:20 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 1832 "-" "curl/8.4.0" "X-DSCGI-PATH: /home/webserver/htdocs/dana/fb/smb/wu.cgi"
+# Benign: normal login page load, no header
+192.0.2.15 - - [03/Oct/2026:09:12:40 +0000] "GET /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 42110 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+# Benign: header present but routes to the requested script itself — not a spoof
+192.0.2.16 - - [03/Oct/2026:09:13:02 +0000] "POST /dana-na/auth/url_default/welcome.cgi HTTP/1.1" 200 2048 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" "X-DSCGI-PATH: /home/webserver/htdocs/dana-na/auth/url_default/welcome.cgi"
+# Benign: different auth endpoint, no header
+192.0.2.20 - - [03/Oct/2026:09:14:55 +0000] "GET /dana-na/auth/url_default/login.cgi HTTP/1.1" 200 3120 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+# Benign: scanner hitting the public login page without the header — not a signal
+192.0.2.21 - - [03/Oct/2026:10:01:12 +0000] "GET /dana-na/auth/url_default/welcome.cgi?btn=login HTTP/1.1" 200 42110 "-" "masscan/1.3"
