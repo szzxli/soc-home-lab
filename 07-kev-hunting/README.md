@@ -26,6 +26,19 @@ enough of the attack chain to hunt on.
   Companion: `../../soc-skills/labs/cve-2026-104935-ivanti-connect-secure.md`
   + `cve-2026-104935-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `hunt-checklist-cve-2026-104935.md` + `samples/ivanti-welcome-cgi.log`.
+- **CVE-2026-110936** — Siemens Software Center DLL sideloading
+  (CVSS v4 8.4, CWE-427). ClickFix lure → victim pastes a command →
+  `msiexec.exe` runs `AllMyBasic.msi` → genuine, validly signed
+  `SiemensSoftwareCenter.exe` (v3.5.8.7) executes from a user-writable
+  folder and loads an attacker `archive.dll` from beside it — code runs
+  under the trusted signed process (loader/RAT delivery). Exploited in
+  the wild Oct 2026 (Romulus ClickFix platform); fixed in 4.0.9.8.
+  **The exe is unmodified and properly signed, so detection is
+  behavioral (path + parent + DLL provenance), never signature-based.**
+  Not in CISA KEV. Companion:
+  `../../soc-skills/labs/cve-2026-110936-siemens-dll-sideloading.md`
+  + `cve-2026-110936-detect.py` (validated TP=1 FP=0 on synthetic log)
+  + `hunt-checklist-cve-2026-110936.md` + `samples/siemens-sideload.log`.
 - **CVE-2026-25243** — Redis RESTORE double-free (CVSS 8.8, CWE-415) →
   authenticated RCE. Crafted serialized payload corrupts the heap into an
   arbitrary read/write; final stage re-enables DEBUG in memory and abuses
