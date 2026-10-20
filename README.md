@@ -1,12 +1,14 @@
 # soc-home-lab
 
-Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, and a phishing analysis lab. Built to demonstrate verifiable, practical security skills.
+Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a phishing analysis lab, binary triage, agent skills, and supply-chain defense. Built to demonstrate verifiable, practical security skills.
 
 🔗 **https://github.com/szzxli/soc-home-lab**
 
 📊 Skills quantified: these projects are graded against a public rubric and mapped to the NIST NICE framework in the companion repo **[szzxli/soc-skills](https://github.com/szzxli/soc-skills)** — including a one-page HR-readable skill profile.
 
 > All datasets, log samples, and email artifacts in this repo are **synthetic training samples** — clearly labeled as such. No real incidents, real logs, or real phishing emails are presented here.
+
+🧭 **[START_HERE.md](./START_HERE.md)** — one index of every project and every 07 case: dates, KEV status, log source, run mode, prerequisites, outputs.
 
 ## Projects
 
@@ -32,8 +34,18 @@ Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a
 
 ### 05 — [soc-skills](./05-soc-skills/)
 **Problem:** The trending `mattpocock/skills` (291k stars) packages one TypeScript engineer's agent workflow — nothing in it speaks SOC.
-**What it is:** Five agent skills for the Tier-1 analyst loop, each distilled from a working project in this repo: `alert-triage`, `incident-report`, `cloudtrail-ioc`, `phishing-analysis`, `binary-triage`. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.
+**What it is:** Six agent skills for the Tier-1 analyst loop, each distilled from a working project in this repo: `alert-triage`, `incident-report`, `cloudtrail-ioc`, `phishing-analysis`, `binary-triage`, `detection-engineering`. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.
 **Skills:** Detection triage, incident documentation, knowledge distillation into agent skills.
+
+### 06 — [ghostaction-supply-chain](./06-ghostaction-supply-chain/)
+**Problem:** Supply-chain attacks now target the developer's own workbench — a malicious `.vscode/tasks.json` executes code on project open, and a cron backdoor survives deleting the repo.
+**What it is:** A safe, hands-on lab built around the GhostAction technique (Oct 2026): inert training samples demonstrating the mechanism, a hunt checklist for workspace tasks + cron/systemd persistence, and a blank incident report template.
+**Skills:** Supply-chain threat modeling, static config review, persistence hunting, incident documentation.
+
+### 07 — [kev-hunting](./07-kev-hunting/)
+**Problem:** CISA KEV entries come with a federal deadline, but your network doesn't patch itself — the gap between "KEV published" and "patch deployed" is the hunting window.
+**What it is:** A threat-hunting lab built around the October 2026 KEV additions and same-week in-the-wild cases. Full labs with hunt checklists, synthetic logs, and companion detection scripts: BeyondTrust CVE-2026-102764 (7 huntable artifacts from Mandiant/GTIG reporting, correlating hunt heuristic), Atlassian CVE-2026-21589, Nextcloud CVE-2026-110447, Bricksforge CVE-2026-85097, Ivanti CVE-2026-104935, Siemens CVE-2026-110936, Redis CVE-2026-25243, five unauthenticated agent-tool RCE CVEs, and the M365 app-identity persistence pattern (ConnectWise incident, no CVE). Further KEV entries are tracked intel-only with the reason recorded (see the 07 README). Full per-case index: [START_HERE.md](./START_HERE.md).
+**Skills:** Threat-intel consumption, IOC extraction, log hunting, detection engineering, incident documentation.
 
 ## Resume bullets (copy-ready)
 
@@ -41,7 +53,7 @@ Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a
 - Developed a Python CLI tool that parses CloudTrail logs, applies detection heuristics (impossible-travel logins, brute-force spikes, risky IAM changes), and enriches IOCs via AbuseIPDB — with synthetic test data and a passing pytest suite.
 - Performed structured phishing email analysis (header forensics, SPF/DKIM/DMARC interpretation, URL deobfuscation, IOC extraction) on reconstructed training samples; documented Tier-1 response procedures.
 - Built a one-command ELF binary triage tool: static heuristics (section entropy, W^X, suspicious imports, string IOCs), score-based verdict, analyst-ready report; optional REA provider enrichment.
-- Authored five MIT-licensed agent skills for SOC analysts (alert triage, incident reporting, CloudTrail IOC analysis, phishing analysis, binary triage), distilled from working home-lab projects — the security-flavored answer to `mattpocock/skills`.
+- Authored six MIT-licensed agent skills for SOC analysts (alert triage, incident reporting, CloudTrail IOC analysis, phishing analysis, binary triage, detection engineering), distilled from working home-lab projects — the security-flavored answer to `mattpocock/skills`.
 - Authored incident report templates and detection triage guides following SOC documentation standards.
 
 ## Skills matrix

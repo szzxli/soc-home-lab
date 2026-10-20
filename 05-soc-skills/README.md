@@ -5,7 +5,7 @@ Agent skills for security analysts — the SOC-flavored answer to
 
 That repo (291k stars, MIT) packages one engineer's TypeScript-centric
 agent workflow: grilling, TDD, code review. Nothing in it speaks SOC.
-These five skills cover the Tier-1 analyst loop instead, each distilled
+These six skills cover the Tier-1 analyst loop instead, each distilled
 from a working home-lab project in this repo:
 
 | Skill | Does | Distilled from |

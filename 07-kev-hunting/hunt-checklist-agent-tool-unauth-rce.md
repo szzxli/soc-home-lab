@@ -1,7 +1,7 @@
 # Hunt checklist — Agent tool-execution endpoints without authentication (CVE-2026-77936 / 75128 / 77932 / 109442 / 109437)
 
 Work top to bottom. Check the box when done, note what you found.
-Companion: `../../soc-skills/labs/agent-tool-unauth-rce.md`
+Companion: [agent-tool-unauth-rce.md](https://github.com/szzxli/soc-skills/blob/main/labs/agent-tool-unauth-rce.md)
 
 ## 0. Patch / exposure reality check (2026-10-20)
 - [ ] Inventory every AI agent framework you run — including the

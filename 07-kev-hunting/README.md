@@ -14,7 +14,7 @@ enough of the attack chain to hunt on.
   `temporaryFileUploads[].url` ending in `.php` → code execution. Patchstack:
   exploited in the wild since 2026-10-07; ~6,000 sites exposed; fixed in
   3.1.8.10 — **patch does not remove existing shells**. Not in CISA KEV.
-  Companion: `../../soc-skills/labs/cve-2026-85097-bricksforge-rce.md`
+  Companion: [cve-2026-85097-bricksforge-rce.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-85097-bricksforge-rce.md)
   + `cve-2026-85097-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `samples/bricksforge-access.log`.
 - **CVE-2026-104935** — Ivanti Connect Secure welcome.cgi auth bypass by
@@ -23,7 +23,7 @@ enough of the attack chain to hunt on.
   the chained dsinvoked/DSCache **privesc is still unpatched** (2026-10-19).
   In-memory execution + log wiping → detection pivots to anomalous
   X-DSCGI-PATH values (needs header-enriched logging) + memory forensics.
-  Companion: `../../soc-skills/labs/cve-2026-104935-ivanti-connect-secure.md`
+  Companion: [cve-2026-104935-ivanti-connect-secure.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-104935-ivanti-connect-secure.md)
   + `cve-2026-104935-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `hunt-checklist-cve-2026-104935.md` + `samples/ivanti-welcome-cgi.log`.
 - **CVE-2026-110936** — Siemens Software Center DLL sideloading
@@ -36,7 +36,7 @@ enough of the attack chain to hunt on.
   **The exe is unmodified and properly signed, so detection is
   behavioral (path + parent + DLL provenance), never signature-based.**
   Not in CISA KEV. Companion:
-  `../../soc-skills/labs/cve-2026-110936-siemens-dll-sideloading.md`
+  [cve-2026-110936-siemens-dll-sideloading.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-110936-siemens-dll-sideloading.md)
   + `cve-2026-110936-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `hunt-checklist-cve-2026-110936.md` + `samples/siemens-sideload.log`.
 - **CVE-2026-25243** — Redis RESTORE double-free (CVSS 8.8, CWE-415) →
@@ -48,7 +48,7 @@ enough of the attack chain to hunt on.
   + RESTORE permission, so detection is command-audit pattern analysis:
   non-allowlisted RESTORE, RESTORE bursts, any DEBUG, flush-after-RESTORE.
   Fixed in 6.2.22 / 7.2.14 / 7.4.9 / 8.2.6 / 8.4.3 / 8.6.3. Not in CISA KEV.
-  Companion: `../../soc-skills/labs/cve-2026-25243-redis-restore.md`
+  Companion: [cve-2026-25243-redis-restore.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-25243-redis-restore.md)
   + `cve-2026-25243-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `hunt-checklist-cve-2026-25243.md` + `samples/redis-restore-audit.log`.
 - **Agent tool-execution endpoints without authentication** — one
@@ -68,7 +68,7 @@ enough of the attack chain to hunt on.
   so detection needs enriched proxy logs (credential presence + body
   excerpt) and keys on endpoint + no-auth + payload markers. None in
   CISA KEV yet. Companion:
-  `../../soc-skills/labs/agent-tool-unauth-rce.md`
+  [agent-tool-unauth-rce.md](https://github.com/szzxli/soc-skills/blob/main/labs/agent-tool-unauth-rce.md)
   + `agent-tool-unauth-rce-detect.py` (validated TP=1 FP=0 on
   synthetic log) + `hunt-checklist-agent-tool-unauth-rce.md`
   + `samples/agent-tool-unauth-rce-access.log`.
@@ -86,7 +86,7 @@ enough of the attack chain to hunt on.
   to a service principal, changes performed *by* an application,
   cross-application bursts, app sign-ins from new IPs. Not in CISA
   KEV (no CVE exists). Companion:
-  `../../soc-skills/labs/m365-app-identity-persistence.md`
+  [m365-app-identity-persistence.md](https://github.com/szzxli/soc-skills/blob/main/labs/m365-app-identity-persistence.md)
   + `m365-app-identity-persistence-detect.py` (validated TP=1 FP=0
   on synthetic log) + `hunt-checklist-m365-app-identity-persistence.md`
   + `samples/m365-app-identity-audit.log`.
@@ -116,20 +116,20 @@ enough of the attack chain to hunt on.
   DC etc.); KEV 2026-10-15, federal due **2026-10-18**. watchTowr: `::` treated
   as path separator in Java normalization; honeypot hits within ~2h of
   disclosure; actively exploited in the wild (Previdian: 617 attempts, 68 IPs,
-  21 countries). Companion: `../../soc-skills/labs/cve-2026-21589-atlassian-traversal.md`
+  21 countries). Companion: [cve-2026-21589-atlassian-traversal.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-21589-atlassian-traversal.md)
   + `hunt-checklist-cve-2026-21589.md` + `samples/confluence-access.log`.
 - **CVE-2026-110447** — Nextcloud Collabora Built-in CODE Server (`richdocumentscode`)
   OS command injection → unauthenticated RCE (CVSS 9.2, CWE-78). MITRE CVE text
   confirms in-the-wild exploitation Sept–Oct 2026 (PHP web shells; **not** in CISA
   KEV). Precondition: bundled CODE server not running. Fix ≥ 26.4.303 or full
   removal — **disabling is not enough**. Companion:
-  `../../soc-skills/labs/cve-2026-110447-nextcloud-collabora-rce.md`
+  [cve-2026-110447-nextcloud-collabora-rce.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-110447-nextcloud-collabora-rce.md)
   + `hunt-checklist-cve-2026-110447.md` + `samples/nextcloud-access.log`.
 
 **What it is:** A threat-hunting lab built around the KEV-to-action pipeline: take a
 fresh KEV entry, extract huntable artifacts from public reporting, write detection
 heuristics, and document the hunt. Companion piece:
-`../../soc-skills/labs/cve-2026-102764-beyondtrust-auth-bypass.md` (lab card with
+[cve-2026-102764-beyondtrust-auth-bypass.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-102764-beyondtrust-auth-bypass.md) (lab card with
 the full writeup + NICE mapping).
 
 **Skills:** Threat-intel consumption (KEV), IOC extraction, log hunting, detection
@@ -160,7 +160,7 @@ Using the synthetic `samples/appliance.log`, write a script (or extend
 `../02-python-ioc-analyzer/`) that flags each artifact type and correlates:
 **≥2 distinct artifact types on one host within 24h → incident**.
 Compare your output with the reference implementation in
-`../../soc-skills/labs/cve-2026-102764-detect.py` *after* yours runs.
+[cve-2026-102764-detect.py](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-102764-detect.py) *after* yours runs.
 
 ### Exercise 3 — Tune against benign noise (30 min)
 The samples include benign admin activity (scheduled haproxy reloads, routine

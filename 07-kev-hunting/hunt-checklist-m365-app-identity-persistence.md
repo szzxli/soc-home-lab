@@ -1,7 +1,7 @@
 # Hunt checklist — M365 app-identity persistence (ConnectWise Cloud Backup incident pattern, Oct 2026)
 
 Work top to bottom. Check the box when done, note what you found.
-Companion: `../../soc-skills/labs/m365-app-identity-persistence.md`
+Companion: [m365-app-identity-persistence.md](https://github.com/szzxli/soc-skills/blob/main/labs/m365-app-identity-persistence.md)
 
 ## 0. Incident reality check (facts as of 2026-10-20)
 - [ ] On **2026-10-15** ConnectWise found unauthorized access to

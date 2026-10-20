@@ -1,0 +1,36 @@
+# Hunt checklist — CVE-2026-102764 (ARMORY CASTLE chain)
+
+Work top to bottom. Check the box when done, note what you found.
+
+## 1. Web shell (SAWFLY)
+- [ ] List PHP files under the appliance web root modified outside change windows
+      `find /var/www -name '*.php' -mtime -30 | xargs ls -la`
+- [ ] Any PHP file with a recent mtime and an innocuous name? Note it.
+
+## 2. SUID root shell
+- [ ] `find / -perm -4000 -user root 2>/dev/null` — compare against package baseline
+- [ ] Anything outside /usr/bin, /bin, /usr/sbin? Note it.
+
+## 3. Vault access
+- [ ] Appliance audit log: vault read/dump/export events
+- [ ] Filter out the known service account; list every other reader with timestamp
+
+## 4. Boot persistence
+- [ ] `/etc/rc.local`, `/etc/init.d/`, boot scripts: any modification in the window?
+- [ ] sudoers / sudoers.d: any change in the same window as (4)?
+
+## 5. BARECLAW tunneler
+- [ ] `haproxy.cfg` modification time vs. change tickets — any unapproved change?
+- [ ] Listening sockets: any new WebSocket/SOCKS5 listener? `ss -tlnp`
+
+## 6. Privilege escalation
+- [ ] Jump Item / Jump Client role assignments: any raised to Administrator recently?
+- [ ] By whom, and was there a ticket?
+
+## 7. Log integrity (do this FIRST in a real hunt — it tells you what you're missing)
+- [ ] Sequence gaps in appliance logs (the actor deletes logs)
+- [ ] If gaps exist: assume the rest of this checklist is *undercounting*
+
+## Correlation
+- [ ] ≥2 distinct artifact types on one host within 24h → treat as incident, go to the report template
+- [ ] Exactly 1 artifact type → hunt deeper, do not close it as benign without a ticket-backed explanation

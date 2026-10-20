@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOC Home Lab — Hands-on Cybersecurity Projects</title>
-<meta name="description" content="Five open-source, hands-on SOC projects: mini-SOC on AWS, CloudTrail IOC analyzer, phishing analysis lab, ELF binary triage, SOC agent skills.">
+<meta name="description" content="Seven open-source, hands-on SOC projects: mini-SOC on AWS, CloudTrail IOC analyzer, phishing analysis lab, ELF binary triage, SOC agent skills, supply-chain defense, KEV threat hunting.">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
 <header class="top">
 <div class="prompt">$ whoami</div>
 <h1>SOC <span class="accent">HOME LAB</span></h1>
-<p class="sub">Five hands-on cybersecurity projects, built to demonstrate verifiable, practical SOC skills. Open source (MIT).</p>
+<p class="sub">Seven hands-on cybersecurity projects, built to demonstrate verifiable, practical SOC skills. Open source (MIT).</p>
 <p>
 <a class="btn btn-ghost" href="demo.html">▶ Try the live IOC analyzer demo</a>
 <a class="btn btn-ghost" href="https://github.com/szzxli/soc-home-lab">GitHub repo</a>
@@ -58,9 +58,25 @@
 <div class="card">
 <h2><span class="num">05</span> — soc-skills</h2>
 <p class="problem"><b>Problem:</b> Agent skill packs exist for software engineering — nothing in them speaks SOC.</p>
-<p><b>What it is:</b> Five agent skills for the Tier-1 analyst loop, each distilled from a working project in this repo: <code>alert-triage</code>, <code>incident-report</code>, <code>cloudtrail-ioc</code>, <code>phishing-analysis</code>, <code>binary-triage</code>. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.</p>
+<p><b>What it is:</b> Six agent skills for the Tier-1 analyst loop, each distilled from a working project in this repo: <code>alert-triage</code>, <code>incident-report</code>, <code>cloudtrail-ioc</code>, <code>phishing-analysis</code>, <code>binary-triage</code>, <code>detection-engineering</code>. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.</p>
 <p class="skills"><b>Skills:</b> <span class="badge">Detection triage</span><span class="badge">Incident documentation</span><span class="badge">Knowledge distillation</span></p>
 <p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/05-soc-skills">→ 05-soc-skills on GitHub</a></p>
+</div>
+
+<div class="card">
+<h2><span class="num">06</span> — ghostaction-supply-chain</h2>
+<p class="problem"><b>Problem:</b> Supply-chain attacks now target the developer's own workbench — a malicious <code>.vscode/tasks.json</code> executes code on project open, and a cron backdoor survives deleting the repo.</p>
+<p><b>What it is:</b> A safe, hands-on lab built around the GhostAction technique (Oct 2026): inert training samples demonstrating the mechanism, a hunt checklist for workspace tasks + cron/systemd persistence, and a blank incident report template.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Supply-chain threat modeling</span><span class="badge">Static config review</span><span class="badge">Persistence hunting</span><span class="badge">Incident documentation</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/06-ghostaction-supply-chain">→ 06-ghostaction-supply-chain on GitHub</a></p>
+</div>
+
+<div class="card">
+<h2><span class="num">07</span> — kev-hunting</h2>
+<p class="problem"><b>Problem:</b> CISA KEV entries come with a federal deadline, but your network doesn't patch itself — the gap between "KEV published" and "patch deployed" is the hunting window.</p>
+<p><b>What it is:</b> A threat-hunting lab built around the October 2026 KEV additions and same-week in-the-wild cases: full hunt checklists, synthetic training logs, and companion detection scripts for cases including BeyondTrust, Atlassian, Nextcloud, Ivanti, Redis, and the M365 app-identity persistence pattern — plus intel-only tracking for entries with no lab environment. Every case is indexed in the repo's START_HERE.md.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Threat-intel consumption</span><span class="badge">IOC extraction</span><span class="badge">Log hunting</span><span class="badge">Detection engineering</span><span class="badge">Incident documentation</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/07-kev-hunting">→ 07-kev-hunting on GitHub</a></p>
 </div>
 
 <footer>
