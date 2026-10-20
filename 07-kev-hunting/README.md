@@ -72,6 +72,24 @@ enough of the attack chain to hunt on.
   + `agent-tool-unauth-rce-detect.py` (validated TP=1 FP=0 on
   synthetic log) + `hunt-checklist-agent-tool-unauth-rce.md`
   + `samples/agent-tool-unauth-rce-access.log`.
+- **M365 app-identity persistence (ConnectWise Cloud Backup incident,
+  Oct 2026)** — pattern lab, no CVE: a SaaS backup application's M365
+  API secret was stolen and used to enter customer tenants. In one
+  tenant a second application (**ConnectWise Cloud Management - MS
+  Teams**) **granted itself Global Administrator**, then **added new
+  credentials to two other applications** — persistence that
+  **survives disabling the abused apps**, so the fix is a census of
+  every credential on every application, not a patch. ConnectWise
+  suspended Cloud Backup, SaaS Security, and Cloud Management
+  (2026-10-15 discovery). Detection is audit-log actor analysis:
+  privileged role granted to a service principal, credentials added
+  to a service principal, changes performed *by* an application,
+  cross-application bursts, app sign-ins from new IPs. Not in CISA
+  KEV (no CVE exists). Companion:
+  `../../soc-skills/labs/m365-app-identity-persistence.md`
+  + `m365-app-identity-persistence-detect.py` (validated TP=1 FP=0
+  on synthetic log) + `hunt-checklist-m365-app-identity-persistence.md`
+  + `samples/m365-app-identity-audit.log`.
 
 **New this week — intel only (no public lab environment, KEV-listed):**
 - **CVE-2026-0322** — Palo Alto PAN-OS code injection (CVSS 8.6), authenticated
