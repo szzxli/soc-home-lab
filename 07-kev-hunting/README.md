@@ -26,6 +26,18 @@ enough of the attack chain to hunt on.
   Companion: `../../soc-skills/labs/cve-2026-104935-ivanti-connect-secure.md`
   + `cve-2026-104935-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `hunt-checklist-cve-2026-104935.md` + `samples/ivanti-welcome-cgi.log`.
+- **CVE-2026-25243** — Redis RESTORE double-free (CVSS 8.8, CWE-415) →
+  authenticated RCE. Crafted serialized payload corrupts the heap into an
+  arbitrary read/write; final stage re-enables DEBUG in memory and abuses
+  `DEBUG CRASH-AND-RECOVER` to run a shell command. Honeypots recorded the
+  first in-the-wild attempts 2026-10-16/17 — scripted, timed, each run
+  ending in a keyspace wipe (data + traces destroyed together). Needs auth
+  + RESTORE permission, so detection is command-audit pattern analysis:
+  non-allowlisted RESTORE, RESTORE bursts, any DEBUG, flush-after-RESTORE.
+  Fixed in 6.2.22 / 7.2.14 / 7.4.9 / 8.2.6 / 8.4.3 / 8.6.3. Not in CISA KEV.
+  Companion: `../../soc-skills/labs/cve-2026-25243-redis-restore.md`
+  + `cve-2026-25243-detect.py` (validated TP=1 FP=0 on synthetic log)
+  + `hunt-checklist-cve-2026-25243.md` + `samples/redis-restore-audit.log`.
 
 **New this week — intel only (no public lab environment, KEV-listed):**
 - **CVE-2026-0322** — Palo Alto PAN-OS code injection (CVSS 8.6), authenticated

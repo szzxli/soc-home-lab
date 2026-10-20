@@ -1,0 +1,20 @@
+# synthetic training log — Redis command audit (CVE-2026-25243 lab)
+# format: <ts> ip=<ip> user=<user> cmd=<COMMAND> [arg=<sub>] key=<key|-> payload_bytes=<n>
+# contains: one full attack sequence, one partial, benign backup + app traffic
+2026-10-16T02:58:03Z ip=10.0.3.11 user=app_svc cmd=GET key=session:8812 payload_bytes=0
+2026-10-16T02:58:19Z ip=10.0.3.11 user=app_svc cmd=SET key=session:8813 payload_bytes=412
+2026-10-16T02:59:41Z ip=10.0.3.12 user=app_svc cmd=EXPIRE key=session:8813 payload_bytes=0
+2026-10-16T03:05:22Z ip=10.0.3.12 user=app_svc cmd=GET key=product:4471 payload_bytes=0
+2026-10-16T03:30:00Z ip=10.0.5.20 user=backup cmd=RESTORE key=migration:users:chunk17 payload_bytes=524288
+2026-10-16T03:30:04Z ip=10.0.5.20 user=backup cmd=PTTL key=migration:users:chunk17 payload_bytes=0
+2026-10-16T04:17:52Z ip=10.0.3.14 user=app_svc cmd=RESTORE key=cache:featureflags payload_bytes=18432
+2026-10-16T04:18:30Z ip=10.0.3.14 user=app_svc cmd=GET key=cache:featureflags payload_bytes=0
+2026-10-16T05:02:10Z ip=203.0.113.66 user=default cmd=RESTORE key=x1 payload_bytes=2621440
+2026-10-16T05:04:10Z ip=203.0.113.66 user=default cmd=RESTORE key=x2 payload_bytes=2621440
+2026-10-16T05:06:10Z ip=203.0.113.66 user=default cmd=RESTORE key=x3 payload_bytes=2621440
+2026-10-16T05:08:10Z ip=203.0.113.66 user=default cmd=RESTORE key=x4 payload_bytes=2621440
+2026-10-16T05:10:10Z ip=203.0.113.66 user=default cmd=RESTORE key=x5 payload_bytes=2621440
+2026-10-16T05:11:03Z ip=203.0.113.66 user=default cmd=DEBUG arg=CRASH-AND-RECOVER key=- payload_bytes=0
+2026-10-16T05:12:47Z ip=203.0.113.66 user=default cmd=FLUSHALL key=- payload_bytes=0
+2026-10-16T05:15:09Z ip=10.0.3.11 user=app_svc cmd=GET key=session:9017 payload_bytes=0
+2026-10-16T05:15:31Z ip=10.0.3.11 user=app_svc cmd=SET key=session:9018 payload_bytes=388
