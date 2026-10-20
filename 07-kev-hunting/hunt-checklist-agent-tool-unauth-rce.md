@@ -1,0 +1,99 @@
+# Hunt checklist — Agent tool-execution endpoints without authentication (CVE-2026-77936 / 75128 / 77932 / 109442 / 109437)
+
+Work top to bottom. Check the box when done, note what you found.
+Companion: `../../soc-skills/labs/agent-tool-unauth-rce.md`
+
+## 0. Patch / exposure reality check (2026-10-20)
+- [ ] Inventory every AI agent framework you run — including the
+      "temporary" demos that never got decommissioned. The affected
+      set from the 2026-10-20 NVD batch: **Letta ≤ 0.16.8,
+      Langchain-Chatchat ≤ 0.3.1.3, DB-GPT ≤ 0.8.2, piflow
+      2.0.0–2.0.1, Cognition < 0.13.0**.
+- [ ] Cognition: upgrade to **≥ 0.13.0**. Everywhere else there is no
+      version bump that saves you by itself — the fix is turning
+      authentication on (e.g. Letta's `LETTA_SERVER_SECURE`) or
+      putting an authenticated proxy in front, and unbinding the
+      agent ports from public interfaces.
+- [ ] None of the five is in CISA KEV yet (2026-10-20). They are
+      CVSS 9.8, single-request, no-auth RCE against a fashionable
+      software class — do not wait for a KEV listing to act.
+
+## 1. Am I even in scope?
+- [ ] Is any agent API port reachable from the internet, or from a
+      network segment you don't fully control? That is the entire
+      precondition — there is no second factor.
+- [ ] Does the agent's tool registry include a shell or
+      code-interpreter tool (`shell`, `exec_shell`,
+      `code_interpreter`, `shell_interpreter`)? If yes, an
+      unauthenticated endpoint = remote shell as the server user.
+- [ ] What does the agent process run as, and what can it read?
+      Root in a container plus LLM API keys and database credentials
+      in its environment is the shipped default in several of these
+      — that is your blast radius, write it down before you need it.
+
+## 2. The request signature (needs an enriched proxy/WAF log)
+- [ ] POST to a tool-execution / agent-drive endpoint:
+      `/v1/tools/run`, `/tools/call`, `/api/v1/chat/react-agent`,
+      `/chat`, `/chat/stream`, `/sessions`,
+      `/sessions/{id}/messages` — plus the equivalents for your
+      frameworks (enumerate from docs/source, don't guess).
+- [ ] …with **no credential presented** (no `Authorization`, no
+      session cookie). On a healthy deployment this pair never
+      occurs. Stock access logs can't see this — if your proxy
+      doesn't log header presence and a body excerpt, stand that up
+      first; without it you're hunting with markers 1/4/5 only.
+- [ ] Shell/code payload markers in the body: shell-tool names,
+      `os.system`, `subprocess`, `$(…)`, `curl … | sh`,
+      `cat /etc/passwd`, `printenv`, `/dev/tcp/`.
+- [ ] 2xx responses to those requests — accepted, not probed.
+- [ ] Bursts: ≥3 endpoint hits from one source in 10 minutes —
+      fingerprinting scanners and the session-create → message flow.
+
+## 3. Separate the product working from the pattern firing
+- [ ] Your application server / orchestrator calling the tools
+      endpoint **with credentials** is the product working as
+      intended. Allowlist the (source, identity) pair and spend
+      your attention elsewhere.
+- [ ] An allowlisted source arriving with **no** credentials is not
+      benign — it's a spoofed source or a proxy that stopped
+      forwarding auth. Score it like any other no-auth hit.
+- [ ] An authenticated shell-tool call from an unusual source is a
+      different incident shape (stolen token / insider / compromised
+      upstream) — suspicious, and it wants an identity review, not an
+      exposure fix.
+
+## 4. Hardening (verify, don't assume)
+- [ ] Authentication in front of every agent API — the framework's
+      own mechanism enabled, or an authenticated reverse proxy.
+      Verify by requesting a tools endpoint with no credentials from
+      an untrusted network: anything but 401/403 is a failure.
+- [ ] Agent ports bound to localhost / private interfaces only;
+      framework databases (see Letta's exposed PostgreSQL, DB-GPT's
+      hardcoded MySQL root) never published on external interfaces,
+      no default credentials anywhere in the compose files.
+- [ ] Agent process runs unprivileged; shell/code tools sandboxed or
+      removed from the registry where the use case doesn't need them.
+- [ ] Secrets in the agent's environment rotated on suspicion, not
+      on proof — the process could read them, so they were exposed.
+
+## 5. Blast radius
+- [ ] Assume host-level compromise from any confirmed no-auth tool
+      execution: the command ran as the server user, outside the
+      agent's own audit story.
+- [ ] Pull the agent's tool-call / session history for the window —
+      attackers rarely run exactly one command, and follow-on
+      prompts (secret reads, `printenv`, file exfil) are your IoC
+      list.
+- [ ] Check persistence on the host: new files, cron/systemd units,
+      modified startup scripts owned by the agent's user.
+
+## Correlation
+- [ ] Endpoint + no-auth + payload markers → incident (isolate,
+      preserve state, rotate every secret the agent process holds)
+- [ ] Endpoint + no-auth + 2xx + burst, no payload markers →
+      incident (assume commands ran; wordlists are evadable, the
+      missing-auth fact is not)
+- [ ] Endpoint + no-auth, alone → suspicious; if the source isn't
+      yours, the exposure itself is the finding — fix it first
+- [ ] Endpoint + payload markers, authenticated → suspicious;
+      identity review (stolen token / insider / upstream compromise)

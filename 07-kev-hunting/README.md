@@ -51,6 +51,27 @@ enough of the attack chain to hunt on.
   Companion: `../../soc-skills/labs/cve-2026-25243-redis-restore.md`
   + `cve-2026-25243-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `hunt-checklist-cve-2026-25243.md` + `samples/redis-restore-audit.log`.
+- **Agent tool-execution endpoints without authentication** — one
+  pattern, five CVEs published 2026-10-20 (all CVSS 9.8, CWE-306/1188):
+  **CVE-2026-77936** Letta ≤ 0.16.8 (`POST /v1/tools/run`; shipped
+  compose never enables `LETTA_SERVER_SECURE`, so every API route is
+  unauthenticated) · **CVE-2026-75128** Langchain-Chatchat ≤ 0.3.1.3
+  (`POST /tools/call` invokes the always-registered shell tool, no
+  auth) · **CVE-2026-77932** DB-GPT ≤ 0.8.2 (`/api/v1/chat/react-agent`
+  mock auth grants every caller admin; unsandboxed code/shell
+  interpreter tools) · **CVE-2026-109442** piflow 2.0.0–2.0.1
+  (`POST /chat`, `/chat/stream` unauthenticated → `exec_shell` via
+  subprocess) · **CVE-2026-109437** Cognition < 0.13.0 (no auth on the
+  REST/SSE API + sandbox defaults to local shell execution; fixed in
+  0.13.0). The flaw is an absent control, not a malformed input — the
+  exploiting request is the product's own API call with no credentials,
+  so detection needs enriched proxy logs (credential presence + body
+  excerpt) and keys on endpoint + no-auth + payload markers. None in
+  CISA KEV yet. Companion:
+  `../../soc-skills/labs/agent-tool-unauth-rce.md`
+  + `agent-tool-unauth-rce-detect.py` (validated TP=1 FP=0 on
+  synthetic log) + `hunt-checklist-agent-tool-unauth-rce.md`
+  + `samples/agent-tool-unauth-rce-access.log`.
 
 **New this week — intel only (no public lab environment, KEV-listed):**
 - **CVE-2026-0322** — Palo Alto PAN-OS code injection (CVSS 8.6), authenticated
