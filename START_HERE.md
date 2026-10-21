@@ -64,7 +64,7 @@ cd soc-home-lab
 |---|---|---|
 | EG Secure Solutions SiteGuard Server Edition OS command injection | CVE-2026-106931. KEV: listed | Commercial licensed WAF, no free repro environment |
 | Palo Alto PAN-OS code injection | CVE-2026-0322. KEV: listed | Needs a real firewall |
-| Microsoft Windows MotW security-feature bypass | CVE-2026-96951. KEV: listed | Windows + sample complexity |
+| Microsoft Windows Command Injection Vulnerability | CVE-2026-96951. KEV: listed | Windows + sample complexity |
 | Cisco Secure Email Gateway path traversal | CVE-2026-76519. KEV: listed | Needs a real appliance |
 | Ahsay AhsayCBS improper authentication | CVE-2026-105133. KEV: listed | Niche backup product |
 | Ahsay AhsayCBS command injection | CVE-2026-105134. KEV: listed | Niche backup product |
@@ -107,7 +107,7 @@ Blank = not stated.
 | M365 app-identity persistence — ConnectWise Cloud Backup incident pattern | Incident discovered 2026-10-15; checklist facts as of 2026-10-20 | ConnectWise advisory + Huntress confirmation (per hunt checklist) | No CVE | Synthetic M365 / Entra ID audit log (`samples/m365-app-identity-audit.log`) | Offline |  |  | Entra ID audit records for role changes, app credential changes, and service-principal sign-ins, retained ≥ 90 days (per hunt checklist) | Hunt results + incident report | Complete lab |
 | CVE-2026-106931 — EG Secure Solutions SiteGuard Server Edition OS command injection | KEV 2026-10-20 additions; federal due 2026-10-23 (per 07 README) | Vendor advisory alert-202610-1 (per 07 README) | Listed | None — no sample log | Not applicable (no lab: commercial licensed WAF, per 07 README) |  |  |  | Intel note in the 07 README | Intel only |
 | CVE-2026-0322 — Palo Alto PAN-OS code injection | Oct 2026 (week of 10-12 → 10-18 KEV additions, per 07 README) |  | Listed | None — no sample log | Not applicable (no lab: needs a real firewall, per 07 README) |  |  |  | Intel note in the 07 README | Intel only |
-| CVE-2026-96951 — Microsoft Windows MotW security-feature bypass | Oct 2026 (week of 10-12 → 10-18 KEV additions, per 07 README) |  | Listed | None — no sample log | Not applicable (no lab: Windows + sample complexity, per 07 README) |  |  |  | Intel note in the 07 README | Intel only |
+| CVE-2026-96951 — Microsoft Windows Command Injection Vulnerability | Oct 2026 (week of 10-12 → 10-18 KEV additions, per 07 README) |  | Listed | None — no sample log | Not applicable (no lab: Windows + sample complexity, per 07 README) |  |  |  | Intel note in the 07 README | Intel only |
 | CVE-2026-76519 — Cisco Secure Email Gateway path traversal | Oct 2026 (week of 10-12 → 10-18 KEV additions, per 07 README) |  | Listed | None — no sample log | Not applicable (no lab: needs a real appliance, per 07 README) |  |  |  | Intel note in the 07 README | Intel only |
 | CVE-2026-105133 — Ahsay AhsayCBS improper authentication | Oct 2026 (week of 10-12 → 10-18 KEV additions, per 07 README) |  | Listed | None — no sample log | Not applicable (no lab, per 07 README) |  |  |  | Intel note in the 07 README | Intel only |
 | CVE-2026-105134 — Ahsay AhsayCBS command injection | Oct 2026 (week of 10-12 → 10-18 KEV additions, per 07 README) |  | Listed | None — no sample log | Not applicable (no lab, per 07 README) |  |  |  | Intel note in the 07 README | Intel only |
