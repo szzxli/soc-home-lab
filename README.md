@@ -57,7 +57,7 @@ Listed in earlier versions of this README, but the `06-ghostaction-supply-chain/
 
 - **Hunt packs (checklist + synthetic log + reference detection):** Plex2Shell CVE-2026-96652/96654/96655/96656 · Bricksforge CVE-2026-85097 · Ivanti Connect Secure CVE-2026-104935 · Siemens Software Center CVE-2026-110936 · Redis CVE-2026-25243 · AI agent tool endpoints without auth (CVE-2026-77936 / 75128 / 77932 / 109442 / 109437) · M365 app-identity persistence (ConnectWise incident, no CVE)
 - **Hunt packs (partial):** Atlassian CVE-2026-21589 (checklist + self-contained detection script) · Nextcloud CVE-2026-110447 (checklist only) · BeyondTrust CVE-2026-102764 (checklist + exercises; sample log not yet in repo)
-- **Intel only, with the reason recorded in the [07 README](./07-kev-hunting/README.md):** SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Windows MotW CVE-2026-96951 · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / CVE-2026-105134 · Fortinet CVE-2025-61624
+- **Intel only, with the reason recorded in the [07 README](./07-kev-hunting/README.md):** SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Microsoft Windows Command Injection Vulnerability (CVE-2026-96951) · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / CVE-2026-105134 · Fortinet CVE-2025-61624
 
 **Skills:** Threat-intel consumption, IOC extraction, log hunting, detection engineering, incident documentation.
 
