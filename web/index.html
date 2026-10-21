@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOC Home Lab — Hands-on Cybersecurity Projects</title>
-<meta name="description" content="Seven open-source, hands-on SOC projects: mini-SOC on AWS, CloudTrail IOC analyzer, phishing analysis lab, ELF binary triage, SOC agent skills, supply-chain defense, KEV threat hunting.">
+<meta name="description" content="Open-source, hands-on SOC projects: mini-SOC on AWS, CloudTrail IOC analyzer, phishing analysis lab, ELF binary triage, SOC agent skills, and KEV-driven threat-hunting packs.">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,8 +12,9 @@
 <header class="top">
 <div class="prompt">$ whoami</div>
 <h1>SOC <span class="accent">HOME LAB</span></h1>
-<p class="sub">Seven hands-on cybersecurity projects, built to demonstrate verifiable, practical SOC skills. Open source (MIT).</p>
+<p class="sub">Hands-on SOC projects plus KEV-driven threat-hunting packs, built to demonstrate verifiable, practical SOC skills. Open source (MIT).</p>
 <p>
+<a class="btn" href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START HERE: case index &amp; learning paths</a>
 <a class="btn btn-ghost" href="demo.html">▶ Try the live IOC analyzer demo</a>
 <a class="btn btn-ghost" href="https://github.com/szzxli/soc-home-lab">GitHub repo</a>
 </p>
@@ -65,18 +66,29 @@
 
 <div class="card">
 <h2><span class="num">06</span> — ghostaction-supply-chain</h2>
-<p class="problem"><b>Problem:</b> Supply-chain attacks now target the developer's own workbench — a malicious <code>.vscode/tasks.json</code> executes code on project open, and a cron backdoor survives deleting the repo.</p>
-<p><b>What it is:</b> A safe, hands-on lab built around the GhostAction technique (Oct 2026): inert training samples demonstrating the mechanism, a hunt checklist for workspace tasks + cron/systemd persistence, and a blank incident report template.</p>
-<p class="skills"><b>Skills:</b> <span class="badge">Supply-chain threat modeling</span><span class="badge">Static config review</span><span class="badge">Persistence hunting</span><span class="badge">Incident documentation</span></p>
-<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/06-ghostaction-supply-chain">→ 06-ghostaction-supply-chain on GitHub</a></p>
+<p class="problem"><b>Not yet published.</b> This project was announced, but its folder isn't in the repo yet. It will be linked here once it's committed.</p>
 </div>
 
 <div class="card">
 <h2><span class="num">07</span> — kev-hunting</h2>
 <p class="problem"><b>Problem:</b> CISA KEV entries come with a federal deadline, but your network doesn't patch itself — the gap between "KEV published" and "patch deployed" is the hunting window.</p>
-<p><b>What it is:</b> A threat-hunting lab built around the October 2026 KEV additions and same-week in-the-wild cases: full hunt checklists, synthetic training logs, and companion detection scripts for cases including BeyondTrust, Atlassian, Nextcloud, Ivanti, Redis, and the M365 app-identity persistence pattern — plus intel-only tracking for entries with no lab environment. Every case is indexed in the repo's START_HERE.md.</p>
+<p><b>What it is:</b> Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Each pack has a hunt checklist; most also have a synthetic log and a reference detection script you can run yourself. Verify commands for every case are in <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
+<table class="sum">
+<tr><th>Hunt pack</th><th>CVE / KEV</th><th>Included</th></tr>
+<tr><td>Plex2Shell (Plex Media Server)</td><td>CVE-2026-96652 / 96654 / 96655 / 96656 · KEV</td><td>checklist · log · detection</td></tr>
+<tr><td>Bricksforge (WordPress)</td><td>CVE-2026-85097</td><td>checklist · log · detection</td></tr>
+<tr><td>Ivanti Connect Secure</td><td>CVE-2026-104935</td><td>checklist · log · detection</td></tr>
+<tr><td>Siemens Software Center DLL sideloading</td><td>CVE-2026-110936 · KEV</td><td>checklist · log · detection</td></tr>
+<tr><td>Redis RESTORE double-free</td><td>CVE-2026-25243</td><td>checklist · log · detection</td></tr>
+<tr><td>AI agent tool endpoints without auth</td><td>CVE-2026-77936 / 75128 / 77932 / 109442 / 109437</td><td>checklist · log · detection</td></tr>
+<tr><td>M365 app-identity persistence (ConnectWise)</td><td>no CVE</td><td>checklist · log · detection</td></tr>
+<tr><td>Atlassian Data Center <code>::</code> traversal</td><td>CVE-2026-21589 · KEV</td><td>checklist · detection</td></tr>
+<tr><td>Nextcloud Collabora CODE server</td><td>CVE-2026-110447</td><td>checklist</td></tr>
+<tr><td>BeyondTrust RS / PRA auth bypass</td><td>CVE-2026-102764 · KEV</td><td>checklist · exercises</td></tr>
+</table>
+<p class="problem">Intel only (no lab, reason recorded): SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Windows MotW CVE-2026-96951 · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / 105134 · Fortinet CVE-2025-61624.</p>
 <p class="skills"><b>Skills:</b> <span class="badge">Threat-intel consumption</span><span class="badge">IOC extraction</span><span class="badge">Log hunting</span><span class="badge">Detection engineering</span><span class="badge">Incident documentation</span></p>
-<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/07-kev-hunting">→ 07-kev-hunting on GitHub</a></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">→ START HERE case index</a> · <a href="https://github.com/szzxli/soc-home-lab/tree/main/07-kev-hunting">→ 07-kev-hunting on GitHub</a></p>
 </div>
 
 <footer>

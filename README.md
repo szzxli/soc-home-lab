@@ -1,14 +1,14 @@
 # soc-home-lab
 
-Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a phishing analysis lab, binary triage, agent skills, and supply-chain defense. Built to demonstrate verifiable, practical security skills.
+> **👉 New here? Read [START_HERE.md](./START_HERE.md) first.** It explains what this repo is, gives you a path to follow (new to SOC / practicing detection / prepping for interviews), and has one table of every case with its CVE/KEV status, skills, contents, and the command to verify its detection.
+
+Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a phishing analysis lab, binary triage, agent skills, and KEV-driven threat-hunting packs. Built to demonstrate verifiable, practical security skills.
 
 🔗 **https://github.com/szzxli/soc-home-lab**
 
 📊 Skills quantified: these projects are graded against a public rubric and mapped to the NIST NICE framework in the companion repo **[szzxli/soc-skills](https://github.com/szzxli/soc-skills)** — including a one-page HR-readable skill profile.
 
 > All datasets, log samples, and email artifacts in this repo are **synthetic training samples** — clearly labeled as such. No real incidents, real logs, or real phishing emails are presented here.
-
-🧭 **[START_HERE.md](./START_HERE.md)** — one index of every project and every 07 case: dates, KEV status, log source, run mode, prerequisites, outputs.
 
 ## Projects
 
@@ -37,14 +37,17 @@ Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a
 **What it is:** Six agent skills for the Tier-1 analyst loop, each distilled from a working project in this repo: `alert-triage`, `incident-report`, `cloudtrail-ioc`, `phishing-analysis`, `binary-triage`, `detection-engineering`. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.
 **Skills:** Detection triage, incident documentation, knowledge distillation into agent skills.
 
-### 06 — [ghostaction-supply-chain](./06-ghostaction-supply-chain/)
-**Problem:** Supply-chain attacks now target the developer's own workbench — a malicious `.vscode/tasks.json` executes code on project open, and a cron backdoor survives deleting the repo.
-**What it is:** A safe, hands-on lab built around the GhostAction technique (Oct 2026): inert training samples demonstrating the mechanism, a hunt checklist for workspace tasks + cron/systemd persistence, and a blank incident report template.
-**Skills:** Supply-chain threat modeling, static config review, persistence hunting, incident documentation.
+### 06 — ghostaction-supply-chain *(not yet published)*
+Listed in earlier versions of this README, but the `06-ghostaction-supply-chain/` folder isn't in the repo yet. It will be linked here once it's committed.
 
 ### 07 — [kev-hunting](./07-kev-hunting/)
 **Problem:** CISA KEV entries come with a federal deadline, but your network doesn't patch itself — the gap between "KEV published" and "patch deployed" is the hunting window.
-**What it is:** A threat-hunting lab built around the October 2026 KEV additions and same-week in-the-wild cases. Full labs with hunt checklists, synthetic logs, and companion detection scripts: BeyondTrust CVE-2026-102764 (7 huntable artifacts from Mandiant/GTIG reporting, correlating hunt heuristic), Atlassian CVE-2026-21589, Nextcloud CVE-2026-110447, Bricksforge CVE-2026-85097, Ivanti CVE-2026-104935, Siemens CVE-2026-110936, Redis CVE-2026-25243, five unauthenticated agent-tool RCE CVEs, and the M365 app-identity persistence pattern (ConnectWise incident, no CVE). Further KEV entries are tracked intel-only with the reason recorded (see the 07 README). Full per-case index: [START_HERE.md](./START_HERE.md).
+**What it is:** Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Each pack has a hunt checklist; most also have a synthetic log and a reference detection script in the companion repo [soc-skills](https://github.com/szzxli/soc-skills/tree/main/labs). Per-case details and verify commands are in [START_HERE.md](./START_HERE.md).
+
+- **Hunt packs (checklist + synthetic log + reference detection):** Plex2Shell CVE-2026-96652/96654/96655/96656 · Bricksforge CVE-2026-85097 · Ivanti Connect Secure CVE-2026-104935 · Siemens Software Center CVE-2026-110936 · Redis CVE-2026-25243 · AI agent tool endpoints without auth (CVE-2026-77936 / 75128 / 77932 / 109442 / 109437) · M365 app-identity persistence (ConnectWise incident, no CVE)
+- **Hunt packs (partial):** Atlassian CVE-2026-21589 (checklist + self-contained detection script) · Nextcloud CVE-2026-110447 (checklist only) · BeyondTrust CVE-2026-102764 (checklist + exercises; sample log not yet in repo)
+- **Intel only, with the reason recorded in the [07 README](./07-kev-hunting/README.md):** SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Windows MotW CVE-2026-96951 · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / CVE-2026-105134 · Fortinet CVE-2025-61624
+
 **Skills:** Threat-intel consumption, IOC extraction, log hunting, detection engineering, incident documentation.
 
 ## Resume bullets (copy-ready)
