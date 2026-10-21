@@ -1,0 +1,6 @@
+# Note: crawlers only read robots.txt at the host root (https://szzxli.github.io/robots.txt).
+# This copy documents intent; submit the sitemap below in Google Search Console / Bing Webmaster Tools.
+User-agent: *
+Allow: /
+
+Sitemap: https://szzxli.github.io/soc-home-lab/sitemap.xml

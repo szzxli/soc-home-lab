@@ -4,6 +4,17 @@ Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a
 
 🔗 **https://github.com/szzxli/soc-home-lab**
 
+**▶ Live demo:** [CloudTrail IOC analyzer in your browser](https://szzxli.github.io/soc-home-lab/web/demo.html) (synthetic data, nothing leaves the page) · [Project site](https://szzxli.github.io/soc-home-lab/web/)
+
+**Quick start** (Python 3.9+):
+
+```bash
+git clone https://github.com/szzxli/soc-home-lab.git
+cd soc-home-lab/02-python-ioc-analyzer
+pip install -r requirements.txt
+python ioc_analyzer.py --input sample_data/sample_cloudtrail.json --output report.md
+```
+
 📊 Skills quantified: these projects are graded against a public rubric and mapped to the NIST NICE framework in the companion repo **[szzxli/soc-skills](https://github.com/szzxli/soc-skills)** — including a one-page HR-readable skill profile.
 
 > All datasets, log samples, and email artifacts in this repo are **synthetic training samples** — clearly labeled as such. No real incidents, real logs, or real phishing emails are presented here.
