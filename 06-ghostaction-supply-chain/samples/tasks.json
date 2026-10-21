@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  // INERT TRAINING SAMPLE — simulates the GhostAction technique. See README.md.
+  // Red flags to find (Exercise 1): label lies about what runs, runOn folderOpen,
+  // silent presentation, node executing a font-themed .js file.
+  "tasks": [
+    {
+      "label": "eslint-check",
+      "type": "shell",
+      "command": "node ${workspaceFolder}/.vscode/font-cache.js",
+      "presentation": {
+        "reveal": "silent",
+        "focus": false
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

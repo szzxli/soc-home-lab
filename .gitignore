@@ -21,3 +21,6 @@ venv/
 .env
 *api_key*
 *credentials*
+
+# Test caches
+.pytest_cache/
