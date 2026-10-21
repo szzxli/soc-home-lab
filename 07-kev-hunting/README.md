@@ -125,7 +125,7 @@ enough of the attack chain to hunt on.
   due **2026-10-23**. Vendor advisory: eg-secure.co.jp siteguard alert-202610-1.
 - **CVE-2026-0322** — Palo Alto PAN-OS code injection (CVSS 8.6), authenticated
   mgmt-interface RCE as root. No lab (needs real firewall).
-- **CVE-2026-96951** — Microsoft Windows MotW security-feature bypass (CVSS 8.8),
+- **CVE-2026-96951** — Microsoft Windows Command Injection Vulnerability (CVSS 8.8),
   exploited zero-day; October Patch Tuesday fixed a record 1,413 CVEs. No lab
   (Windows + sample complexity).
 - **CVE-2026-76519** — Cisco Secure Email Gateway relative path traversal. No lab
