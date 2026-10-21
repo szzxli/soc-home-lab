@@ -5,10 +5,37 @@ hard deadline — but *your* network doesn't patch itself. The gap between "KEV 
 and "patch deployed" is the hunting window, and the public reporting usually contains
 enough of the attack chain to hunt on.
 
-**Case:** October 2026 KEV additions (CISA catalog version 2026.10.16, federal due
-**2026-10-19**), plus the week of 10-12→10-18 additions (9 new KEV entries):
+**Case:** October 2026 KEV additions, plus the week of 10-12→10-18 additions
+(9 new KEV entries). **2026-10-20 additions** (CISA catalog version 2026.10.21,
+6 new entries) are covered below — headlined by the **Plex2Shell** RCE chain:
 
 **New this week — full lab built:**
+- **CVE-2026-96652 / 96654 / 96655 / 96656 — Plex2Shell** — Plex Media Server
+  unauthenticated RCE chain (CVSS 4.3 / 6.5 / 4.3 / 7.2, CWE-918/84/918/73).
+  Four stages, each handing the next its missing credential: (1) 96652 SSRF
+  in `/player/timeline` — the endpoint checks only that an `X-Plex-Token`
+  value is *present*, not valid, so any string works, effectively
+  unauthenticated; (2) 96654 crafted `/searchOne` value forces loopback calls
+  to internal plugin endpoints, exfiltrating the owner's admin token; (3)
+  96655 second SSRF in `/video/:/transcode/universal` fetches a remote URI
+  with the stolen token; (4) 96656 writes a shared object into the Plex
+  `Codecs` directory via transcoder prefs → loaded without signature checks.
+  Affected: builds before **1.43.3.10861** (fixed in that build; Plex warned
+  2026-09-01, published CVEs 2026-10-19, public PoC 2026-10-16).
+  BoredHackerBlog honeypot: in-the-wild from 2026-10-17 — attack IPs
+  `45.194.92.222` / `91.92.40.202` / `176.65.139.228`, payloads from
+  `217.60.194.116` (XMRig), `myawesomeproxy` residential-proxy stage,
+  `proxystream.st` outbound, process names `myawesomeproxy` /
+  `mylovelyminer` / `x12345`. Plex's compromise signs: unfamiliar
+  `.so`/`.dll` in `Codecs`, high CPU with nothing playing — if in doubt,
+  **rebuild from clean install**, patch alone doesn't remove a planted codec.
+  KEV federal due: **2026-10-23** (96654, 96656) / **2026-11-03** (96652,
+  96655). Companion:
+  [cve-2026-96652-plex2shell-rce-chain.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-96652-plex2shell-rce-chain.md)
+  + `cve-2026-96652-plex2shell-detect.py` (validated TP=1 FP=0 on synthetic log)
+  + `hunt-checklist-cve-2026-96652.md` + `samples/plex2shell-access.log`.
+  Lab env: free — official `plexinc/pms-docker` image (isolated network, keep
+  32400 off the internet).**
 - **CVE-2026-85097** — Bricksforge (Bricks Builder add-on) unauthenticated RCE
   (CVSS 10.0/9.8, CWE-434). Polyglot GIF+PHP upload → crafted
   `temporaryFileUploads[].url` ending in `.php` → code execution. Patchstack:
@@ -35,7 +62,7 @@ enough of the attack chain to hunt on.
   the wild Oct 2026 (Romulus ClickFix platform); fixed in 4.0.9.8.
   **The exe is unmodified and properly signed, so detection is
   behavioral (path + parent + DLL provenance), never signature-based.**
-  Not in CISA KEV. Companion:
+  **Now in CISA KEV** (added 2026-10-20, federal due 2026-11-03). Companion:
   [cve-2026-110936-siemens-dll-sideloading.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-110936-siemens-dll-sideloading.md)
   + `cve-2026-110936-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `hunt-checklist-cve-2026-110936.md` + `samples/siemens-sideload.log`.
@@ -92,6 +119,10 @@ enough of the attack chain to hunt on.
   + `samples/m365-app-identity-audit.log`.
 
 **New this week — intel only (no public lab environment, KEV-listed):**
+- **CVE-2026-106931** — EG Secure Solutions SiteGuard Server Edition OS
+  command injection (CWE-78) → arbitrary OS commands as root/SYSTEM. No lab
+  (commercial licensed WAF software, no free repro environment). KEV federal
+  due **2026-10-23**. Vendor advisory: eg-secure.co.jp siteguard alert-202610-1.
 - **CVE-2026-0322** — Palo Alto PAN-OS code injection (CVSS 8.6), authenticated
   mgmt-interface RCE as root. No lab (needs real firewall).
 - **CVE-2026-96951** — Microsoft Windows MotW security-feature bypass (CVSS 8.8),
