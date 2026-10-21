@@ -1,0 +1,30 @@
+# SYNTHETIC training log — Nextcloud web server access log (CVE-2026-110447 lab,
+# richdocumentscode / Built-in CODE Server).
+# ALL DATA SYNTHETIC: generated for this lab, no real attacker data, no working
+# payloads — request strings are reduced to the INDICATORS a defender keys on
+# ('%2e%2e', '$(' / '%24%28', '${IFS}' on proxy.php; a new shx*.php; '?c=').
+# Attacker addresses are from documentation ranges (RFC 5737) only.
+# Format: combined log — IP - user [time] "METHOD path HTTP/1.1" status bytes "referer" "user-agent"
+# Contains: benign user + sync-client traffic, the internal health check that
+# legitimately polls proxy.php?status, one recon-only prober (all 4xx), and one
+# attacker: probe -> 200 -> requests to a dropped shell.
+10.0.1.20 - alice [18/Oct/2026:08:01:12 +0000] "GET /index.php/apps/files/ HTTP/1.1" 200 41220 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+10.0.1.21 - bob [18/Oct/2026:08:02:40 +0000] "PROPFIND /remote.php/dav/files/bob/ HTTP/1.1" 207 5120 "-" "Mozilla/5.0 (Linux) mirall/3.14.1"
+10.0.1.21 - bob [18/Oct/2026:08:02:44 +0000] "PUT /remote.php/dav/files/bob/Documents/q3-report.docx HTTP/1.1" 201 0 "-" "Mozilla/5.0 (Linux) mirall/3.14.1"
+10.0.0.9 - - [18/Oct/2026:08:05:00 +0000] "GET /apps/richdocumentscode/proxy.php?status HTTP/1.1" 200 64 "-" "nc-healthcheck/1.0"
+10.0.1.20 - alice [18/Oct/2026:08:06:31 +0000] "GET /index.php/apps/richdocuments/index?fileId=88213 HTTP/1.1" 200 9120 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+10.0.1.20 - alice [18/Oct/2026:08:06:33 +0000] "GET /apps/richdocumentscode/proxy.php?req=/browser/dist/cool.html HTTP/1.1" 200 30112 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+# --- recon-only prober: indicator strings on proxy.php, all 4xx ---
+198.51.100.44 - - [18/Oct/2026:08:40:02 +0000] "GET /apps/richdocumentscode/proxy.php?status=%2e%2e%2f HTTP/1.1" 403 221 "-" "curl/8.5.0"
+198.51.100.44 - - [18/Oct/2026:08:40:03 +0000] "GET /apps/richdocumentscode/proxy.php?status=${IFS}probe HTTP/1.1" 403 221 "-" "curl/8.5.0"
+198.51.100.44 - - [18/Oct/2026:08:40:05 +0000] "GET /apps/richdocumentscode/shx1.php HTTP/1.1" 404 196 "-" "curl/8.5.0"
+10.0.0.9 - - [18/Oct/2026:09:05:00 +0000] "GET /apps/richdocumentscode/proxy.php?status HTTP/1.1" 200 64 "-" "nc-healthcheck/1.0"
+# --- attacker: probe accepted (200), then a dropped shx*.php receives ?c= requests ---
+203.0.113.50 - - [18/Oct/2026:09:31:17 +0000] "GET /apps/richdocumentscode/proxy.php?status=%24%28SYNTHETIC-MARKER%29 HTTP/1.1" 200 64 "-" "Go-http-client/1.1"
+203.0.113.50 - - [18/Oct/2026:09:31:20 +0000] "GET /apps/richdocumentscode/proxy.php?status=$(SYNTHETIC-MARKER) HTTP/1.1" 200 64 "-" "Go-http-client/1.1"
+203.0.113.50 - - [18/Oct/2026:09:33:02 +0000] "GET /apps/richdocumentscode/shx7.php?c=id HTTP/1.1" 200 54 "-" "Go-http-client/1.1"
+203.0.113.50 - - [18/Oct/2026:09:33:40 +0000] "GET /apps/richdocumentscode/shx7.php?c=find%20-name%20*.kdbx HTTP/1.1" 200 311 "-" "Go-http-client/1.1"
+203.0.113.50 - - [18/Oct/2026:09:34:12 +0000] "GET /apps/richdocumentscode/shx7.php?c=cat%20config.php HTTP/1.1" 200 2210 "-" "Go-http-client/1.1"
+10.0.1.21 - bob [18/Oct/2026:10:02:44 +0000] "GET /remote.php/dav/files/bob/Documents/ HTTP/1.1" 200 3310 "-" "Mozilla/5.0 (Linux) mirall/3.14.1"
+10.0.0.9 - - [18/Oct/2026:10:05:00 +0000] "GET /apps/richdocumentscode/proxy.php?status HTTP/1.1" 200 64 "-" "nc-healthcheck/1.0"
+10.0.1.20 - alice [18/Oct/2026:10:20:15 +0000] "GET /ocs/v2.php/apps/notifications/api/v2/notifications?format=json HTTP/1.1" 200 742 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"

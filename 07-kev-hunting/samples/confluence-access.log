@@ -1,0 +1,31 @@
+# SYNTHETIC training log — Atlassian Confluence Data Center access log (CVE-2026-21589 lab).
+# ALL DATA SYNTHETIC: generated for this lab, no real attacker data.
+# Attacker addresses are from documentation ranges (RFC 5737 / RFC 3849) only.
+# Format: combined log — IP - user [time] "METHOD path HTTP/1.1" status bytes "referer" "user-agent"
+# Contains: benign user traffic (incl. an IPv6 client and a search query that
+# contains '::' in the QUERY STRING), an approved scanner (10.0.5.8, allowlisted,
+# weekly window 12:00-12:30), one recon-only prober (all 404s), and one
+# attacker who guesses paths (404 burst) and then reads a sensitive file (200).
+10.0.0.5 - alice [16/Oct/2026:09:58:02 +0000] "GET /confluence/display/TEAM/Home HTTP/1.1" 200 51230 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+10.0.0.5 - alice [16/Oct/2026:09:58:04 +0000] "GET /confluence/rest/api/content?spaceKey=TEAM&limit=25 HTTP/1.1" 200 8812 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+10.0.0.6 - bob [16/Oct/2026:09:59:10 +0000] "POST /confluence/rest/api/content HTTP/1.1" 200 445 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_6)"
+[2001:db8::1] - carol [16/Oct/2026:10:00:41 +0000] "GET /confluence/display/OPS/Runbooks HTTP/1.1" 200 22018 "-" "Mozilla/5.0 (X11; Linux x86_64)"
+10.0.0.5 - alice [16/Oct/2026:10:01:15 +0000] "GET /confluence/dosearchsite.action?queryString=std::vector HTTP/1.1" 200 9990 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+10.0.0.7 - - [16/Oct/2026:10:01:30 +0000] "GET /confluence/status HTTP/1.1" 200 21 "-" "kube-probe/1.30"
+# --- recon-only prober: '::' in path, every response 404 ---
+198.51.100.7 - - [16/Oct/2026:10:02:03 +0000] "GET /confluence/::::/etc/hostname HTTP/1.1" 404 231 "-" "Mozilla/5.0 zgrab/0.x"
+198.51.100.7 - - [16/Oct/2026:10:02:04 +0000] "GET /confluence/plugins/servlet/::..::/conf/server.xml HTTP/1.1" 404 231 "-" "Mozilla/5.0 zgrab/0.x"
+198.51.100.7 - - [16/Oct/2026:10:02:05 +0000] "GET /confluence/download/::META-INF/MANIFEST.MF HTTP/1.1" 404 231 "-" "Mozilla/5.0 zgrab/0.x"
+10.0.0.6 - bob [16/Oct/2026:10:05:12 +0000] "GET /confluence/pages/viewpage.action?pageId=884120 HTTP/1.1" 200 30441 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_6)"
+# --- attacker: 404 path-guessing burst, then 200 on a sensitive file ---
+203.0.113.9 - - [16/Oct/2026:10:12:01 +0000] "GET /confluence/download/::WEB-INF/classes/confluence-init.properties.bak HTTP/1.1" 404 231 "-" "python-requests/2.31"
+203.0.113.9 - - [16/Oct/2026:10:12:01 +0000] "GET /confluence/download/::conf/web.xml HTTP/1.1" 404 231 "-" "python-requests/2.31"
+203.0.113.9 - - [16/Oct/2026:10:12:02 +0000] "GET /confluence/download/::WEB-INF/web.xml.old HTTP/1.1" 404 231 "-" "python-requests/2.31"
+203.0.113.9 - - [16/Oct/2026:10:12:02 +0000] "GET /confluence/download/::WEB-INF/web.xml HTTP/1.1" 200 9812 "-" "python-requests/2.31"
+203.0.113.9 - - [16/Oct/2026:10:12:04 +0000] "GET /confluence/download/::META-INF/MANIFEST.MF HTTP/1.1" 200 402 "-" "python-requests/2.31"
+10.0.0.5 - alice [16/Oct/2026:10:30:44 +0000] "GET /confluence/display/TEAM/Sprint+42 HTTP/1.1" 200 18220 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+[2001:db8::1] - carol [16/Oct/2026:11:02:09 +0000] "GET /confluence/rest/api/space?limit=50 HTTP/1.1" 200 4410 "-" "Mozilla/5.0 (X11; Linux x86_64)"
+# --- approved vuln scanner (allowlisted, weekly window 12:00-12:30) ---
+10.0.5.8 - - [16/Oct/2026:12:04:12 +0000] "GET /confluence/download/::WEB-INF/web.xml HTTP/1.1" 404 231 "-" "Nessus SOAP"
+10.0.5.8 - - [16/Oct/2026:12:04:13 +0000] "GET /confluence/login.action HTTP/1.1" 200 7710 "-" "Nessus SOAP"
+10.0.0.6 - bob [16/Oct/2026:13:20:00 +0000] "GET /confluence/display/OPS/Oncall HTTP/1.1" 200 12004 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_6)"
