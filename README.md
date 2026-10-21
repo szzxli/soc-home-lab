@@ -87,3 +87,7 @@ Listed in earlier versions of this README, but the `06-ghostaction-supply-chain/
 
 - Project 01 needs your own AWS account; estimated **$5–15/month** at minimal config. **Run `terraform destroy` when done** — do not leave detectors running unattended.
 - Projects 02 and 03 are free (local only, plus optional AbuseIPDB free API key).
+
+## Privacy
+
+Privacy: we count anonymous page views with [GoatCounter](https://www.goatcounter.com) — no cookies, no personal data, no consent banner needed. Your content never goes to the counter: anything you type, paste or upload stays in your browser (except requests you start yourself, such as an AI-grading or lookup call to a provider you choose). Exactly what is sent is documented at the top of the site's `analytics.js`.
