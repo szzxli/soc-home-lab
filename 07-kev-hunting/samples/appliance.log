@@ -1,0 +1,48 @@
+# SYNTHETIC training log — BeyondTrust RS/PRA appliance (CVE-2026-102764 lab).
+# ALL DATA SYNTHETIC: generated for this lab, no real attacker data, no real
+# implants. Attacker addresses are from documentation ranges (RFC 5737) only.
+# Format: <ts> host=<host> seq=<per-host sequence> src=<subsystem> event=<event> [key=value ...]
+#   src: httpd | fim (file integrity) | auditd | appliance (audit log) | net | cron | logrotate
+#   ticket=- means no change ticket references the event.
+# Contains: benign admin noise on two appliances (scheduled haproxy reloads,
+# routine vault reads by the sync service account, scheduled log rotation, one
+# ticketed config change, one ticketed role change), ONE host showing the full
+# 7-artifact chain, and ONE host with a single unexplained artifact.
+# Your hunt must raise an INCIDENT for exactly one host and must not turn any
+# benign/ticketed activity into an incident.
+2026-10-14T01:00:00Z host=bt-rs-01 seq=5101 src=cron event=haproxy_reload cfg_changed=no
+2026-10-14T01:00:00Z host=bt-rs-02 seq=8801 src=cron event=haproxy_reload cfg_changed=no
+2026-10-14T01:15:12Z host=bt-rs-01 seq=5102 src=appliance event=vault_read account=svc_vault_sync item=jump-cred-0193
+2026-10-14T01:15:13Z host=bt-rs-02 seq=8802 src=appliance event=vault_read account=svc_vault_sync item=jump-cred-0412
+2026-10-14T02:03:44Z host=bt-rs-01 seq=5103 src=httpd event=request client=10.20.0.15 method=GET path=/login status=200 bytes=6120
+2026-10-14T02:03:51Z host=bt-rs-01 seq=5104 src=httpd event=request client=10.20.0.15 method=POST path=/login status=302 bytes=0
+2026-10-14T02:04:10Z host=bt-rs-01 seq=5105 src=appliance event=session_start account=helpdesk_ana jumpitem=JI-2231 client=10.20.0.15
+2026-10-14T02:40:00Z host=bt-rs-02 seq=8803 src=httpd event=request client=10.20.0.31 method=GET path=/appliance/status status=200 bytes=812
+2026-10-14T03:00:00Z host=bt-rs-01 seq=5106 src=logrotate event=rotate file=/var/log/bt/appliance.log kept=14
+2026-10-14T03:00:00Z host=bt-rs-02 seq=8804 src=logrotate event=rotate file=/var/log/bt/appliance.log kept=14
+# --- bt-rs-01: suspicious activity begins (no change window, no tickets) ---
+2026-10-14T03:41:07Z host=bt-rs-01 seq=5107 src=httpd event=request client=198.51.100.23 method=GET path=/appliance/api/info status=200 bytes=402
+2026-10-14T03:42:19Z host=bt-rs-01 seq=5108 src=fim event=create path=/var/www/html/appliance/api/status_check.php owner=www-data size=1840 ticket=-
+2026-10-14T03:42:55Z host=bt-rs-01 seq=5109 src=httpd event=request client=198.51.100.23 method=POST path=/appliance/api/status_check.php status=200 bytes=96
+2026-10-14T03:47:30Z host=bt-rs-01 seq=5110 src=auditd event=setuid_set path=/var/tmp/.cache/dbus-helper owner=root mode=4755 pkg=none
+2026-10-14T03:52:02Z host=bt-rs-01 seq=5111 src=appliance event=vault_export account=www-data item=ALL client=127.0.0.1
+2026-10-14T04:01:15Z host=bt-rs-01 seq=5112 src=fim event=modify path=/etc/rc.local owner=root ticket=-
+2026-10-14T04:01:16Z host=bt-rs-01 seq=5113 src=fim event=modify path=/etc/sudoers.d/90-appliance owner=root ticket=-
+2026-10-14T04:09:40Z host=bt-rs-01 seq=5114 src=fim event=modify path=/etc/haproxy/haproxy.cfg owner=root ticket=-
+2026-10-14T04:09:58Z host=bt-rs-01 seq=5115 src=net event=listen proto=websocket port=8843 proc=haproxy new=yes
+2026-10-14T04:22:31Z host=bt-rs-01 seq=5116 src=appliance event=role_change account=helpdesk_tmp jumpitem=JI-0007 old_role=Operator new_role=Administrator by=helpdesk_tmp ticket=-
+# --- bt-rs-01: sequence jumps 5116 -> 5140 (records deleted) ---
+2026-10-14T05:30:02Z host=bt-rs-01 seq=5140 src=httpd event=request client=10.20.0.15 method=GET path=/login status=200 bytes=6120
+# --- bt-rs-02: benign ticketed changes inside the approved change window ---
+2026-10-14T06:00:12Z host=bt-rs-02 seq=8805 src=fim event=modify path=/etc/haproxy/haproxy.cfg owner=root ticket=CHG-4471
+2026-10-14T06:00:30Z host=bt-rs-02 seq=8806 src=cron event=haproxy_reload cfg_changed=yes ticket=CHG-4471
+2026-10-14T06:05:41Z host=bt-rs-02 seq=8807 src=appliance event=role_change account=ops_lee jumpitem=JI-0412 old_role=Operator new_role=Administrator by=admin_kim ticket=CHG-4472
+2026-10-14T07:00:00Z host=bt-rs-01 seq=5141 src=cron event=haproxy_reload cfg_changed=no
+2026-10-14T07:00:00Z host=bt-rs-02 seq=8808 src=cron event=haproxy_reload cfg_changed=no
+2026-10-14T07:15:12Z host=bt-rs-01 seq=5142 src=appliance event=vault_read account=svc_vault_sync item=jump-cred-0193
+2026-10-14T07:15:13Z host=bt-rs-02 seq=8809 src=appliance event=vault_read account=svc_vault_sync item=jump-cred-0412
+# --- bt-rs-02: one unexplained artifact (single type -> hunt deeper, not an incident yet) ---
+2026-10-14T08:12:09Z host=bt-rs-02 seq=8810 src=appliance event=vault_read account=jdoe_admin item=jump-cred-0977 client=10.20.0.44
+2026-10-14T09:20:44Z host=bt-rs-02 seq=8811 src=httpd event=request client=10.20.0.31 method=GET path=/appliance/status status=200 bytes=812
+2026-10-14T13:00:00Z host=bt-rs-01 seq=5143 src=cron event=haproxy_reload cfg_changed=no
+2026-10-14T13:00:00Z host=bt-rs-02 seq=8812 src=cron event=haproxy_reload cfg_changed=no
