@@ -50,6 +50,7 @@ enough of the attack chain to hunt on.
   the chained dsinvoked/DSCache **privesc is still unpatched** (2026-10-19).
   In-memory execution + log wiping → detection pivots to anomalous
   X-DSCGI-PATH values (needs header-enriched logging) + memory forensics.
+  **In CISA KEV** (added 2026-10-13, federal due 2026-10-16).
   Companion: [cve-2026-104935-ivanti-connect-secure.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-104935-ivanti-connect-secure.md)
   + `cve-2026-104935-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `hunt-checklist-cve-2026-104935.md` + `samples/ivanti-welcome-cgi.log`.
