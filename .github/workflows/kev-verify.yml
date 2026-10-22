@@ -1,0 +1,81 @@
+# Re-checks every CVE / CISA KEV claim in this repo against the official CISA KEV feed.
+# Report-only: on a mismatch it opens (or comments on) one issue labelled "kev-mismatch".
+# It never commits, pushes or edits files — fixes go through a normal PR.
+name: KEV verify
+
+on:
+  schedule:
+    - cron: "17 14 * * 1"   # every Monday 14:17 UTC
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: kev-verify-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Unit tests for the verifier and the noisy-data scorecard
+        run: |
+          python -m pip install --quiet pytest requests
+          python -m pytest -q tools/tests
+
+      - name: Check every KEV claim against the live CISA feed
+        id: verify
+        run: |
+          set +e
+          python tools/verify_kev.py --report kev-report.md
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          cat kev-report.md >> "$GITHUB_STEP_SUMMARY"
+          exit 0
+
+      - name: Open or update the mismatch issue (scheduled and manual runs)
+        if: steps.verify.outputs.code == '1' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create kev-mismatch --repo "$GITHUB_REPOSITORY" --color B60205 \
+            --description "CISA KEV feed disagrees with the repo" --force
+          { cat kev-report.md; echo; echo "Workflow run: $RUN_URL"; } > issue-body.md
+          num=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --label kev-mismatch \
+                  --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --repo "$GITHUB_REPOSITORY" --body-file issue-body.md
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --label kev-mismatch \
+              --title "KEV verification: repo disagrees with the CISA KEV feed" --body-file issue-body.md
+          fi
+
+      - name: Close the mismatch issue once everything matches again
+        if: steps.verify.outputs.code == '0' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          num=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --label kev-mismatch \
+                  --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue close "$num" --repo "$GITHUB_REPOSITORY" \
+              --comment "All KEV claims match the CISA feed again ($RUN_URL)."
+          fi
+
+      - name: Fail the check on mismatch (1) or feed error (2)
+        if: steps.verify.outputs.code != '0'
+        run: exit ${{ steps.verify.outputs.code }}

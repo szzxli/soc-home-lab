@@ -17,7 +17,7 @@
 <meta name="twitter:title" content="IOC Analyzer — Live Demo · SOC Home Lab">
 <meta name="twitter:description" content="Run the CloudTrail IOC analyzer&#x27;s heuristic detectors in your browser on synthetic demo data.">
 <meta name="twitter:image" content="https://opengraph.githubassets.com/1/szzxli/soc-home-lab">
-<link rel="stylesheet" href="css/style.css?v=20261021">
+<link rel="stylesheet" href="css/style.css?v=20261021b">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -46,11 +46,12 @@
 <h2>1 · Input</h2>
 <div class="controls">
 <button class="btn" id="runSample">▶ Run on built-in sample log</button>
+<button class="btn btn-ghost" id="runNoisy">Run on noisy sample (2,870 records)</button>
 <button class="btn btn-ghost" id="runCustom">Run on pasted JSON ↓</button>
 <label>window <input id="winMin" type="number" value="10" min="1"> min</label>
 <label>threshold <input id="bfThresh" type="number" value="5" min="2"> failures</label>
 </div>
-<p class="notice">⚠ <b>Synthetic demo data.</b> The built-in log below is fabricated training data (same file shipped with the repo). Paste your own CloudTrail JSON to analyze real records — they never leave your browser.</p>
+<p class="notice">⚠ <b>Synthetic demo data.</b> The built-in log is fabricated training data (same file shipped with the repo). The <b>noisy sample</b> is also synthetic, but closer to a real day: 2,870 records, benign look-alikes and missing fields. It's scored against its answer key, so you'll see the false positives too (<a href="https://github.com/szzxli/soc-home-lab/blob/main/NOISY_DATA.md">why each one fires</a>). Paste your own CloudTrail JSON to analyze real records. They never leave your browser.</p>
 <label for="customJson" class="sub" style="font-size:14px">Your CloudTrail JSON (optional)</label>
 <textarea id="customJson" placeholder='Paste CloudTrail JSON here — {"Records": [...]} or a bare [...] array — then click "Run on pasted JSON".'></textarea>
 <div class="meta" id="inputInfo" role="status" style="font-size:13px;color:var(--dim);margin-top:8px;"></div>
@@ -67,6 +68,7 @@
 <p><span class="badge">unusual_geo</span> Successful <code>ConsoleLogin</code> from an IP outside a tiny built-in table of common ranges — <b>demo heuristic only</b>, a production system should use a real GeoIP database (e.g. MaxMind GeoLite2).</p>
 <p><span class="badge">brute_force</span> ≥ N failed <code>ConsoleLogin</code> attempts from one IP inside a sliding window (default 5 in 10 min) — one finding per IP, earliest window wins.</p>
 <p><span class="badge">suspicious_api</span> Watchlist of high-risk API calls: <code>PutUserPolicy</code>, <code>AttachUserPolicy</code>, <code>AttachRolePolicy</code> (high), <code>CreateAccessKey</code> / <code>RunInstances</code> (medium), <code>DeleteTrail</code> / <code>StopLogging</code> (high).</p>
+<p class="sub">On the noisy sample these rules fire on autoscaling, key rotation, CI deploys, travelling employees and a shared office NAT. That's expected. <a href="https://github.com/szzxli/soc-home-lab/blob/main/NOISY_DATA.md">NOISY_DATA.md</a> explains each false positive and how to tune it.</p>
 <p class="sub">AbuseIPDB enrichment is skipped in this browser build — exactly like the CLI behaves without an <code>ABUSEIPDB_API_KEY</code> set.</p>
 </div>
 </details>
@@ -103,9 +105,17 @@ const SAMPLE_LOG = {"Records":[{"awsRegion":"us-east-1","eventName":"ConsoleLogi
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  function render(records, findings, label) {
+  function render(records, findings, label, truth) {
     const s = iocBuildSummary(records, findings);
+    const sc = truth ? iocScore(findings, truth) : null;
     let h = "";
+    if (sc) {
+      h += "<div class='score' id='score'>Scored against the answer key: <b class='tp'>" + sc.tp + " true positives</b> · " +
+        "<b class='fp'>" + sc.fp + " false positives</b> · <b class='fn'>" + sc.fn.length + " missed</b>" +
+        (sc.fn.length ? " (" + sc.fn.map(e => esc(e.detector + " on " + (e.ip || e.event)) + (e.note ? " — " + esc(e.note) : "")).join("; ") + ")" : "") +
+        ".<br><span class='sub'>False positives are expected on this sample: the detectors are simple teaching rules. " +
+        "<a href='https://github.com/szzxli/soc-home-lab/blob/main/NOISY_DATA.md'>Why each one fires, and how to tune it →</a></span></div>";
+    }
     h += "<table class='sum'>";
     h += "<tr><th>Records analyzed</th><td>" + s.total_records + "</td></tr>";
     h += "<tr><th>Time range</th><td>" + esc(s.time_range) + "</td></tr>";
@@ -123,6 +133,7 @@ const SAMPLE_LOG = {"Records":[{"awsRegion":"us-east-1","eventName":"ConsoleLogi
       findings.forEach((f, i) => {
         h += "<div class='finding " + f.risk + "'>" +
           "<div><span class='risk-" + f.risk + "'>[" + f.risk.toUpperCase() + "]</span> " +
+          (sc ? "<span class='tag'>" + sc.label(f) + "</span> " : "") +
           "<b>" + esc(f.detector) + "</b> · " + esc(f.event) + "</div>" +
           "<div class='meta'>" + esc(f.time) + " · actor " + esc(f.actor) + " · IP " + esc(f.ip) + "</div>" +
           "<div class='ev'>" + esc(f.evidence) + "</div></div>";
@@ -134,7 +145,7 @@ const SAMPLE_LOG = {"Records":[{"awsRegion":"us-east-1","eventName":"ConsoleLogi
     report.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function runOn(data, label) {
+  function runOn(data, label, truth) {
     let records;
     try {
       records = iocParseRecords(typeof data === "string" ? JSON.parse(data) : data);
@@ -149,10 +160,20 @@ const SAMPLE_LOG = {"Records":[{"awsRegion":"us-east-1","eventName":"ConsoleLogi
     const w = Math.max(1, parseInt($("winMin").value, 10) || 10);
     const t = Math.max(2, parseInt($("bfThresh").value, 10) || 5);
     const findings = iocDetectAll(records, w, t);
-    render(records, findings, label);
+    render(records, findings, label, truth);
   }
 
   $("runSample").addEventListener("click", () => runOn(SAMPLE_LOG, "Built-in synthetic sample"));
+  const NOISY_URL = "../02-python-ioc-analyzer/sample_data/sample_cloudtrail_noisy.json";
+  const TRUTH_URL = "../02-python-ioc-analyzer/sample_data/sample_cloudtrail_noisy.truth.json";
+  const getJson = u => fetch(u).then(r => { if (!r.ok) throw new Error("HTTP " + r.status + " for " + u); return r.json(); });
+  $("runNoisy").addEventListener("click", () => {
+    report.innerHTML = "<p class='sub'>Loading the noisy sample…</p>";
+    Promise.all([getJson(NOISY_URL), getJson(TRUTH_URL)])
+      .then(([data, truth]) => runOn(data, "Noisy synthetic sample", truth))
+      .catch(e => { report.innerHTML = "<p style='color:var(--red)'>Could not load the noisy sample: " + esc(e.message) +
+        ". It needs the page to be served over http(s), for example on GitHub Pages.</p>"; });
+  });
   $("runCustom").addEventListener("click", () => {
     const v = $("customJson").value.trim();
     if (!v) { report.innerHTML = "<p style='color:var(--amber)'>Paste some JSON first.</p>"; return; }

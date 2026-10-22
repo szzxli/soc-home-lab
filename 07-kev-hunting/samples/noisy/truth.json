@@ -1,0 +1,55 @@
+{
+  "confluence-access-noisy.log": {
+    "entity": "source IP",
+    "malicious": [
+      "198.51.100.7",
+      "203.0.113.9",
+      "192.0.2.77"
+    ],
+    "expected_incident": [
+      "203.0.113.9",
+      "192.0.2.77"
+    ],
+    "look_alikes": {
+      "10.0.2.31": "'::' inside Confluence page titles (path, not query)",
+      "10.0.5.9": "new internal scanner, not allowlisted; WAF returns 200 block pages (1,204 bytes)"
+    }
+  },
+  "appliance-noisy.log": {
+    "entity": "host",
+    "malicious": [
+      "bt-rs-03",
+      "bt-rs-06"
+    ],
+    "expected_incident": [
+      "bt-rs-03",
+      "bt-rs-06"
+    ],
+    "look_alikes": {
+      "bt-rs-01": "ticket typo CHG4471 on an approved role change",
+      "bt-rs-02": "vault_read with the account field missing",
+      "bt-rs-04": "package-managed SUID helper (pkg=dbus) + reboot resets seq",
+      "bt-rs-05": "vault sync service account rotated to svc_vault_sync2"
+    },
+    "notes": {
+      "bt-rs-06": "web shell and SOCKS listener 30h apart: outside the 24h correlation window"
+    }
+  },
+  "nextcloud-access-noisy.log": {
+    "entity": "source IP",
+    "malicious": [
+      "198.51.100.44",
+      "203.0.113.50",
+      "192.0.2.150"
+    ],
+    "expected_incident": [
+      "203.0.113.50",
+      "192.0.2.150"
+    ],
+    "look_alikes": {
+      "10.0.1.33": "document title containing '$(' passed through proxy.php",
+      "10.0.1.40": "old client sending '../' in a proxy.php req path",
+      "10.0.5.8": "internal vulnerability scanner, all 4xx"
+    }
+  }
+}

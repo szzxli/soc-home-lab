@@ -109,7 +109,27 @@ python -m pytest tests/ -v
 The suite covers all three heuristic detectors (flagged and clean cases),
 the no-API-key enrichment path, and the Sigma engine (rule loading, matching,
 filters, malformed-rule and unsupported-feature handling) — 16 tests using
-small inline synthetic fixtures.
+small inline synthetic fixtures — plus `tests/test_noisy.py`, which runs the
+analyzer on the noisy sample, pins its TP/FP/FN numbers and checks that the
+browser port (`web/js/ioc.js`) returns the same findings (needs `node`).
+
+## Noisy sample: expect false positives
+
+`sample_data/sample_cloudtrail.json` is tidy (19 records). For a more realistic
+run, use the **noisy** variant: 2,870 synthetic records with autoscaling,
+key-rotation and CI/CD activity, employees signing in from home networks, a
+shared office NAT, missing fields, and an attack chain plus a low-and-slow
+password spray:
+
+```bash
+python ioc_analyzer.py --input sample_data/sample_cloudtrail_noisy.json --output noisy-report.md
+```
+
+On it the three heuristics produce **8 true positives, 23 false positives and
+1 false negative** (the spray). That's intentional. See
+[NOISY_DATA.md](../NOISY_DATA.md) for why each one fires and how to tune it.
+The answer key is `sample_data/sample_cloudtrail_noisy.truth.json`;
+`sample_data/generate_noisy.py` rebuilds both files deterministically.
 
 ## Project structure
 
@@ -123,9 +143,13 @@ small inline synthetic fixtures.
 │   ├── sigma_suspicious_encoded_command.yml
 │   └── sigma_cloudtrail_logging_disabled.yml
 ├── sample_data/
-│   └── sample_cloudtrail.json # SYNTHETIC training sample (labeled in-file)
+│   ├── sample_cloudtrail.json             # SYNTHETIC training sample (labeled in-file)
+│   ├── sample_cloudtrail_noisy.json       # SYNTHETIC noisy variant (2,870 records)
+│   ├── sample_cloudtrail_noisy.truth.json # answer key for the noisy variant
+│   └── generate_noisy.py                  # deterministic generator for both
 └── tests/
     ├── test_analyzer.py       # pytest suite (heuristics)
+    ├── test_noisy.py          # noisy sample: TP/FP/FN, robustness, JS parity
     └── test_sigma_engine.py   # pytest suite (Sigma engine)
 ```
 
