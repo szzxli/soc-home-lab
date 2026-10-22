@@ -39,12 +39,12 @@ cd soc-home-lab
 | # | Case | CVE / KEV | Skills | Difficulty | Included | Verify |
 |---|---|---|---|---|---|---|
 | 01 | [mini-soc](./01-mini-soc/): AWS detection stack + Stratus Red Team scenarios | No CVE | cloud, triage, IR | | Terraform, attack runbook, triage guide, IR report template | Live AWS only: follow the [15-minute quickstart](./01-mini-soc/README.md) (`terraform apply`, `stratus detonate …`) and confirm the GuardDuty finding |
-| 02 | [python-ioc-analyzer](./02-python-ioc-analyzer/): CloudTrail IOC CLI + Sigma engine | No CVE | cloud, detection, triage | | Tool, synthetic CloudTrail log, 3 Sigma rules, sample reports, tests | `cd 02-python-ioc-analyzer && pip install -r requirements.txt && python -m pytest tests/ -v` |
+| 02 | [python-ioc-analyzer](./02-python-ioc-analyzer/): CloudTrail IOC CLI + Sigma engine | No CVE | cloud, detection, triage | | Tool, synthetic CloudTrail log + [noisy variant](./NOISY_DATA.md), 3 Sigma rules, sample reports, tests | `cd 02-python-ioc-analyzer && pip install -r requirements.txt && python -m pytest tests/ -v` |
 | 03 | [phishing-analysis-lab](./03-phishing-analysis-lab/): header forensics walkthrough | No CVE | phishing, triage | | Walkthrough, header cheatsheet, report template, GoPhish self-test guide | |
 | 04 | [rea-triage](./04-rea-triage/): one-command ELF triage | No CVE | binary triage, detection | | Tool, synthetic demo ELF + generator, tests | `cd 04-rea-triage && pip install -r requirements.txt && python -m pytest tests/ -v` |
 | 05 | [soc-skills](./05-soc-skills/): 6 agent skills for the Tier-1 loop | No CVE | triage, IR, detection, phishing, binary triage, cloud | | 6 `SKILL.md` files | |
 | 06 | [ghostaction-supply-chain](./06-ghostaction-supply-chain/): GhostAction-style malicious VS Code workspace tasks + cron persistence | No CVE | supply chain, hunting, IR | | Inert training samples (`tasks.json`, `font-cache.js`), hunt checklist, 4 exercises, IR report template | Static review only: read `06-ghostaction-supply-chain/samples/` (don't run them outside a disposable VM) |
-| 07 | [kev-hunting](./07-kev-hunting/): umbrella for the hunt packs below | See each case | detection, hunting | | 10 hunt checklists, 10 synthetic logs, 3 in-repo detection scripts + tests | `cd 07-kev-hunting && python -m pytest tests/ -v` (in-repo detectors); see each case |
+| 07 | [kev-hunting](./07-kev-hunting/): umbrella for the hunt packs below | See each case | detection, hunting | | 10 hunt checklists, 10 synthetic logs (+ 3 [noisy variants](./NOISY_DATA.md)), 3 in-repo detection scripts + tests | `cd 07-kev-hunting && python -m pytest tests/ -v` (in-repo detectors); see each case |
 
 ### 07 kev-hunting: hunt packs
 
@@ -59,7 +59,7 @@ cd soc-home-lab
 | [M365 app-identity persistence (ConnectWise incident)](./07-kev-hunting/hunt-checklist-m365-app-identity-persistence.md) | No CVE, not KEV | cloud, detection, hunting, IR | | Hunt checklist, [synthetic M365 audit log](./07-kev-hunting/samples/m365-app-identity-audit.log), reference detection (soc-skills) | `python3 ../soc-skills/labs/m365-app-identity-persistence-detect.py 07-kev-hunting/samples/m365-app-identity-audit.log` |
 | [Atlassian Data Center `::` path traversal](./07-kev-hunting/hunt-checklist-cve-2026-21589.md) | CVE-2026-21589. **KEV: listed** | detection, hunting | | Hunt checklist, [synthetic log](./07-kev-hunting/samples/confluence-access.log), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-21589-log-detect.py)), plus a soc-skills version with built-in synthetic lines and a [lab card](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-21589-atlassian-traversal.md) | `python3 07-kev-hunting/detect/cve-2026-21589-log-detect.py 07-kev-hunting/samples/confluence-access.log` (or `python3 ../soc-skills/labs/cve-2026-21589-detect.py`) |
 | [Nextcloud Collabora CODE server RCE](./07-kev-hunting/hunt-checklist-cve-2026-110447.md) | CVE-2026-110447. KEV: not listed (exploited in the wild) | detection, hunting | | Hunt checklist, [synthetic log](./07-kev-hunting/samples/nextcloud-access.log), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-110447-detect.py)), [lab card](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-110447-nextcloud-collabora-rce.md) (soc-skills) | `python3 07-kev-hunting/detect/cve-2026-110447-detect.py 07-kev-hunting/samples/nextcloud-access.log` |
-| [BeyondTrust Remote Support / PRA auth bypass (ARMORY CASTLE)](./07-kev-hunting/hunt-checklist.md) | CVE-2026-102764. **KEV: listed** | detection, hunting, IR | | Hunt checklist + exercises in the [07 README](./07-kev-hunting/README.md), [synthetic appliance log](./07-kev-hunting/samples/appliance.log), [incident-report template](./07-kev-hunting/incident-report-template.md), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-102764-detect.py)), [lab card](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-102764-beyondtrust-auth-bypass.md) (soc-skills) | `python3 07-kev-hunting/detect/cve-2026-102764-detect.py 07-kev-hunting/samples/appliance.log` |
+| [BeyondTrust Remote Support (RS) auth bypass (ARMORY CASTLE)](./07-kev-hunting/hunt-checklist.md) | CVE-2026-102764. **KEV: listed** | detection, hunting, IR | | Hunt checklist + exercises in the [07 README](./07-kev-hunting/README.md), [synthetic appliance log](./07-kev-hunting/samples/appliance.log), [incident-report template](./07-kev-hunting/incident-report-template.md), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-102764-detect.py)), [lab card](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-102764-beyondtrust-auth-bypass.md) (soc-skills) | `python3 07-kev-hunting/detect/cve-2026-102764-detect.py 07-kev-hunting/samples/appliance.log` |
 
 ### 07 kev-hunting: tracked as intel only (no lab, reason in the [07 README](./07-kev-hunting/README.md))
 
@@ -72,6 +72,15 @@ cd soc-home-lab
 | Ahsay AhsayCBS improper authentication | CVE-2026-105133. KEV: listed | Niche backup product |
 | Ahsay AhsayCBS command injection | CVE-2026-105134. KEV: listed | Niche backup product |
 | Fortinet multiple-products path traversal (PEERSTITCH) | CVE-2025-61624. KEV: listed | No public PoC for either trigger as of 2026-10-17 |
+
+**KEV accuracy:** every CVE, vendor / product name, KEV date added, federal
+due date and "in KEV / not in KEV" label above was checked against the official
+[CISA KEV JSON feed](https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json):
+last verified 2026-10-21 (catalog version 2026.10.21). Each hunt checklist
+starts with its KEV status, a Sources line (CISA KEV, NVD, vendor advisory where
+cited) and that date. [`tools/verify_kev.py`](./tools/verify_kev.py) re-checks
+all of it, weekly and on every pull request, and opens an issue if anything
+drifts. It never edits the repo itself.
 
 **Totals:** 23 indexed entries = 6 published projects (01–06) + 10 hunt packs
 in 07 (all 10 with a synthetic log *and* a runnable reference detection: 7 in
@@ -98,7 +107,7 @@ Blank = not stated.
 | Case | Published / last reviewed | Threat source & evidence | KEV status | Log source & data form | How to run | Difficulty | Est. time | Prerequisites | Output | Status |
 |---|---|---|---|---|---|---|---|---|---|---|
 | CVE-2026-96652 / 96654 / 96655 / 96656 — Plex2Shell (Plex Media Server RCE chain) | CVEs published 2026-10-19; in the wild from 2026-10-17 (per 07 README) | Plex advisory + BoredHackerBlog honeypot (per 07 README) | Listed (added 2026-10-20, federal due 2026-10-23 / 2026-11-03) | Synthetic Plex access log (`samples/plex2shell-access.log`) | Offline (optional isolated `plexinc/pms-docker` lab, per 07 README) |  |  | Plex Media Server access logs |  | Hunt pack |
-| CVE-2026-102764 — BeyondTrust Remote Support / PRA auth bypass (ARMORY CASTLE chain) | KEV Oct 2026; federal due 2026-10-19 (per 07 README) | Mandiant/GTIG reporting (per 07 README and hunt checklist) | Listed | Synthetic appliance log (`samples/appliance.log`) | Offline |  | ~2.25 hours (exercise times as written: 30 + 45 + 30 + 30 min) |  | Huntable-artifact table, hunt script, completed incident report | Hunt pack |
+| CVE-2026-102764 — BeyondTrust Remote Support (RS) auth bypass (ARMORY CASTLE chain) | KEV Oct 2026; federal due 2026-10-19 (per 07 README) | Mandiant/GTIG reporting (per 07 README and hunt checklist) | Listed | Synthetic appliance log (`samples/appliance.log`) | Offline |  | ~2.25 hours (exercise times as written: 30 + 45 + 30 + 30 min) |  | Huntable-artifact table, hunt script, completed incident report | Hunt pack |
 | CVE-2025-61624 — Fortinet multiple-products path traversal (PEERSTITCH) | KEV Oct 2026 (per 07 README) | Palo Alto Networks reporting (per 07 README) | Listed | None — no sample log | Not applicable |  |  |  | Intel note in the 07 README | Intel only |
 | CVE-2026-21589 — Atlassian Data Center `::` path traversal | KEV 2026-10-15; federal due 2026-10-18 | watchTowr research + Previdian honeypot reporting (per 07 README) | Listed | Synthetic Confluence access log (`samples/confluence-access.log`); the soc-skills script also has built-in synthetic lines | Offline |  |  | Web access logs for the affected Atlassian DC products (per hunt checklist) | Hunt results + incident report | Hunt pack |
 | CVE-2026-110447 — Nextcloud Collabora built-in CODE Server RCE | In-the-wild exploitation Sept–Oct 2026 (per 07 README) | MITRE CVE text confirming in-the-wild exploitation (per 07 README) | Not listed | Synthetic Nextcloud access log (`samples/nextcloud-access.log`) | Offline |  |  | Nextcloud with `richdocumentscode` installed; access logs (per hunt checklist) | Hunt results + incident report | Hunt pack |
@@ -131,6 +140,12 @@ with soc-skills at commit `4118685`:
   `07-kev-hunting/detect/` each exited 0 and printed exactly one `[INCIDENT]`
   on their sample (plus `[SUSPICIOUS]` / `[RECON]` lines to triage), and
   `07-kev-hunting/tests/` passed (6 tests).
+
+- Noisy variants (added 2026-10-21): on the three noisy 07 logs the in-repo
+  detectors raise 4 true and 2 false `[INCIDENT]` verdicts and miss 2
+  incidents; on the noisy CloudTrail log the 02 heuristics give 8 TP / 23 FP
+  findings and 1 FN. All on purpose, explained with tuning hints in
+  [NOISY_DATA.md](./NOISY_DATA.md).
 
 **Read this honestly:** passing on a synthetic fixture shows that the script
 and the fixture agree. It doesn't show the detection works on real telemetry.

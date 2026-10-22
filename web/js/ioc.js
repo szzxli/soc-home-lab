@@ -234,12 +234,32 @@ function iocBuildSummary(records, findings) {
   };
 }
 
+/* Score findings against an answer key (sample_cloudtrail_noisy.truth.json).
+ * Same rule as tools/noisy_scorecard.py: a finding is a TP when its IP or actor
+ * belongs to the attack, otherwise an FP; expected detections that never fired
+ * are false negatives. */
+function iocScore(findings, truth) {
+  const ips = new Set(truth.malicious_ips || []), actors = new Set(truth.malicious_actors || []);
+  const label = f => (ips.has(f.ip) || actors.has(f.actor)) ? "TP" : "FP";
+  const per = {};
+  let tp = 0, fp = 0;
+  for (const f of findings) {
+    const l = label(f);
+    if (l === "TP") tp++; else fp++;
+    per[f.detector] = per[f.detector] || { TP: 0, FP: 0 };
+    per[f.detector][l]++;
+  }
+  const fn = (truth.expected || []).filter(e => !findings.some(f => f.detector === e.detector &&
+    ((e.ip && f.ip === e.ip) || (e.event && f.event === e.event && f.actor === e.actor))));
+  return { tp: tp, fp: fp, fn: fn, per: per, label: label };
+}
+
 /* Export for node cross-validation; harmless in browsers. */
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     COMMON_IP_NETWORKS, SUSPICIOUS_API_CALLS,
     iocParseRecords, iocParseTime, iocIso,
     iocDetectUnusualGeo, iocDetectBruteForce, iocDetectSuspiciousApi,
-    iocDetectAll, iocBuildSummary
+    iocDetectAll, iocBuildSummary, iocScore
   };
 }

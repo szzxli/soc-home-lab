@@ -92,6 +92,7 @@
     }
     var b = e.target && e.target.closest && e.target.closest('button');
     if (b && b.id === 'runSample') countEvent('run-demo/sample');
+    if (b && b.id === 'runNoisy') countEvent('run-demo/noisy');
     if (b && b.id === 'runCustom' && filled('customJson')) countEvent('run-demo/pasted');
   });
 })();

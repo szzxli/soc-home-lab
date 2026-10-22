@@ -1,0 +1,317 @@
+{
+  "_comment": "Single source of truth for every CVE / KEV claim in this repo. tools/verify_kev.py checks this file against the official CISA KEV JSON feed, then checks that every pack's generated 'kev-verify' block and every KEV claim on the site and in the READMEs agree with it. Edit this file, then run: python3 tools/verify_kev.py --write",
+  "verified": {
+    "date": "2026-10-21",
+    "catalogVersion": "2026.10.21"
+  },
+  "cves": {
+    "CVE-2026-96652": {
+      "inKev": true,
+      "vendorProject": "Plex",
+      "product": "Media Server",
+      "vulnerabilityName": "Plex Media Server Server-Side Request Forgery (SSRF) Vulnerability",
+      "dateAdded": "2026-10-20",
+      "dueDate": "2026-11-03"
+    },
+    "CVE-2026-96654": {
+      "inKev": true,
+      "vendorProject": "Plex",
+      "product": "Media Server",
+      "vulnerabilityName": "Plex Media Server Improper Neutralization of Encoded URI Schemes in a Web Page Vulnerability",
+      "dateAdded": "2026-10-20",
+      "dueDate": "2026-10-23"
+    },
+    "CVE-2026-96655": {
+      "inKev": true,
+      "vendorProject": "Plex",
+      "product": "Media Server",
+      "vulnerabilityName": "Plex Media Server Server-Side Request Forgery (SSRF) Vulnerability",
+      "dateAdded": "2026-10-20",
+      "dueDate": "2026-11-03"
+    },
+    "CVE-2026-96656": {
+      "inKev": true,
+      "vendorProject": "Plex",
+      "product": "Media Server",
+      "vulnerabilityName": "Plex Media Server External Control of File Name or Path Vulnerability",
+      "dateAdded": "2026-10-20",
+      "dueDate": "2026-10-23"
+    },
+    "CVE-2026-104935": {
+      "inKev": true,
+      "vendorProject": "Ivanti",
+      "product": "Connect Secure",
+      "vulnerabilityName": "Ivanti Connect Secure Authentication Bypass by Spoofing Vulnerability",
+      "dateAdded": "2026-10-13",
+      "dueDate": "2026-10-16"
+    },
+    "CVE-2026-110936": {
+      "inKev": true,
+      "vendorProject": "Siemens",
+      "product": "Software Center",
+      "vulnerabilityName": "Siemens Software Center Uncontrolled Search Path Element Vulnerability",
+      "dateAdded": "2026-10-20",
+      "dueDate": "2026-11-03"
+    },
+    "CVE-2026-21589": {
+      "inKev": true,
+      "vendorProject": "Atlassian",
+      "product": "Multiple Products",
+      "vulnerabilityName": "Atlassian Multiple Products Files or Directories Accessible to External Parties Vulnerability",
+      "dateAdded": "2026-10-15",
+      "dueDate": "2026-10-18"
+    },
+    "CVE-2026-102764": {
+      "inKev": true,
+      "vendorProject": "BeyondTrust",
+      "product": "Remote Support",
+      "vulnerabilityName": "BeyondTrust Remote Support Authentication Bypass by Spoofing Vulnerability",
+      "dateAdded": "2026-10-16",
+      "dueDate": "2026-10-19"
+    },
+    "CVE-2026-106931": {
+      "inKev": true,
+      "vendorProject": "EG Secure Solutions",
+      "product": "SiteGuard Server Edition",
+      "vulnerabilityName": "EG Secure Solutions SiteGuard Server Edition OS Command Injection Vulnerability",
+      "dateAdded": "2026-10-20",
+      "dueDate": "2026-10-23"
+    },
+    "CVE-2026-0322": {
+      "inKev": true,
+      "vendorProject": "Palo Alto Networks",
+      "product": "PAN-OS",
+      "vulnerabilityName": "Palo Alto Networks PAN-OS Code Injection Vulnerability",
+      "dateAdded": "2026-10-14",
+      "dueDate": "2026-10-17"
+    },
+    "CVE-2026-96951": {
+      "inKev": true,
+      "vendorProject": "Microsoft",
+      "product": "Windows",
+      "vulnerabilityName": "Microsoft Windows Command Injection Vulnerability",
+      "dateAdded": "2026-10-13",
+      "dueDate": "2026-10-16"
+    },
+    "CVE-2026-76519": {
+      "inKev": true,
+      "vendorProject": "Cisco",
+      "product": "Secure Email Gateway",
+      "vulnerabilityName": "Cisco Secure Email Gateway Relative Path Traversal Vulnerability",
+      "dateAdded": "2026-10-14",
+      "dueDate": "2026-10-17"
+    },
+    "CVE-2026-105133": {
+      "inKev": true,
+      "vendorProject": "Ahsay",
+      "product": "AhsayCBS",
+      "vulnerabilityName": "Ahsay AhsayCBS Improper Authentication Vulnerability",
+      "dateAdded": "2026-10-14",
+      "dueDate": "2026-10-17"
+    },
+    "CVE-2026-105134": {
+      "inKev": true,
+      "vendorProject": "Ahsay",
+      "product": "AhsayCBS",
+      "vulnerabilityName": "Ahsay AhsayCBS Command Injection Vulnerability",
+      "dateAdded": "2026-10-14",
+      "dueDate": "2026-10-17"
+    },
+    "CVE-2025-61624": {
+      "inKev": true,
+      "vendorProject": "Fortinet",
+      "product": "Multiple Products",
+      "vulnerabilityName": "Fortinet Multiple Products Path Traversal Vulnerability",
+      "dateAdded": "2026-10-16",
+      "dueDate": "2026-10-19"
+    },
+    "CVE-2026-85097": {
+      "inKev": false,
+      "vendorProject": "Bricksforge",
+      "product": "Bricksforge (WordPress plugin)",
+      "note": "exploited in the wild per Patchstack; not in CISA KEV"
+    },
+    "CVE-2026-25243": {
+      "inKev": false,
+      "vendorProject": "Redis",
+      "product": "Redis",
+      "note": "in-the-wild attempts seen by honeypots; not in CISA KEV"
+    },
+    "CVE-2026-110447": {
+      "inKev": false,
+      "vendorProject": "Nextcloud",
+      "product": "Collabora Online Built-in CODE Server (richdocumentscode)",
+      "note": "in-the-wild exploitation per the CVE record; not in CISA KEV"
+    },
+    "CVE-2026-77936": {
+      "inKev": false,
+      "vendorProject": "Letta",
+      "product": "Letta",
+      "note": "not in CISA KEV"
+    },
+    "CVE-2026-75128": {
+      "inKev": false,
+      "vendorProject": "Langchain-Chatchat",
+      "product": "Langchain-Chatchat",
+      "note": "not in CISA KEV"
+    },
+    "CVE-2026-77932": {
+      "inKev": false,
+      "vendorProject": "DB-GPT",
+      "product": "DB-GPT",
+      "note": "not in CISA KEV"
+    },
+    "CVE-2026-109442": {
+      "inKev": false,
+      "vendorProject": "piflow",
+      "product": "piflow",
+      "note": "not in CISA KEV"
+    },
+    "CVE-2026-109437": {
+      "inKev": false,
+      "vendorProject": "Cognition",
+      "product": "Cognition",
+      "note": "not in CISA KEV"
+    }
+  },
+  "packs": [
+    {
+      "id": "plex2shell",
+      "title": "Plex2Shell (Plex Media Server RCE chain)",
+      "file": "07-kev-hunting/hunt-checklist-cve-2026-96652.md",
+      "cves": [
+        "CVE-2026-96652",
+        "CVE-2026-96654",
+        "CVE-2026-96655",
+        "CVE-2026-96656"
+      ],
+      "vendorAdvisory": {
+        "label": "Plex security update (forum post)",
+        "url": "https://forums.plex.tv/t/important-security-update-for-plex-media-server-v1-43-2-and-earlier/942319"
+      }
+    },
+    {
+      "id": "bricksforge",
+      "title": "Bricksforge (WordPress) unauthenticated RCE",
+      "file": "07-kev-hunting/hunt-checklist-cve-2026-85097.md",
+      "cves": [
+        "CVE-2026-85097"
+      ]
+    },
+    {
+      "id": "ivanti",
+      "title": "Ivanti Connect Secure welcome.cgi auth bypass",
+      "file": "07-kev-hunting/hunt-checklist-cve-2026-104935.md",
+      "cves": [
+        "CVE-2026-104935"
+      ]
+    },
+    {
+      "id": "siemens",
+      "title": "Siemens Software Center DLL sideloading",
+      "file": "07-kev-hunting/hunt-checklist-cve-2026-110936.md",
+      "cves": [
+        "CVE-2026-110936"
+      ]
+    },
+    {
+      "id": "redis",
+      "title": "Redis RESTORE double-free",
+      "file": "07-kev-hunting/hunt-checklist-cve-2026-25243.md",
+      "cves": [
+        "CVE-2026-25243"
+      ]
+    },
+    {
+      "id": "agent-tools",
+      "title": "AI agent tool endpoints without auth",
+      "file": "07-kev-hunting/hunt-checklist-agent-tool-unauth-rce.md",
+      "cves": [
+        "CVE-2026-77936",
+        "CVE-2026-75128",
+        "CVE-2026-77932",
+        "CVE-2026-109442",
+        "CVE-2026-109437"
+      ]
+    },
+    {
+      "id": "m365",
+      "title": "M365 app-identity persistence (ConnectWise incident)",
+      "file": "07-kev-hunting/hunt-checklist-m365-app-identity-persistence.md",
+      "cves": [],
+      "vendorAdvisory": {
+        "label": "ConnectWise Trust Center advisory (Cloud Backup)",
+        "url": "https://www.connectwise.com/company/trust/advisories"
+      }
+    },
+    {
+      "id": "atlassian",
+      "title": "Atlassian Data Center :: path traversal",
+      "file": "07-kev-hunting/hunt-checklist-cve-2026-21589.md",
+      "cves": [
+        "CVE-2026-21589"
+      ]
+    },
+    {
+      "id": "nextcloud",
+      "title": "Nextcloud Collabora CODE server RCE",
+      "file": "07-kev-hunting/hunt-checklist-cve-2026-110447.md",
+      "cves": [
+        "CVE-2026-110447"
+      ]
+    },
+    {
+      "id": "beyondtrust",
+      "title": "BeyondTrust Remote Support auth bypass",
+      "file": "07-kev-hunting/hunt-checklist.md",
+      "cves": [
+        "CVE-2026-102764"
+      ],
+      "vendorAdvisory": {
+        "label": "BeyondTrust advisory BT26-05",
+        "url": "https://www.beyondtrust.com/trust-center/security-advisories/bt26-05"
+      }
+    }
+  ],
+  "intel": [
+    {
+      "cve": "CVE-2026-106931",
+      "label": "SiteGuard Server Edition OS command injection",
+      "why": "Commercial licensed WAF, no free repro environment",
+      "vendorAdvisory": {
+        "label": "EG Secure Solutions alert-202610-1",
+        "url": "https://www.eg-secure.co.jp/siteguard/news/alert-202610-1"
+      }
+    },
+    {
+      "cve": "CVE-2026-0322",
+      "label": "PAN-OS code injection",
+      "why": "Needs a real firewall"
+    },
+    {
+      "cve": "CVE-2026-96951",
+      "label": "Microsoft Windows Command Injection Vulnerability",
+      "why": "Windows + sample complexity"
+    },
+    {
+      "cve": "CVE-2026-76519",
+      "label": "Cisco Secure Email Gateway relative path traversal",
+      "why": "Needs a real appliance"
+    },
+    {
+      "cve": "CVE-2026-105133",
+      "label": "AhsayCBS improper authentication",
+      "why": "Niche backup product"
+    },
+    {
+      "cve": "CVE-2026-105134",
+      "label": "AhsayCBS command injection",
+      "why": "Niche backup product"
+    },
+    {
+      "cve": "CVE-2025-61624",
+      "label": "Fortinet multiple products path traversal (PEERSTITCH)",
+      "why": "No public PoC for either trigger as of 2026-10-17"
+    }
+  ]
+}

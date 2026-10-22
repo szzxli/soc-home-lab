@@ -1,4 +1,4 @@
-# SYNTHETIC training log — BeyondTrust RS/PRA appliance (CVE-2026-102764 lab).
+# SYNTHETIC training log — BeyondTrust Remote Support (RS) appliance (CVE-2026-102764 lab).
 # ALL DATA SYNTHETIC: generated for this lab, no real attacker data, no real
 # implants. Attacker addresses are from documentation ranges (RFC 5737) only.
 # Format: <ts> host=<host> seq=<per-host sequence> src=<subsystem> event=<event> [key=value ...]

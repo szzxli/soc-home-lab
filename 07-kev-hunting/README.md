@@ -119,13 +119,45 @@ enough of the attack chain to hunt on.
   on synthetic log) + `hunt-checklist-m365-app-identity-persistence.md`
   + `samples/m365-app-identity-audit.log`.
 
-**New this week — intel only (no public lab environment, KEV-listed):**
+**Hunt packs with an in-repo reference detector ([`detect/`](./detect/), tests in [`tests/`](./tests/)):**
+- **CVE-2026-102764** — BeyondTrust Remote Support (RS) authentication bypass
+  (CVSS 9.3, CWE-290). The CISA KEV entry, NVD and BeyondTrust advisory BT26-05
+  all name **Remote Support** as the affected product (all versions ≤ 26.2.3;
+  BT26-05-RS patch). Mandiant/GTIG: suspected PRC-nexus **ARMORY CASTLE**
+  (ex-UNC5221) exploited it as a zero-day from **late August 2026**. Chain:
+  SAWFLY PHP web shell → root SUID shell → secrets-vault dump → passwordless sudo
+  via boot script → BARECLAW SOCKS5-over-WebSocket via HAProxy → Jump Item role
+  escalation → log deletion. **In CISA KEV** (added 2026-10-16, federal due
+  2026-10-19). Reference detector: `detect/cve-2026-102764-detect.py` +
+  `hunt-checklist.md` + `samples/appliance.log` + the exercises below.
+- **CVE-2026-21589** — Atlassian `::` path traversal (CVSS 9.3, CWE-552).
+  Unauthenticated file read on 8 products (Bitbucket, Confluence, Jira Software,
+  Jira Service Management, Bamboo and Crowd Data Center, plus Crucible and
+  Fisheye). **In CISA KEV** (added 2026-10-15, federal due 2026-10-18).
+  watchTowr: `::` treated as path separator in Java normalization; honeypot hits
+  within ~2h of disclosure; actively exploited in the wild (Previdian: 617
+  attempts, 68 IPs, 21 countries). Companion: [cve-2026-21589-atlassian-traversal.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-21589-atlassian-traversal.md)
+  + `detect/cve-2026-21589-log-detect.py` + `hunt-checklist-cve-2026-21589.md`
+  + `samples/confluence-access.log`.
+- **CVE-2026-110447** — Nextcloud Collabora Built-in CODE Server (`richdocumentscode`)
+  OS command injection → unauthenticated RCE (CVSS 9.2, CWE-78). MITRE CVE text
+  confirms in-the-wild exploitation Sept–Oct 2026 (PHP web shells). **Not in CISA
+  KEV.** Precondition: bundled CODE server not running. Fix ≥ 26.4.303 or full
+  removal — **disabling is not enough**. Companion:
+  [cve-2026-110447-nextcloud-collabora-rce.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-110447-nextcloud-collabora-rce.md)
+  + `detect/cve-2026-110447-detect.py` + `hunt-checklist-cve-2026-110447.md`
+  + `samples/nextcloud-access.log`.
+
+All three also ship a **noisy** sample variant in [`samples/noisy/`](./samples/noisy/)
+(thousands of lines, benign look-alikes, missing fields). Expected TP/FP numbers
+are in [NOISY_DATA.md](../NOISY_DATA.md).
+
+**Intel only (in CISA KEV, no lab):**
 - **CVE-2026-106931** — EG Secure Solutions SiteGuard Server Edition OS
   command injection (CWE-78) → arbitrary OS commands as root/SYSTEM. No lab
-  (commercial licensed WAF software, no free repro environment). KEV federal
-  due **2026-10-23**. Vendor advisory: eg-secure.co.jp siteguard alert-202610-1.
-- **CVE-2026-0322** — Palo Alto PAN-OS code injection (CVSS 8.6), authenticated
-  mgmt-interface RCE as root. No lab (needs real firewall).
+  (commercial licensed WAF software, no free repro environment).
+- **CVE-2026-0322** — Palo Alto Networks PAN-OS code injection (CVSS 8.6),
+  authenticated mgmt-interface RCE as root. No lab (needs real firewall).
 - **CVE-2026-96951** — Microsoft Windows Command Injection Vulnerability (CVSS 8.8),
   exploited zero-day; October Patch Tuesday fixed a record 1,413 CVEs. No lab
   (Windows + sample complexity).
@@ -133,30 +165,26 @@ enough of the attack chain to hunt on.
   (needs real appliance).
 - **CVE-2026-105133 / CVE-2026-105134** — Ahsay AhsayCBS improper auth + command
   injection. No lab (niche backup product).
-- **CVE-2026-102764** — BeyondTrust Remote Support / PRA authentication bypass
-  (CVSS 9.3, CWE-290). Mandiant/GTIG: suspected PRC-nexus **ARMORY CASTLE**
-  (ex-UNC5221) exploited it as a zero-day from **late August 2026**. Chain:
-  SAWFLY PHP web shell → root SUID shell → secrets-vault dump → passwordless sudo
-  via boot script → BARECLAW SOCKS5-over-WebSocket via HAProxy → Jump Item role
-  escalation → log deletion. Fixed in 26.2.4.
 - **CVE-2025-61624** — Fortinet multiple-products path traversal. Palo Alto:
   **PEERSTITCH** campaign used FortiManager to expose 500+ firewalls, then this
   flaw to plant a memory-resident implant. No public PoC for either trigger as of
   2026-10-17.
-- **CVE-2026-21589** — Atlassian Data Center `::` path traversal (CVSS 9.3,
-  CWE-552). Unauthenticated file read on 8 products (Confluence/Jira/Bitbucket
-  DC etc.); KEV 2026-10-15, federal due **2026-10-18**. watchTowr: `::` treated
-  as path separator in Java normalization; honeypot hits within ~2h of
-  disclosure; actively exploited in the wild (Previdian: 617 attempts, 68 IPs,
-  21 countries). Companion: [cve-2026-21589-atlassian-traversal.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-21589-atlassian-traversal.md)
-  + `hunt-checklist-cve-2026-21589.md` + `samples/confluence-access.log`.
-- **CVE-2026-110447** — Nextcloud Collabora Built-in CODE Server (`richdocumentscode`)
-  OS command injection → unauthenticated RCE (CVSS 9.2, CWE-78). MITRE CVE text
-  confirms in-the-wild exploitation Sept–Oct 2026 (PHP web shells; **not** in CISA
-  KEV). Precondition: bundled CODE server not running. Fix ≥ 26.4.303 or full
-  removal — **disabling is not enough**. Companion:
-  [cve-2026-110447-nextcloud-collabora-rce.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-110447-nextcloud-collabora-rce.md)
-  + `hunt-checklist-cve-2026-110447.md` + `samples/nextcloud-access.log`.
+
+KEV fields for the intel-only entries, checked against the official feed:
+
+<!-- kev-verify-intel:begin (generated by tools/verify_kev.py --write; do not edit by hand) -->
+Verified against CISA KEV on 2026-10-21 (catalog version 2026.10.21).
+
+| CVE | KEV entry (vendor · product · name) | Added | Federal due | Why no lab | Sources |
+|---|---|---|---|---|---|
+| CVE-2026-106931 | EG Secure Solutions · SiteGuard Server Edition · EG Secure Solutions SiteGuard Server Edition OS Command Injection Vulnerability | 2026-10-20 | 2026-10-23 | Commercial licensed WAF, no free repro environment | [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-106931) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-106931) · [EG Secure Solutions alert-202610-1](https://www.eg-secure.co.jp/siteguard/news/alert-202610-1) |
+| CVE-2026-0322 | Palo Alto Networks · PAN-OS · Palo Alto Networks PAN-OS Code Injection Vulnerability | 2026-10-14 | 2026-10-17 | Needs a real firewall | [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-0322) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-0322) |
+| CVE-2026-96951 | Microsoft · Windows · Microsoft Windows Command Injection Vulnerability | 2026-10-13 | 2026-10-16 | Windows + sample complexity | [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-96951) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-96951) |
+| CVE-2026-76519 | Cisco · Secure Email Gateway · Cisco Secure Email Gateway Relative Path Traversal Vulnerability | 2026-10-14 | 2026-10-17 | Needs a real appliance | [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-76519) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-76519) |
+| CVE-2026-105133 | Ahsay · AhsayCBS · Ahsay AhsayCBS Improper Authentication Vulnerability | 2026-10-14 | 2026-10-17 | Niche backup product | [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-105133) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-105133) |
+| CVE-2026-105134 | Ahsay · AhsayCBS · Ahsay AhsayCBS Command Injection Vulnerability | 2026-10-14 | 2026-10-17 | Niche backup product | [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-105134) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-105134) |
+| CVE-2025-61624 | Fortinet · Multiple Products · Fortinet Multiple Products Path Traversal Vulnerability | 2026-10-16 | 2026-10-19 | No public PoC for either trigger as of 2026-10-17 | [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2025-61624) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2025-61624) |
+<!-- kev-verify-intel:end -->
 
 **What it is:** A threat-hunting lab built around the KEV-to-action pipeline: take a
 fresh KEV entry, extract huntable artifacts from public reporting, write detection
@@ -199,6 +227,10 @@ The samples include benign admin activity (scheduled haproxy reloads, routine
 vault reads, scheduled log rotation). Tune your heuristics so none of them
 become incidents — document every allowlist decision and *why* in the report §3.
 A hunter who can't explain their allowlist can't defend their alerts.
+
+**Harder version:** run the reference detector on `samples/noisy/appliance-noisy.log`
+(six appliances, three days, ~2,600 lines). It raises one false incident and
+misses one real one. Find both before you read [NOISY_DATA.md](../NOISY_DATA.md).
 
 ### Exercise 4 — Incident report (30 min)
 Fill `incident-report-template.md` end to end as if Exercise 2's incident were

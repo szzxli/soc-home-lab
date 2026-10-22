@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOC Home Lab — Hands-on Cybersecurity Projects</title>
 <meta name="description" content="Open-source, hands-on SOC projects: mini-SOC on AWS, CloudTrail IOC analyzer, phishing analysis lab, ELF binary triage, SOC agent skills, and KEV-driven threat-hunting packs.">
-<link rel="stylesheet" href="css/style.css?v=20261021">
+<link rel="stylesheet" href="css/style.css?v=20261021b">
 <link rel="canonical" href="https://szzxli.github.io/soc-home-lab/web/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="soc-home-lab">
@@ -76,12 +76,19 @@
 <a class="btn btn-ghost" href="https://github.com/szzxli/soc-home-lab">GitHub repo</a>
 <span class="hint">Demo: a detection report on a sample log in about 10 seconds, right in your browser.</span>
 </div>
-<ul class="trust" aria-label="Why trust it">
-<li>100% free</li>
-<li>Open source (MIT)</li>
-<li>No sign-up</li>
-<li>Synthetic data only</li>
+<ul class="trust diff" aria-label="What makes it different">
+<li><a href="https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py">KEV-driven, re-verified weekly</a> against the CISA feed</li>
+<li><a href="demo.html">Runs in your browser</a>, nothing to install</li>
+<li>Pairs with the <a href="https://szzxli.github.io/soc-skills/web/" data-count="open-soc-skills">soc-skills gap analysis</a></li>
+<li>Free · MIT · synthetic data only</li>
 </ul>
+<details class="isnt" id="what-this-is">
+<summary>What this is, and what it isn't</summary>
+<div class="body">
+<p><b>It is</b> beginner-to-intermediate SOC practice: hunt checklists, synthetic logs (clean <em>and</em> <a href="https://github.com/szzxli/soc-home-lab/blob/main/NOISY_DATA.md">noisy</a>), and simple reference detections you can read, run and tune.</p>
+<p><b>It isn't</b> proof of job readiness, a certification, or real SOC volume. Every log is generated: a few thousand lines at most, not millions of events from a real network. Passing a lab shows you can do that lab.</p>
+</div>
+</details>
 </div>
 <figure class="shot">
 <a href="demo.html" aria-label="Open the live IOC analyzer demo"><img src="img/demo-result.png" width="1020" height="810" alt="Screenshot of the in-browser IOC analyzer report on the built-in synthetic CloudTrail log: 19 records analyzed, 5 findings (3 high, 2 medium), including a console login from an unusual IP and a high-risk burst of 6 failed logins from one IP."></a>
@@ -105,39 +112,39 @@
 
 <section id="kev" aria-labelledby="kev-h">
 <h2 id="kev-h">KEV hunt packs</h2>
-<p class="sec-sub">October 2026 CISA KEV and in-the-wild cases. Each opens its hunt checklist.</p>
+<p class="sec-sub">October 2026 CISA KEV and in-the-wild cases. Each opens its hunt checklist. <span class="kev-verified">KEV status last verified 2026-10-21 (catalog version 2026.10.21) against the <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">official CISA feed</a>; an automated job re-checks it weekly.</span></p>
 <div class="grid grid-kev">
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-96652.md">Plex2Shell RCE chain</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span></article>
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-104935.md">Ivanti Connect Secure bypass</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span></article>
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-110936.md">Siemens DLL sideloading</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span></article>
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-21589.md">Atlassian :: path traversal</a></h3><span class="tag kev">KEV</span><span class="tag">detect</span></article>
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist.md">BeyondTrust RS/PRA bypass</a></h3><span class="tag kev">KEV</span><span class="tag">exercises</span></article>
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-85097.md">Bricksforge WordPress RCE</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-25243.md">Redis RESTORE double-free</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-agent-tool-unauth-rce.md">Unauthenticated AI agent tools</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-m365-app-identity-persistence.md">M365 app-identity persistence</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
-<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-110447.md">Nextcloud Collabora RCE</a></h3><span class="tag">checklist</span></article>
+<article class="tile" data-cve="CVE-2026-96652 CVE-2026-96654 CVE-2026-96655 CVE-2026-96656" data-kev="yes"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-96652.md">Plex2Shell RCE chain</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile" data-cve="CVE-2026-104935" data-kev="yes"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-104935.md">Ivanti Connect Secure bypass</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile" data-cve="CVE-2026-110936" data-kev="yes"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-110936.md">Siemens DLL sideloading</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile" data-cve="CVE-2026-21589" data-kev="yes"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-21589.md">Atlassian :: path traversal</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span><span class="tag">noisy</span></article>
+<article class="tile" data-cve="CVE-2026-102764" data-kev="yes"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist.md">BeyondTrust Remote Support bypass</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span><span class="tag">noisy</span></article>
+<article class="tile" data-cve="CVE-2026-85097" data-kev="no"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-85097.md">Bricksforge WordPress RCE</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile" data-cve="CVE-2026-25243" data-kev="no"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-25243.md">Redis RESTORE double-free</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile" data-cve="CVE-2026-77936 CVE-2026-75128 CVE-2026-77932 CVE-2026-109442 CVE-2026-109437" data-kev="no"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-agent-tool-unauth-rce.md">Unauthenticated AI agent tools</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile" data-cve="" data-kev="no"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-m365-app-identity-persistence.md">M365 app-identity persistence</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile" data-cve="CVE-2026-110447" data-kev="no"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-110447.md">Nextcloud Collabora RCE</a></h3><span class="tag">log</span><span class="tag">detect</span><span class="tag">noisy</span></article>
 </div>
 <details>
 <summary>All KEV packs: CVEs, KEV status, what's included</summary>
 <div class="body">
-<p>Each pack has a hunt checklist; most also have a synthetic log and a reference detection script you can run yourself. Verify commands for every case are in <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
+<p>Every pack has a hunt checklist, a synthetic log and a reference detection script you can run yourself; three also have a noisy log with documented false positives (<a href="https://github.com/szzxli/soc-home-lab/blob/main/NOISY_DATA.md">NOISY_DATA.md</a>). Each checklist lists its sources (CISA KEV, NVD, vendor advisory) and the date it was last verified. Verify commands for every case are in <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
 <div class="table-wrap">
 <table class="sum">
-<tr><th>Hunt pack</th><th>CVE / KEV</th><th>Included</th></tr>
+<tr><th>Hunt pack</th><th>CVE / KEV status</th><th>Included</th></tr>
 <tr><td>Plex2Shell (Plex Media Server)</td><td>CVE-2026-96652 / 96654 / 96655 / 96656 · KEV</td><td>checklist · log · detection</td></tr>
-<tr><td>Bricksforge (WordPress)</td><td>CVE-2026-85097</td><td>checklist · log · detection</td></tr>
+<tr><td>Bricksforge (WordPress)</td><td>CVE-2026-85097 · not in KEV</td><td>checklist · log · detection</td></tr>
 <tr><td>Ivanti Connect Secure</td><td>CVE-2026-104935 · KEV</td><td>checklist · log · detection</td></tr>
 <tr><td>Siemens Software Center DLL sideloading</td><td>CVE-2026-110936 · KEV</td><td>checklist · log · detection</td></tr>
-<tr><td>Redis RESTORE double-free</td><td>CVE-2026-25243</td><td>checklist · log · detection</td></tr>
-<tr><td>AI agent tool endpoints without auth</td><td>CVE-2026-77936 / 75128 / 77932 / 109442 / 109437</td><td>checklist · log · detection</td></tr>
-<tr><td>M365 app-identity persistence (ConnectWise)</td><td>no CVE</td><td>checklist · log · detection</td></tr>
-<tr><td>Atlassian Data Center <code>::</code> traversal</td><td>CVE-2026-21589 · KEV</td><td>checklist · detection</td></tr>
-<tr><td>Nextcloud Collabora CODE server</td><td>CVE-2026-110447</td><td>checklist</td></tr>
-<tr><td>BeyondTrust RS / PRA auth bypass</td><td>CVE-2026-102764 · KEV</td><td>checklist · exercises</td></tr>
+<tr><td>Redis RESTORE double-free</td><td>CVE-2026-25243 · not in KEV</td><td>checklist · log · detection</td></tr>
+<tr><td>AI agent tool endpoints without auth</td><td>CVE-2026-77936 / 75128 / 77932 / 109442 / 109437 · not in KEV</td><td>checklist · log · detection</td></tr>
+<tr><td>M365 app-identity persistence (ConnectWise)</td><td>no CVE, not in KEV</td><td>checklist · log · detection</td></tr>
+<tr><td>Atlassian <code>::</code> path traversal</td><td>CVE-2026-21589 · KEV</td><td>checklist · log · noisy log · detection</td></tr>
+<tr><td>Nextcloud Collabora CODE server</td><td>CVE-2026-110447 · not in KEV</td><td>checklist · log · noisy log · detection</td></tr>
+<tr><td>BeyondTrust Remote Support auth bypass</td><td>CVE-2026-102764 · KEV</td><td>checklist · log · noisy log · detection · exercises</td></tr>
 </table>
 </div>
-<p class="problem">Intel only (no lab, reason recorded): SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Microsoft Windows Command Injection Vulnerability (CVE-2026-96951) · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / 105134 · Fortinet CVE-2025-61624.</p>
+<p class="problem">Intel only (all in CISA KEV; no lab, reason recorded): SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Microsoft Windows Command Injection Vulnerability (CVE-2026-96951) · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / 105134 · Fortinet CVE-2025-61624.</p>
 <p class="links"><a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">→ START HERE case index</a> · <a href="https://github.com/szzxli/soc-home-lab/tree/main/07-kev-hunting">→ 07-kev-hunting on GitHub</a></p>
 </div>
 </details>
@@ -189,7 +196,7 @@
 
 <h3><span class="num">07</span> — kev-hunting</h3>
 <p class="problem"><b>Problem:</b> CISA KEV entries come with a federal deadline, but your network doesn't patch itself — the gap between "KEV published" and "patch deployed" is the hunting window.</p>
-<p><b>What it is:</b> Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Each pack has a hunt checklist; most also have a synthetic log and a reference detection script you can run yourself. Verify commands for every case are in <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
+<p><b>What it is:</b> Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Each pack has a hunt checklist, a synthetic log and a reference detection script you can run yourself; KEV status is re-verified weekly against the CISA feed. Verify commands for every case are in <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
 <p class="skills"><b>Skills:</b> <span class="badge">Threat-intel consumption</span><span class="badge">IOC extraction</span><span class="badge">Log hunting</span><span class="badge">Detection engineering</span><span class="badge">Incident documentation</span></p>
 <p class="links"><a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">→ START HERE case index</a> · <a href="https://github.com/szzxli/soc-home-lab/tree/main/07-kev-hunting">→ 07-kev-hunting on GitHub</a></p>
 </div>
@@ -213,6 +220,20 @@
 <p>Full paths: <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
 </div>
 </details>
+<details id="go-deeper">
+<summary>Go deeper: free resources that complement this</summary>
+<div class="body">
+<p>This kit is small on purpose. When you want real attack telemetry, bigger datasets or graded challenges, these are free (some have paid tiers):</p>
+<ul class="deeper">
+<li><a href="https://github.com/redcanaryco/atomic-red-team" rel="noopener">Atomic Red Team</a>: small, ATT&amp;CK-mapped tests you run in your own lab to generate real telemetry for your detections.</li>
+<li><a href="https://bots.splunk.com/" rel="noopener">Splunk Boss of the SOC (BOTS)</a>: large public security datasets with question sets (<a href="https://github.com/splunk/botsv3" rel="noopener">BOTS v3 data</a>).</li>
+<li><a href="https://cyberdefenders.org/blueteam-ctf-challenges/" rel="noopener">CyberDefenders</a>: blue-team challenges on real-looking PCAPs, disk images and logs.</li>
+<li><a href="https://letsdefend.io/" rel="noopener">LetsDefend</a>: a simulated SOC alert queue for Tier-1 triage practice.</li>
+<li><a href="https://blueteamlabs.online/" rel="noopener">Blue Team Labs Online</a>: investigations and challenges for defenders.</li>
+</ul>
+<p>Pair any of them with the <a href="https://szzxli.github.io/soc-skills/web/">soc-skills gap analysis</a> to see which skills you've actually practiced.</p>
+</div>
+</details>
 <details>
 <summary>Is it really free? Do I need AWS?</summary>
 <div class="body">
@@ -222,7 +243,7 @@
 <details>
 <summary>Is any of the data real?</summary>
 <div class="body">
-<p>No. All logs, samples, and email artifacts are synthetic training data. Logs you paste into the demo are analyzed in your browser and never leave it.</p>
+<p>No. All logs, samples, and email artifacts are synthetic training data. The demo and three KEV packs also ship a <a href="https://github.com/szzxli/soc-home-lab/blob/main/NOISY_DATA.md">noisy variant</a> (thousands of lines, benign look-alikes, missing fields) with honest TP/FP numbers, but it's still generated data, not real SOC volume. Logs you paste into the demo are analyzed in your browser and never leave it.</p>
 </div>
 </details>
 <details>

@@ -171,3 +171,17 @@ textarea {
   .page-head h1 { font-size: 1.7rem; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .tile { transition: none; } }
+
+/* 2026-10 credibility pass: differentiators, "what this is / isn't", go deeper */
+.trust.diff li a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; }
+.trust.diff li a:hover { color: var(--green); }
+details.isnt { background: transparent; border: 0; margin: 10px 0 0; }
+details.isnt > summary { padding: 0; font-weight: 500; font-size: 14px; color: var(--dim); justify-content: flex-start; }
+details.isnt > summary::after { font-size: 14px; }
+details.isnt .body { padding: 8px 0 0; font-size: 14px; color: var(--dim); }
+details.isnt .body p { margin: 0 0 6px; }
+.kev-verified { display: block; font-size: 13px; margin-top: 4px; }
+ul.deeper { padding-left: 20px; margin: 8px 0; }
+ul.deeper li { margin: 4px 0; }
+.score { border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin: 12px 0; background: var(--panel-2); font-size: 14px; }
+.score b.tp { color: var(--green); } .score b.fp { color: var(--amber); } .score b.fn { color: var(--red); }

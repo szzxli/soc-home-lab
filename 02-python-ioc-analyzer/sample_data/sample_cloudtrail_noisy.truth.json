@@ -1,0 +1,54 @@
+{
+  "_comment": "Answer key for sample_cloudtrail_noisy.json. A finding is a TRUE positive if its source IP is in malicious_ips or its actor is in malicious_actors; otherwise it is a FALSE positive. 'expected' lists the detections a good rule set should raise; any not raised are false negatives.",
+  "malicious_ips": [
+    "203.0.113.66",
+    "198.51.100.200"
+  ],
+  "malicious_actors": [
+    "dbadmin",
+    "backup-svc2"
+  ],
+  "expected": [
+    {
+      "detector": "brute_force",
+      "ip": "203.0.113.66"
+    },
+    {
+      "detector": "unusual_geo",
+      "ip": "203.0.113.66"
+    },
+    {
+      "detector": "suspicious_api",
+      "event": "AttachUserPolicy",
+      "actor": "dbadmin"
+    },
+    {
+      "detector": "suspicious_api",
+      "event": "CreateAccessKey",
+      "actor": "dbadmin"
+    },
+    {
+      "detector": "suspicious_api",
+      "event": "StopLogging",
+      "actor": "backup-svc2"
+    },
+    {
+      "detector": "suspicious_api",
+      "event": "RunInstances",
+      "actor": "backup-svc2"
+    },
+    {
+      "detector": "brute_force",
+      "ip": "198.51.100.200",
+      "note": "low-and-slow spray, 1 try / 15 min"
+    }
+  ],
+  "look_alikes": {
+    "autoscaling.amazonaws.com": "RunInstances by the EC2 Auto Scaling service",
+    "KeyRotationLambda": "nightly CreateAccessKey for service users",
+    "terraform-ci": "CI/CD AttachRolePolicy during a deploy",
+    "198.51.100.14 / 198.51.100.88 / 192.0.2.44": "employees signing in from home / hotel networks",
+    "AWS Internal": "console sign-in recorded without a public IP",
+    "13.52.44.19": "shared office NAT: 5 different users mistype once each"
+  }
+}

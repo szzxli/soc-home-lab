@@ -115,3 +115,57 @@ def test_images_have_alt_and_local_refs_resolve(name):
         if target.is_dir():
             target = target / "index.html"
         assert target.exists(), f"{name}: broken local ref {ref}"
+
+
+# --- credibility pass (2026-10): honesty note, differentiators, go deeper, KEV tiles, noisy demo ---
+
+def _text(name):
+    return (WEB / name).read_text(encoding="utf-8")
+
+
+def test_what_this_is_isnt_note_is_collapsed_in_hero():
+    html = _text("index.html")
+    hero = html[html.index('<div class="hero">'):html.index('<section id="labs"')]
+    assert '<details class="isnt" id="what-this-is">' in hero and "<details class=\"isnt\" id=\"what-this-is\" open" not in hero
+    for phrase in ("beginner-to-intermediate", "synthetic", "isn't</b> proof of job readiness", "real SOC volume"):
+        assert phrase in hero, phrase
+
+
+def test_differentiators_visible_in_hero():
+    html = _text("index.html")
+    hero = html[html.index('<div class="hero">'):html.index('<section id="labs"')]
+    assert "re-verified weekly" in hero and "CISA" in hero
+    assert "Runs in your browser" in hero
+    assert 'href="https://szzxli.github.io/soc-skills/web/"' in hero and "gap analysis" in hero
+
+
+GO_DEEPER = ["https://github.com/redcanaryco/atomic-red-team", "https://bots.splunk.com/",
+             "https://cyberdefenders.org/blueteam-ctf-challenges/", "https://letsdefend.io/",
+             "https://blueteamlabs.online/"]
+
+
+def test_go_deeper_collapsible_links(index):
+    html = _text("index.html")
+    block = html[html.index('<details id="go-deeper">'):]
+    block = block[:block.index("</details>")]
+    for url in GO_DEEPER:
+        assert f'href="{url}"' in block, url
+    for name in ("Atomic Red Team", "Splunk", "CyberDefenders", "LetsDefend", "Blue Team Labs Online"):
+        assert name in block
+
+
+def test_every_kev_tile_declares_its_kev_status(index):
+    tiles = [a for t, a in index.tags if t == "article" and "data-kev" in a]
+    assert len(tiles) == 10
+    assert sum(a["data-kev"] == "yes" for a in tiles) == 5
+    html = _text("index.html")
+    assert "PRA" not in html  # KEV, NVD and BT26-05 name Remote Support only
+
+
+def test_demo_noisy_sample_button_and_files():
+    demo = _text("demo.html")
+    assert 'id="runNoisy"' in demo and "iocScore" in demo
+    for rel in ("../02-python-ioc-analyzer/sample_data/sample_cloudtrail_noisy.json",
+                "../02-python-ioc-analyzer/sample_data/sample_cloudtrail_noisy.truth.json"):
+        assert f'"{rel}"' in demo and (WEB / rel).resolve().exists(), rel
+    assert "run-demo/noisy" in _text("js/analytics.js")

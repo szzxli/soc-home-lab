@@ -132,7 +132,9 @@ def _source_ip(record: Dict[str, Any]) -> Optional[str]:
 
 def _actor(record: Dict[str, Any]) -> str:
     """Best-effort human-readable principal name for a record."""
-    user_identity = record.get("userIdentity") or {}
+    user_identity = record.get("userIdentity")
+    if not isinstance(user_identity, dict):  # missing / null / malformed in noisy exports
+        user_identity = {}
     for key in ("userName", "principalId", "arn"):
         value = user_identity.get(key)
         if value:

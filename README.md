@@ -21,6 +21,10 @@ python ioc_analyzer.py --input sample_data/sample_cloudtrail.json --output repor
 
 > All datasets, log samples, and email artifacts in this repo are **synthetic training samples** — clearly labeled as such. No real incidents, real logs, or real phishing emails are presented here.
 
+**What this is / isn't:** beginner-to-intermediate SOC practice on synthetic data (clean samples plus [noisy variants](./NOISY_DATA.md) with honest TP/FP numbers). It isn't proof of job readiness and isn't real SOC volume.
+
+**What's different here:** KEV-driven, with every CVE / KEV claim re-verified weekly against the official CISA feed ([`tools/verify_kev.py`](./tools/verify_kev.py), [workflow](./.github/workflows/kev-verify.yml)) · the demo [runs in your browser](https://szzxli.github.io/soc-home-lab/web/demo.html) · pairs with the [soc-skills gap analysis](https://szzxli.github.io/soc-skills/web/).
+
 ## Projects
 
 ### 01 — [mini-soc](./01-mini-soc/)
@@ -55,13 +59,22 @@ python ioc_analyzer.py --input sample_data/sample_cloudtrail.json --output repor
 
 ### 07 — [kev-hunting](./07-kev-hunting/)
 **Problem:** CISA KEV entries come with a federal deadline, but your network doesn't patch itself — the gap between "KEV published" and "patch deployed" is the hunting window.
-**What it is:** Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Each pack has a hunt checklist; each also has a synthetic log and a reference detection script — three in this repo under [`07-kev-hunting/detect/`](./07-kev-hunting/detect/) (with tests in [`07-kev-hunting/tests/`](./07-kev-hunting/tests/)), the rest in the companion repo [soc-skills](https://github.com/szzxli/soc-skills/tree/main/labs). Per-case details and verify commands are in [START_HERE.md](./START_HERE.md).
+**What it is:** Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Every pack starts with its KEV status, a **Sources** line (CISA KEV, NVD, vendor advisory where one is cited) and the date it was last checked; KEV status last verified 2026-10-21 (catalog version 2026.10.21), re-checked weekly. Each pack has a hunt checklist; each also has a synthetic log and a reference detection script — three in this repo under [`07-kev-hunting/detect/`](./07-kev-hunting/detect/) (with tests in [`07-kev-hunting/tests/`](./07-kev-hunting/tests/)), the rest in the companion repo [soc-skills](https://github.com/szzxli/soc-skills/tree/main/labs). Per-case details and verify commands are in [START_HERE.md](./START_HERE.md).
 
 - **Hunt packs (checklist + synthetic log + reference detection in soc-skills):** Plex2Shell CVE-2026-96652/96654/96655/96656 · Bricksforge CVE-2026-85097 · Ivanti Connect Secure CVE-2026-104935 · Siemens Software Center CVE-2026-110936 · Redis CVE-2026-25243 · AI agent tool endpoints without auth (CVE-2026-77936 / 75128 / 77932 / 109442 / 109437) · M365 app-identity persistence (ConnectWise incident, no CVE)
-- **Hunt packs (checklist + synthetic log + reference detection in [`07-kev-hunting/detect/`](./07-kev-hunting/detect/)):** Atlassian CVE-2026-21589 · Nextcloud CVE-2026-110447 · BeyondTrust CVE-2026-102764 (plus exercises in the 07 README)
+- **Hunt packs (checklist + synthetic log + noisy log + reference detection in [`07-kev-hunting/detect/`](./07-kev-hunting/detect/)):** Atlassian CVE-2026-21589 · Nextcloud CVE-2026-110447 · BeyondTrust Remote Support CVE-2026-102764 (plus exercises in the 07 README). TP/FP on the noisy logs: [NOISY_DATA.md](./NOISY_DATA.md)
 - **Intel only, with the reason recorded in the [07 README](./07-kev-hunting/README.md):** SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Microsoft Windows Command Injection Vulnerability (CVE-2026-96951) · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / CVE-2026-105134 · Fortinet CVE-2025-61624
 
 **Skills:** Threat-intel consumption, IOC extraction, log hunting, detection engineering, incident documentation.
+
+## Go deeper (free, complementary)
+
+This kit is small on purpose. For real attack telemetry, bigger datasets and graded challenges:
+[Atomic Red Team](https://github.com/redcanaryco/atomic-red-team) ·
+[Splunk Boss of the SOC](https://bots.splunk.com/) ·
+[CyberDefenders](https://cyberdefenders.org/blueteam-ctf-challenges/) ·
+[LetsDefend](https://letsdefend.io/) ·
+[Blue Team Labs Online](https://blueteamlabs.online/).
 
 ## Resume bullets (copy-ready)
 
