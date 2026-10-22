@@ -29,8 +29,8 @@ enough of the attack chain to hunt on.
   `mylovelyminer` / `x12345`. Plex's compromise signs: unfamiliar
   `.so`/`.dll` in `Codecs`, high CPU with nothing playing — if in doubt,
   **rebuild from clean install**, patch alone doesn't remove a planted codec.
-  KEV federal due: **2026-10-23** (96654, 96656) / **2026-11-03** (96652,
-  96655). Companion:
+  KEV: added **2026-10-20** (all four); federal due: **2026-10-23** (96654,
+  96656) / **2026-11-03** (96652, 96655). Companion:
   [cve-2026-96652-plex2shell-rce-chain.md](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-96652-plex2shell-rce-chain.md)
   + `cve-2026-96652-plex2shell-detect.py` (validated TP=1 FP=0 on synthetic log)
   + `hunt-checklist-cve-2026-96652.md` + `samples/plex2shell-access.log`.
