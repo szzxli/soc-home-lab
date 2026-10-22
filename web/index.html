@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOC Home Lab — Hands-on Cybersecurity Projects</title>
 <meta name="description" content="Open-source, hands-on SOC projects: mini-SOC on AWS, CloudTrail IOC analyzer, phishing analysis lab, ELF binary triage, SOC agent skills, and KEV-driven threat-hunting packs.">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20261021">
 <link rel="canonical" href="https://szzxli.github.io/soc-home-lab/web/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="soc-home-lab">
@@ -49,76 +49,85 @@
 </script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main">
 <div class="wrap">
-<header class="top">
-<div class="prompt">$ whoami</div>
-<h1>SOC <span class="accent">HOME LAB</span></h1>
-<p class="sub">Hands-on SOC projects plus KEV-driven threat-hunting packs, built to demonstrate verifiable, practical SOC skills. Open source (MIT).</p>
-<p>
-<a class="btn" href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START HERE: case index &amp; learning paths</a>
-<a class="btn btn-ghost" href="demo.html">▶ Try the live IOC analyzer demo</a>
+<a class="brand" href="./">soc<span>-home-lab</span></a>
+<ul>
+<li class="opt"><a href="#labs">Labs</a></li>
+<li><a href="#kev">KEV hunts</a></li>
+<li><a href="demo.html">Demo</a></li>
+<li class="opt"><a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md" data-count="open-start-here">Start here</a></li>
+<li><a href="https://github.com/szzxli/soc-home-lab">GitHub</a></li>
+</ul>
+</div>
+</nav>
+
+<main id="main" class="wrap">
+<div class="hero">
+<div>
+<p class="eyebrow">$ ./hunt --source cisa-kev</p>
+<h1>Practice real <span class="accent">SOC threat hunts</span></h1>
+<p class="lead">Free CISA KEV hunting labs with sample logs and detection scripts. No login, no setup.</p>
+<div class="cta">
+<a class="btn btn-primary" href="demo.html">▶ Run the live demo</a>
+<a class="btn btn-ghost" href="#kev">Browse KEV labs</a>
+<a class="btn btn-ghost" href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md" data-count="open-start-here">Start here</a>
 <a class="btn btn-ghost" href="https://github.com/szzxli/soc-home-lab">GitHub repo</a>
-</p>
-</header>
-
-<div class="notice">
-⚠ All datasets, log samples, and email artifacts in these projects are <b>synthetic training samples</b> — clearly labeled as such. No real incidents, real logs, or real phishing emails are presented here.
+<span class="hint">Demo: a detection report on a sample log in about 10 seconds, right in your browser.</span>
+</div>
+<ul class="trust" aria-label="Why trust it">
+<li>100% free</li>
+<li>Open source (MIT)</li>
+<li>No sign-up</li>
+<li>Synthetic data only</li>
+</ul>
+</div>
+<figure class="shot">
+<a href="demo.html" aria-label="Open the live IOC analyzer demo"><img src="img/demo-result.png" width="1020" height="810" alt="Screenshot of the in-browser IOC analyzer report on the built-in synthetic CloudTrail log: 19 records analyzed, 5 findings (3 high, 2 medium), including a console login from an unusual IP and a high-risk burst of 6 failed logins from one IP."></a>
+<figcaption>Real output of the in-browser demo (synthetic sample log).</figcaption>
+</figure>
 </div>
 
-<div class="card">
-<h2><span class="num">01</span> — mini-soc</h2>
-<p class="problem"><b>Problem:</b> SOC analysts need to know how cloud detections actually fire — not just theory.</p>
-<p><b>What it is:</b> A minimal AWS detection stack (VPC → CloudTrail → S3 → GuardDuty → SecurityHub) deployed with Terraform, three adversary-emulation scenarios using Stratus Red Team (verified technique IDs), a triage guide, and blank incident report templates.</p>
-<p class="skills"><b>Skills:</b> <span class="badge">CloudTrail analysis</span><span class="badge">GuardDuty triage</span><span class="badge">Incident response workflow</span><span class="badge">Terraform IaC</span></p>
-<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/01-mini-soc">→ 01-mini-soc on GitHub</a></p>
+<section id="labs" aria-labelledby="labs-h">
+<h2 id="labs-h">Labs</h2>
+<p class="sec-sub">Seven hands-on projects. Pick one and open it on GitHub.</p>
+<div class="grid">
+<article class="tile"><span class="num">01</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/01-mini-soc">AWS mini-SOC detections</a></h3><p>Terraform · CloudTrail · GuardDuty</p></article>
+<article class="tile"><span class="num">02</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/02-python-ioc-analyzer">CloudTrail IOC analyzer</a></h3><p>Python CLI · Sigma rules</p><a class="extra" href="demo.html">▶ Try it live</a></article>
+<article class="tile"><span class="num">03</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/03-phishing-analysis-lab">Phishing email triage</a></h3><p>Headers · SPF/DKIM/DMARC</p></article>
+<article class="tile"><span class="num">04</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/04-rea-triage">ELF binary triage CLI</a></h3><p>Entropy · imports · verdict</p></article>
+<article class="tile"><span class="num">05</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/05-soc-skills">SOC agent skill pack</a></h3><p>Six Tier-1 agent skills</p></article>
+<article class="tile"><span class="num">06</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/06-ghostaction-supply-chain">Editor supply-chain hunt</a></h3><p>VS Code tasks · cron persistence</p></article>
+<article class="tile"><span class="num">07</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/07-kev-hunting">CISA KEV hunt packs</a></h3><p>Checklists · logs · detectors</p></article>
 </div>
+</section>
 
-<div class="card">
-<h2><span class="num">02</span> — python-ioc-analyzer</h2>
-<p class="problem"><b>Problem:</b> Tier-1 analysts drown in raw CloudTrail logs; simple heuristics catch the obvious badness fast.</p>
-<p><b>What it is:</b> A working CLI tool that parses CloudTrail JSON, flags anomalous logins / failed-login spikes / risky IAM changes, enriches IPs via AbuseIPDB, and emits a Markdown report. Ships with synthetic sample data and a passing pytest suite.</p>
-<p class="skills"><b>Skills:</b> <span class="badge">Python scripting</span><span class="badge">Log analysis</span><span class="badge">IOC enrichment</span><span class="badge">Detection heuristics</span></p>
-<p class="links"><a href="demo.html">▶ Try it live in your browser</a> · <a href="https://github.com/szzxli/soc-home-lab/tree/main/02-python-ioc-analyzer">→ 02-python-ioc-analyzer on GitHub</a></p>
+<section id="kev" aria-labelledby="kev-h">
+<h2 id="kev-h">KEV hunt packs</h2>
+<p class="sec-sub">October 2026 CISA KEV and in-the-wild cases. Each opens its hunt checklist.</p>
+<div class="grid grid-kev">
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-96652.md">Plex2Shell RCE chain</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-104935.md">Ivanti Connect Secure bypass</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-110936.md">Siemens DLL sideloading</a></h3><span class="tag kev">KEV</span><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-21589.md">Atlassian :: path traversal</a></h3><span class="tag kev">KEV</span><span class="tag">detect</span></article>
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist.md">BeyondTrust RS/PRA bypass</a></h3><span class="tag kev">KEV</span><span class="tag">exercises</span></article>
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-85097.md">Bricksforge WordPress RCE</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-25243.md">Redis RESTORE double-free</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-agent-tool-unauth-rce.md">Unauthenticated AI agent tools</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-m365-app-identity-persistence.md">M365 app-identity persistence</a></h3><span class="tag">log</span><span class="tag">detect</span></article>
+<article class="tile"><h3><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-110447.md">Nextcloud Collabora RCE</a></h3><span class="tag">checklist</span></article>
 </div>
-
-<div class="card">
-<h2><span class="num">03</span> — phishing-analysis-lab</h2>
-<p class="problem"><b>Problem:</b> Phishing triage is daily Tier-1 SOC work — header forensics, auth-result interpretation, URL deobfuscation.</p>
-<p><b>What it is:</b> A full walkthrough of a reconstructed training-sample phish, a header-analysis cheatsheet, a blank analysis report template, and a self-test guide using GoPhish (own mailbox only).</p>
-<p class="skills"><b>Skills:</b> <span class="badge">Email header forensics</span><span class="badge">SPF/DKIM/DMARC</span><span class="badge">URL analysis</span><span class="badge">Phishing triage</span></p>
-<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/03-phishing-analysis-lab">→ 03-phishing-analysis-lab on GitHub</a></p>
-</div>
-
-<div class="card">
-<h2><span class="num">04</span> — rea-triage</h2>
-<p class="problem"><b>Problem:</b> Powerful binary-analysis tooling exists, but it isn't human-friendly for quick triage.</p>
-<p><b>What it is:</b> A one-command ELF binary triage CLI (<code>triage.py &lt;binary&gt;</code>): section-entropy packing heuristics, W^X detection, suspicious-import watchlist, string IOC extraction, score-based verdict (benign/suspicious/malicious), and a one-page analyst report. Optional REA provider enrichment; degrades honestly without it.</p>
-<p class="skills"><b>Skills:</b> <span class="badge">Static binary analysis</span><span class="badge">ELF internals</span><span class="badge">Malware triage heuristics</span><span class="badge">Detection engineering</span></p>
-<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/04-rea-triage">→ 04-rea-triage on GitHub</a></p>
-</div>
-
-<div class="card">
-<h2><span class="num">05</span> — soc-skills</h2>
-<p class="problem"><b>Problem:</b> Agent skill packs exist for software engineering — nothing in them speaks SOC.</p>
-<p><b>What it is:</b> Six agent skills for the Tier-1 analyst loop, each distilled from a working project in this repo: <code>alert-triage</code>, <code>incident-report</code>, <code>cloudtrail-ioc</code>, <code>phishing-analysis</code>, <code>binary-triage</code>, <code>detection-engineering</code>. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.</p>
-<p class="skills"><b>Skills:</b> <span class="badge">Detection triage</span><span class="badge">Incident documentation</span><span class="badge">Knowledge distillation</span></p>
-<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/05-soc-skills">→ 05-soc-skills on GitHub</a></p>
-</div>
-
-<div class="card">
-<h2><span class="num">06</span> — ghostaction-supply-chain</h2>
-<p class="problem"><b>Not yet published.</b> This project was announced, but its folder isn't in the repo yet. It will be linked here once it's committed.</p>
-</div>
-
-<div class="card">
-<h2><span class="num">07</span> — kev-hunting</h2>
-<p class="problem"><b>Problem:</b> CISA KEV entries come with a federal deadline, but your network doesn't patch itself — the gap between "KEV published" and "patch deployed" is the hunting window.</p>
-<p><b>What it is:</b> Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Each pack has a hunt checklist; most also have a synthetic log and a reference detection script you can run yourself. Verify commands for every case are in <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
+<details>
+<summary>All KEV packs: CVEs, KEV status, what's included</summary>
+<div class="body">
+<p>Each pack has a hunt checklist; most also have a synthetic log and a reference detection script you can run yourself. Verify commands for every case are in <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
+<div class="table-wrap">
 <table class="sum">
 <tr><th>Hunt pack</th><th>CVE / KEV</th><th>Included</th></tr>
 <tr><td>Plex2Shell (Plex Media Server)</td><td>CVE-2026-96652 / 96654 / 96655 / 96656 · KEV</td><td>checklist · log · detection</td></tr>
 <tr><td>Bricksforge (WordPress)</td><td>CVE-2026-85097</td><td>checklist · log · detection</td></tr>
-<tr><td>Ivanti Connect Secure</td><td>CVE-2026-104935</td><td>checklist · log · detection</td></tr>
+<tr><td>Ivanti Connect Secure</td><td>CVE-2026-104935 · KEV</td><td>checklist · log · detection</td></tr>
 <tr><td>Siemens Software Center DLL sideloading</td><td>CVE-2026-110936 · KEV</td><td>checklist · log · detection</td></tr>
 <tr><td>Redis RESTORE double-free</td><td>CVE-2026-25243</td><td>checklist · log · detection</td></tr>
 <tr><td>AI agent tool endpoints without auth</td><td>CVE-2026-77936 / 75128 / 77932 / 109442 / 109437</td><td>checklist · log · detection</td></tr>
@@ -127,17 +136,115 @@
 <tr><td>Nextcloud Collabora CODE server</td><td>CVE-2026-110447</td><td>checklist</td></tr>
 <tr><td>BeyondTrust RS / PRA auth bypass</td><td>CVE-2026-102764 · KEV</td><td>checklist · exercises</td></tr>
 </table>
+</div>
 <p class="problem">Intel only (no lab, reason recorded): SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Microsoft Windows Command Injection Vulnerability (CVE-2026-96951) · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / 105134 · Fortinet CVE-2025-61624.</p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">→ START HERE case index</a> · <a href="https://github.com/szzxli/soc-home-lab/tree/main/07-kev-hunting">→ 07-kev-hunting on GitHub</a></p>
+</div>
+</details>
+</section>
+
+<section id="more" aria-labelledby="more-h">
+<h2 id="more-h">Details &amp; FAQ</h2>
+<p class="sec-sub">Everything else, folded away. Click to expand.</p>
+<div class="more">
+<div>
+<details id="lab-details">
+<summary>Full lab descriptions (01–07)</summary>
+<div class="body">
+<h3><span class="num">01</span> — mini-soc</h3>
+<p class="problem"><b>Problem:</b> SOC analysts need to know how cloud detections actually fire — not just theory.</p>
+<p><b>What it is:</b> A minimal AWS detection stack (VPC → CloudTrail → S3 → GuardDuty → SecurityHub) deployed with Terraform, three adversary-emulation scenarios using Stratus Red Team (verified technique IDs), a triage guide, and blank incident report templates.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">CloudTrail analysis</span><span class="badge">GuardDuty triage</span><span class="badge">Incident response workflow</span><span class="badge">Terraform IaC</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/01-mini-soc">→ 01-mini-soc on GitHub</a></p>
+
+<h3><span class="num">02</span> — python-ioc-analyzer</h3>
+<p class="problem"><b>Problem:</b> Tier-1 analysts drown in raw CloudTrail logs; simple heuristics catch the obvious badness fast.</p>
+<p><b>What it is:</b> A working CLI tool that parses CloudTrail JSON, flags anomalous logins / failed-login spikes / risky IAM changes, enriches IPs via AbuseIPDB, and emits a Markdown report. Ships with synthetic sample data and a passing pytest suite.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Python scripting</span><span class="badge">Log analysis</span><span class="badge">IOC enrichment</span><span class="badge">Detection heuristics</span></p>
+<p class="links"><a href="demo.html">▶ Try it live in your browser</a> · <a href="https://github.com/szzxli/soc-home-lab/tree/main/02-python-ioc-analyzer">→ 02-python-ioc-analyzer on GitHub</a></p>
+
+<h3><span class="num">03</span> — phishing-analysis-lab</h3>
+<p class="problem"><b>Problem:</b> Phishing triage is daily Tier-1 SOC work — header forensics, auth-result interpretation, URL deobfuscation.</p>
+<p><b>What it is:</b> A full walkthrough of a reconstructed training-sample phish, a header-analysis cheatsheet, a blank analysis report template, and a self-test guide using GoPhish (own mailbox only).</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Email header forensics</span><span class="badge">SPF/DKIM/DMARC</span><span class="badge">URL analysis</span><span class="badge">Phishing triage</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/03-phishing-analysis-lab">→ 03-phishing-analysis-lab on GitHub</a></p>
+
+<h3><span class="num">04</span> — rea-triage</h3>
+<p class="problem"><b>Problem:</b> Powerful binary-analysis tooling exists, but it isn't human-friendly for quick triage.</p>
+<p><b>What it is:</b> A one-command ELF binary triage CLI (<code>triage.py &lt;binary&gt;</code>): section-entropy packing heuristics, W^X detection, suspicious-import watchlist, string IOC extraction, score-based verdict (benign/suspicious/malicious), and a one-page analyst report. Optional REA provider enrichment; degrades honestly without it.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Static binary analysis</span><span class="badge">ELF internals</span><span class="badge">Malware triage heuristics</span><span class="badge">Detection engineering</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/04-rea-triage">→ 04-rea-triage on GitHub</a></p>
+
+<h3><span class="num">05</span> — soc-skills</h3>
+<p class="problem"><b>Problem:</b> Agent skill packs exist for software engineering — nothing in them speaks SOC.</p>
+<p><b>What it is:</b> Six agent skills for the Tier-1 analyst loop, each distilled from a working project in this repo: <code>alert-triage</code>, <code>incident-report</code>, <code>cloudtrail-ioc</code>, <code>phishing-analysis</code>, <code>binary-triage</code>, <code>detection-engineering</code>. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Detection triage</span><span class="badge">Incident documentation</span><span class="badge">Knowledge distillation</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/05-soc-skills">→ 05-soc-skills on GitHub</a></p>
+
+<h3><span class="num">06</span> — ghostaction-supply-chain</h3>
+<p class="problem"><b>Problem:</b> Supply-chain attacks now target the developer's own workbench — a malicious <code>.vscode/tasks.json</code> can execute code the moment a project folder is opened, and a cron-based backdoor survives deleting the repo files.</p>
+<p><b>What it is:</b> A safe, hands-on supply-chain defense lab built around the GhostAction technique: inert training samples that demonstrate the mechanism with zero malicious behavior, a hunt checklist for the two persistence points (workspace tasks + cron), and a blank incident report template.</p>
+<p class="skills"><b>Skills:</b> <span class="badge">Supply-chain threat modeling</span><span class="badge">Editor config review</span><span class="badge">Persistence hunting</span><span class="badge">Incident documentation</span></p>
+<p class="links"><a href="https://github.com/szzxli/soc-home-lab/tree/main/06-ghostaction-supply-chain">→ 06-ghostaction-supply-chain on GitHub</a></p>
+
+<h3><span class="num">07</span> — kev-hunting</h3>
+<p class="problem"><b>Problem:</b> CISA KEV entries come with a federal deadline, but your network doesn't patch itself — the gap between "KEV published" and "patch deployed" is the hunting window.</p>
+<p><b>What it is:</b> Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Each pack has a hunt checklist; most also have a synthetic log and a reference detection script you can run yourself. Verify commands for every case are in <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
 <p class="skills"><b>Skills:</b> <span class="badge">Threat-intel consumption</span><span class="badge">IOC extraction</span><span class="badge">Log hunting</span><span class="badge">Detection engineering</span><span class="badge">Incident documentation</span></p>
 <p class="links"><a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">→ START HERE case index</a> · <a href="https://github.com/szzxli/soc-home-lab/tree/main/07-kev-hunting">→ 07-kev-hunting on GitHub</a></p>
 </div>
+</details>
+<details>
+<summary>How the labs are built (methodology)</summary>
+<div class="body">
+<p class="notice">⚠ All datasets, log samples, and email artifacts in these projects are <b>synthetic training samples</b> — clearly labeled as such. No real incidents, real logs, or real phishing emails are presented here.</p>
+<p>Built hands-on: every attack run, every detection, every report written by the author — nothing fabricated.</p>
+<p>The KEV packs start from public reporting on each CISA KEV addition or in-the-wild case. Each pack turns that reporting into a hunt checklist, then (where the repo has one) a synthetic log to hunt in and a reference detection script. Work through the checklist and write your own detection first, <em>then</em> compare it with the reference script.</p>
+</div>
+</details>
+</div>
+<div>
+<details>
+<summary>Who is this for? Where do I start?</summary>
+<div class="body">
+<p><b>New to SOC:</b> start with <a href="https://github.com/szzxli/soc-home-lab/tree/main/03-phishing-analysis-lab">03 phishing-analysis-lab</a> (offline, no setup), then <a href="https://github.com/szzxli/soc-home-lab/tree/main/02-python-ioc-analyzer">02 python-ioc-analyzer</a> or the <a href="demo.html">browser demo</a>.</p>
+<p><b>Practicing detection:</b> pick any <a href="#kev">KEV hunt pack</a> with a detection script, write your own logic, then run the reference.</p>
+<p><b>Prepping for interviews:</b> the <a href="https://github.com/szzxli/soc-home-lab#readme">README</a> has resume bullets and a skills matrix. Do one KEV pack end to end so you can talk through a real recent CVE.</p>
+<p>Full paths: <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>.</p>
+</div>
+</details>
+<details>
+<summary>Is it really free? Do I need AWS?</summary>
+<div class="body">
+<p>Yes. Everything is open source under the MIT license, and nothing needs an account on this site. Only <a href="https://github.com/szzxli/soc-home-lab/tree/main/01-mini-soc">01 mini-soc</a> needs your own AWS account (START_HERE estimates about $5–15/month; run <code>terraform destroy</code> when you're done). Everything else runs on your laptop or in your browser.</p>
+</div>
+</details>
+<details>
+<summary>Is any of the data real?</summary>
+<div class="body">
+<p>No. All logs, samples, and email artifacts are synthetic training data. Logs you paste into the demo are analyzed in your browser and never leave it.</p>
+</div>
+</details>
+<details>
+<summary>How do I run a detection script?</summary>
+<div class="body">
+<p>Clone the repo, then follow the "Verify" column in <a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md">START_HERE.md</a>. For example, the 02 analyzer:</p>
+<pre><code>git clone https://github.com/szzxli/soc-home-lab
+cd soc-home-lab/02-python-ioc-analyzer
+pip install -r requirements.txt &amp;&amp; python -m pytest tests/ -v</code></pre>
+</div>
+</details>
+</div>
+</div>
+</section>
+</main>
 
 <footer>
+<div class="wrap">
 <p>SOC Home Lab · <a href="https://github.com/szzxli/soc-home-lab">github.com/szzxli/soc-home-lab</a> · MIT License</p>
-<p>Built hands-on: every attack run, every detection, every report written by the author — nothing fabricated.</p>
 <p>Privacy: we count anonymous page views with <a href="https://www.goatcounter.com" rel="noopener">GoatCounter</a> — no cookies, no personal data. Logs you paste into the demo are analyzed in your browser and never leave it.</p>
-</footer>
 </div>
+</footer>
 <script src="js/analytics.js" defer></script>
 </body>
 </html>
