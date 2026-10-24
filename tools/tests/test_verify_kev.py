@@ -59,12 +59,12 @@ def test_due_date_mismatch_is_caught(manifest):
 
 def test_newly_listed_cve_is_caught(manifest):
     feed = feed_from(manifest)
-    feed["vulnerabilities"].append({"cveID": "CVE-2026-110447", "vendorProject": "Nextcloud", "product": "x",
+    feed["vulnerabilities"].append({"cveID": "CVE-2026-25243", "vendorProject": "Redis", "product": "x",
                                     "vulnerabilityName": "x", "dateAdded": "2026-10-28", "dueDate": "2026-11-18"})
     problems = vk.verify(manifest, feed, ROOT)
-    assert any("CVE-2026-110447: manifest says not in KEV" in p for p in problems)
-    assert any("claims CVE-2026-110447 is not in KEV" in p for p in problems)
-    assert any('data-kev="no" for CVE-2026-110447' in p for p in problems)
+    assert any("CVE-2026-25243: manifest says not in KEV" in p for p in problems)
+    assert any("claims CVE-2026-25243 is not in KEV" in p for p in problems)
+    assert any('data-kev="no" for CVE-2026-25243' in p for p in problems)
 
 
 def test_delisted_cve_and_vendor_rename_are_caught(manifest):
@@ -128,4 +128,4 @@ def test_stale_verified_line_on_site_is_caught(manifest):
     m = copy.deepcopy(manifest)
     m["verified"] = {"date": "2026-10-28", "catalogVersion": "2026.10.28"}
     problems = vk.scan_claims(m, feed_from(manifest), ROOT)
-    assert any(p.startswith("web/index.html") and "says verified 2026-10-21" in p for p in problems)
+    assert any(p.startswith("web/index.html") and "says verified 2026-10-24" in p for p in problems)

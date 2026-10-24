@@ -1,8 +1,8 @@
 {
   "_comment": "Single source of truth for every CVE / KEV claim in this repo. tools/verify_kev.py checks this file against the official CISA KEV JSON feed, then checks that every pack's generated 'kev-verify' block and every KEV claim on the site and in the READMEs agree with it. Edit this file, then run: python3 tools/verify_kev.py --write",
   "verified": {
-    "date": "2026-10-21",
-    "catalogVersion": "2026.10.21"
+    "date": "2026-10-24",
+    "catalogVersion": "2026.10.23"
   },
   "cves": {
     "CVE-2026-96652": {
@@ -138,10 +138,12 @@
       "note": "in-the-wild attempts seen by honeypots; not in CISA KEV"
     },
     "CVE-2026-110447": {
-      "inKev": false,
-      "vendorProject": "Nextcloud",
-      "product": "Collabora Online Built-in CODE Server (richdocumentscode)",
-      "note": "in-the-wild exploitation per the CVE record; not in CISA KEV"
+      "inKev": true,
+      "vendorProject": "Collabora",
+      "product": "Collabora Online – Built-in CODE Server",
+      "vulnerabilityName": "Collabora Online – Built-in CODE Server OS Command Injection Vulnerability",
+      "dateAdded": "2026-10-23",
+      "dueDate": "2026-10-26"
     },
     "CVE-2026-77936": {
       "inKev": false,

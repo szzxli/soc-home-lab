@@ -9,7 +9,7 @@ Companion: [m365-app-identity-persistence.md](https://github.com/szzxli/soc-skil
 >
 > **Sources:** [CISA KEV catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) · Vendor advisory: [ConnectWise Trust Center advisory (Cloud Backup)](https://www.connectwise.com/company/trust/advisories)
 >
-> **Verified against CISA KEV on 2026-10-21 (catalog version 2026.10.21).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
+> **Verified against CISA KEV on 2026-10-24 (catalog version 2026.10.23).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
 <!-- kev-verify:end -->
 
 ## 0. Incident reality check (facts as of 2026-10-20)

@@ -8,7 +8,7 @@ Work top to bottom. Check the box when done, note what you found.
 >
 > **Sources:** [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-102764) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-102764) · Vendor advisory: [BeyondTrust advisory BT26-05](https://www.beyondtrust.com/trust-center/security-advisories/bt26-05)
 >
-> **Verified against CISA KEV on 2026-10-21 (catalog version 2026.10.21).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
+> **Verified against CISA KEV on 2026-10-24 (catalog version 2026.10.23).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
 <!-- kev-verify:end -->
 
 ## 1. Web shell (SAWFLY)
