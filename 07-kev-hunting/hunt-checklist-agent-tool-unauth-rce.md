@@ -13,7 +13,7 @@ Companion: [agent-tool-unauth-rce.md](https://github.com/szzxli/soc-skills/blob/
 >
 > **Sources:** CISA KEV: [77936](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-77936) · [75128](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-75128) · [77932](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-77932) · [109442](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-109442) · [109437](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-109437) · NVD: [77936](https://nvd.nist.gov/vuln/detail/CVE-2026-77936) · [75128](https://nvd.nist.gov/vuln/detail/CVE-2026-75128) · [77932](https://nvd.nist.gov/vuln/detail/CVE-2026-77932) · [109442](https://nvd.nist.gov/vuln/detail/CVE-2026-109442) · [109437](https://nvd.nist.gov/vuln/detail/CVE-2026-109437)
 >
-> **Verified against CISA KEV on 2026-10-21 (catalog version 2026.10.21).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
+> **Verified against CISA KEV on 2026-10-24 (catalog version 2026.10.23).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
 <!-- kev-verify:end -->
 
 ## 0. Patch / exposure reality check (2026-10-20)

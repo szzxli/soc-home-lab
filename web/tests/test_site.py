@@ -157,7 +157,7 @@ def test_go_deeper_collapsible_links(index):
 def test_every_kev_tile_declares_its_kev_status(index):
     tiles = [a for t, a in index.tags if t == "article" and "data-kev" in a]
     assert len(tiles) == 10
-    assert sum(a["data-kev"] == "yes" for a in tiles) == 5
+    assert sum(a["data-kev"] == "yes" for a in tiles) == 6
     html = _text("index.html")
     assert "PRA" not in html  # KEV, NVD and BT26-05 name Remote Support only
 
