@@ -1,19 +1,20 @@
 /*
- * Privacy-friendly visitor counting with GoatCounter (https://www.goatcounter.com).
+ * Privacy-friendly key-event counting with GoatCounter (https://www.goatcounter.com).
  *
- * What this sends, and only this: the page path (no ?query, no #hash), the page
- * title, the referring page (origin + path only), the screen width, and fixed
- * event names such as "soc-home-lab/open-lab".
+ * Page views are counted by GoatCounter's own cookie-free count.js snippet
+ * (loaded from gc.zgo.at, added before </body>; it sends the page path, title,
+ * referrer and screen size, uses no cookies or localStorage, and does not check
+ * Do Not Track). This file only adds fixed event names such as "soc-home-lab/open-lab".
  * What this never sends: anything you type, paste or upload (drafts, evidence,
  * logs, API keys), results, or file contents. Event hooks below only check
  * whether an input is empty; they never read its text.
- * No cookies, no localStorage, no fingerprinting, no third-party script: one
- * small request per page view / key action straight to GoatCounter.
- * Skipped off szzxli.github.io (local copies, forks), and when the browser
- * sends Do Not Track or Global Privacy Control.
+ * No cookies, no localStorage, no fingerprinting: one small request per key
+ * action straight to GoatCounter. Events are skipped off szzxli.github.io
+ * (local copies, forks), and when the browser sends Do Not Track or Global
+ * Privacy Control.
  */
 (function () {
-  var GOATCOUNTER_CODE = 'szzxli'; // <- the ONE setting: your GoatCounter site code ('' turns counting off)
+  var GOATCOUNTER_CODE = 'szzxli-sec'; // <- the ONE setting: your GoatCounter site code ('' turns counting off)
 
   var PROJECT = 'soc-home-lab';
   var SITE_HOST = 'szzxli.github.io';
@@ -51,17 +52,8 @@
   }
   window.countEvent = countEvent;
 
-  function pageview() {
-    var p = location.pathname.replace(/\/index\.html$/, '/');
-    send(p, document.title, false);
-  }
-  if (document.visibilityState === 'prerender') {
-    document.addEventListener('visibilitychange', function f() {
-      if (document.visibilityState !== 'visible') return;
-      document.removeEventListener('visibilitychange', f);
-      pageview();
-    });
-  } else pageview();
+  // Page views: counted by the official count.js snippet on each page (not here),
+  // so nothing is double-counted.
 
   // Helpers for the per-site hooks below.
   function byId(id) { return document.getElementById(id); }
