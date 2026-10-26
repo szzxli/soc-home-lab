@@ -1,12 +1,10 @@
 # soc-skills
 
-Agent skills for security analysts — the SOC-flavored answer to
-`mattpocock/skills`.
+Agent skills for security analysts.
 
-That repo (291k stars, MIT) packages one engineer's TypeScript-centric
-agent workflow: grilling, TDD, code review. Nothing in it speaks SOC.
-These six skills cover the Tier-1 analyst loop instead, each distilled
-from a working home-lab project in this repo:
+General-purpose agent skill packs focus on software engineering workflows
+and don't cover SOC work. These six skills cover the Tier-1 analyst loop,
+each distilled from a working home-lab project in this repo:
 
 | Skill | Does | Distilled from |
 |-------|------|----------------|
