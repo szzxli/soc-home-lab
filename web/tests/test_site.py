@@ -75,7 +75,7 @@ def test_analytics_loaded_on_every_page(index, demo):
 
 def test_analytics_hooks_intact():
     js = (WEB / "js" / "analytics.js").read_text(encoding="utf-8")
-    assert "GOATCOUNTER_CODE = 'szzxli-sec'" in js
+    assert "GOATCOUNTER_CODE = 'szzxli'" in js
     for needle in ("'open-lab/'", "open-lab/live-demo", "open-lab/repo", "run-demo/sample",
                    "run-demo/pasted", "runSample", "runCustom", "customJson", "data-count"):
         assert needle in js, needle

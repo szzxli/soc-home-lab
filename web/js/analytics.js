@@ -14,7 +14,7 @@
  * Privacy Control.
  */
 (function () {
-  var GOATCOUNTER_CODE = 'szzxli-sec'; // <- the ONE setting: your GoatCounter site code ('' turns counting off)
+  var GOATCOUNTER_CODE = 'szzxli'; // <- the ONE setting: your GoatCounter site code ('' turns counting off)
 
   var PROJECT = 'soc-home-lab';
   var SITE_HOST = 'szzxli.github.io';
