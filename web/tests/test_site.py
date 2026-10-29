@@ -187,6 +187,9 @@ def test_start_here_is_on_site_and_right_under_hero(index):
     for path in ("New to SOC", "Practicing detection", "Interview prep"):
         assert path in start, path
     assert "03-phishing-analysis-lab" in start and "demo.html" in start
+    note = start[start.index('class="sec-note start-first"'):]
+    assert "path 1 first" in note[:200] and "Intermediate" in note[:200]
+    assert start.index("start-first") < start.index("New to SOC")
     hero = html[html.index('<div class="hero">'):hero_end]
     assert 'href="#start"' in hero
     assert 'START_HERE.md" data-count="open-start-here">Start here' not in html

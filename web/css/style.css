@@ -194,6 +194,7 @@ ul.deeper li { margin: 4px 0; }
 .path ol li { margin: 4px 0; }
 .path p { margin: 0; font-size: 15px; color: var(--dim); }
 .sec-note { font-size: 14px; color: var(--dim); margin: 14px 0 0; }
+.sec-note.start-first { margin: -12px 0 16px; color: var(--text); }
 .pq { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 1px 6px; border-radius: 4px; background: var(--panel-2); border: 1px dashed var(--border); color: var(--text); margin-right: 4px; }
 .pq.aws { border-color: var(--amber); color: var(--amber); }
 .tile p.pre, .path p.pre { margin-top: 8px; font-size: 13px; }
