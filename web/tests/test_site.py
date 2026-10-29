@@ -135,8 +135,8 @@ def test_differentiators_visible_in_hero():
     html = _text("index.html")
     hero = html[html.index('<div class="hero">'):html.index('<section id="labs"')]
     assert "re-verified weekly" in hero and "CISA" in hero
-    assert "Runs in your browser" in hero
-    assert 'href="https://szzxli.github.io/soc-skills/web/"' in hero and "gap analysis" in hero
+    assert "runs in your browser" in hero.lower()
+    assert 'href="https://szzxli.github.io/soc-skills/web/?ref=shl"' in hero and "gap analysis" in hero
 
 
 GO_DEEPER = ["https://github.com/redcanaryco/atomic-red-team", "https://bots.splunk.com/",
@@ -169,3 +169,65 @@ def test_demo_noisy_sample_button_and_files():
                 "../02-python-ioc-analyzer/sample_data/sample_cloudtrail_noisy.truth.json"):
         assert f'"{rel}"' in demo and (WEB / rel).resolve().exists(), rel
     assert "run-demo/noisy" in _text("js/analytics.js")
+
+
+# --- cognitive-path pass (2026-10-29): where to start, honest prerequisites, KEV legend/order, exit ---
+
+def _section(html, sid):
+    start = html.index(f'<section id="{sid}"')
+    return html[start:html.index("</section>", start)]
+
+
+def test_start_here_is_on_site_and_right_under_hero(index):
+    html = _text("index.html")
+    hero_end = html.index("</figure>")
+    assert html.index('<section id="start"') < html.index('<section id="labs"')
+    assert html.index('<section id="start"') > hero_end
+    start = _section(html, "start")
+    for path in ("New to SOC", "Practicing detection", "Interview prep"):
+        assert path in start, path
+    assert "03-phishing-analysis-lab" in start and "demo.html" in start
+    hero = html[html.index('<div class="hero">'):hero_end]
+    assert 'href="#start"' in hero
+    assert 'START_HERE.md" data-count="open-start-here">Start here' not in html
+
+
+def test_hero_does_not_claim_no_setup_for_labs():
+    html = _text("index.html")
+    hero = html[html.index('<div class="hero">'):html.index("</figure>")]
+    assert "No login, no setup." not in hero
+    assert "Python" in hero and "AWS" in hero and "$5–15/month" in hero
+    assert "lab 02" in hero and "not a KEV hunt pack" in hero
+
+
+def test_kev_cards_method_order_and_legend(index):
+    html = _text("index.html")
+    kev = _section(html, "kev")
+    tiles = [a for t, a in index.tags if t == "article" and "data-kev" in a]
+    kinds = [a["data-kev"] for a in tiles]
+    assert kinds == sorted(kinds, key=lambda k: k != "yes"), "KEV packs first"
+    assert kev.count('class="method"') == len(tiles)
+    assert kev.count("tile-noisy") == 3
+    assert 'class="legend"' in kev
+    assert '<span class="tag">log</span>' not in kev and '<span class="tag">detect</span>' not in kev
+
+
+def test_lab_descriptions_not_duplicated():
+    html = _text("index.html")
+    assert 'id="lab-details"' not in html
+    assert html.count("Problem:</b>") == 0
+
+
+def test_after_you_finish_exit_is_last(index):
+    html = _text("index.html")
+    after = _section(html, "after")
+    assert html.rindex("<section") == html.index('<section id="after"')
+    assert "#resume-bullets-copy-ready" in after
+    assert "soc-skills/web/?ref=shl" in after
+    assert "talking points" in after.lower()
+
+
+def test_sister_links_carry_ref_tag(index):
+    for h in index.hrefs():
+        if "szzxli.github.io/soc-skills" in h:
+            assert "ref=shl" in h, h
