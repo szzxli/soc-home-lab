@@ -8,7 +8,7 @@ repo), there is now a **noisy** variant of each sample next to the clean one:
 
 | Lab | Clean sample (kept as is) | Noisy sample | Generator |
 |---|---|---|---|
-| 02 CloudTrail IOC analyzer (the [live demo](https://szzxli.github.io/soc-home-lab/web/demo.html)) | `02-python-ioc-analyzer/sample_data/sample_cloudtrail.json` (19 records) | `sample_cloudtrail_noisy.json` (2,870 records) | `sample_data/generate_noisy.py` |
+| 02 CloudTrail IOC analyzer (the [live demo](https://szzxli.github.io/soc-home-lab/web/demo.html?ref=gh-shl)) | `02-python-ioc-analyzer/sample_data/sample_cloudtrail.json` (19 records) | `sample_cloudtrail_noisy.json` (2,870 records) | `sample_data/generate_noisy.py` |
 | 07 CVE-2026-21589 Atlassian `::` traversal | `07-kev-hunting/samples/confluence-access.log` | `samples/noisy/confluence-access-noisy.log` | `samples/noisy/generate_noisy.py` |
 | 07 CVE-2026-102764 BeyondTrust Remote Support | `07-kev-hunting/samples/appliance.log` | `samples/noisy/appliance-noisy.log` | same |
 | 07 CVE-2026-110447 Nextcloud CODE server | `07-kev-hunting/samples/nextcloud-access.log` | `samples/noisy/nextcloud-access-noisy.log` | same |
@@ -154,7 +154,7 @@ cd ../02-python-ioc-analyzer
 python3 ioc_analyzer.py --input sample_data/sample_cloudtrail_noisy.json --output noisy-report.md
 ```
 
-Or open the [live demo](https://szzxli.github.io/soc-home-lab/web/demo.html)
+Or open the [live demo](https://szzxli.github.io/soc-home-lab/web/demo.html?ref=gh-shl)
 and click **Run on noisy sample**. It scores the findings against the answer
 key in your browser.
 

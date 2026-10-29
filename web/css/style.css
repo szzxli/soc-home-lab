@@ -185,3 +185,31 @@ ul.deeper { padding-left: 20px; margin: 8px 0; }
 ul.deeper li { margin: 4px 0; }
 .score { border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin: 12px 0; background: var(--panel-2); font-size: 14px; }
 .score b.tp { color: var(--green); } .score b.fp { color: var(--amber); } .score b.fn { color: var(--red); }
+
+/* 2026-10-29 cognitive-path pass: where to start, prerequisites, KEV legend, after you finish */
+.paths { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.path { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+.path h3 { margin: 0 0 8px; font-size: 1.08rem; color: #fff; }
+.path ol { margin: 0 0 8px; padding-left: 20px; font-size: 15px; }
+.path ol li { margin: 4px 0; }
+.path p { margin: 0; font-size: 15px; color: var(--dim); }
+.sec-note { font-size: 14px; color: var(--dim); margin: 14px 0 0; }
+.sec-note.start-first { margin: -12px 0 16px; color: var(--text); }
+.pq { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 1px 6px; border-radius: 4px; background: var(--panel-2); border: 1px dashed var(--border); color: var(--text); margin-right: 4px; }
+.pq.aws { border-color: var(--amber); color: var(--amber); }
+.tile p.pre, .path p.pre { margin-top: 8px; font-size: 13px; }
+.tile p.pre code { font-size: 12px; }
+.legend { font-size: 14px; color: var(--dim); background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; margin: 0 0 16px; }
+.legend p { margin: 4px 0; }
+.tag.noisy { border-color: var(--red); color: var(--red); }
+.tag.lvl-i { border-color: var(--blue); color: var(--blue); }
+.tag.lvl-b { border-color: var(--green); color: var(--green); }
+h3.kev-group { font-size: 1rem; color: #fff; margin: 18px 0 10px; }
+.grid-noisy { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.tile.tile-noisy { padding: 18px; border-color: var(--amber); }
+.grid-noisy .tile h3 { font-size: 1.1rem; }
+.tile p.method { margin-top: 8px; font-size: 13px; }
+@media (max-width: 600px) {
+  .paths, .grid-noisy { grid-template-columns: 1fr; }
+  .grid .tile p.pre, .grid .tile p.method { display: block; }
+}
