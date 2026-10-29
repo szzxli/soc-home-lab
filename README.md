@@ -6,7 +6,7 @@ Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a
 
 🔗 **https://github.com/szzxli/soc-home-lab**
 
-**▶ Live demo:** [CloudTrail IOC analyzer in your browser](https://szzxli.github.io/soc-home-lab/web/demo.html) (synthetic data, nothing leaves the page) · [Project site](https://szzxli.github.io/soc-home-lab/web/)
+**▶ Live demo:** [CloudTrail IOC analyzer in your browser](https://szzxli.github.io/soc-home-lab/web/demo.html?ref=gh-shl) (synthetic data, nothing leaves the page) · [Project site](https://szzxli.github.io/soc-home-lab/web/?ref=gh-shl)
 
 **Quick start** (Python 3.9+):
 
@@ -23,7 +23,7 @@ python ioc_analyzer.py --input sample_data/sample_cloudtrail.json --output repor
 
 **What this is / isn't:** beginner-to-intermediate SOC practice on synthetic data (clean samples plus [noisy variants](./NOISY_DATA.md) with honest TP/FP numbers). It isn't proof of job readiness and isn't real SOC volume.
 
-**What's different here:** KEV-driven, with every CVE / KEV claim re-verified weekly against the official CISA feed ([`tools/verify_kev.py`](./tools/verify_kev.py), [workflow](./.github/workflows/kev-verify.yml)) · the demo [runs in your browser](https://szzxli.github.io/soc-home-lab/web/demo.html) · pairs with the [soc-skills gap analysis](https://szzxli.github.io/soc-skills/web/).
+**What's different here:** KEV-driven, with every CVE / KEV claim re-verified weekly against the official CISA feed ([`tools/verify_kev.py`](./tools/verify_kev.py), [workflow](./.github/workflows/kev-verify.yml)) · the demo [runs in your browser](https://szzxli.github.io/soc-home-lab/web/demo.html?ref=gh-shl) · pairs with the [soc-skills gap analysis](https://szzxli.github.io/soc-skills/web/?ref=gh-shl).
 
 ## Projects
 

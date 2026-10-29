@@ -8,7 +8,8 @@
  * What this never sends: anything you type, paste or upload (drafts, evidence,
  * logs, API keys), results, or file contents. Event hooks below only check
  * whether an input is empty; they never read its text.
- * No cookies, no localStorage, no fingerprinting: one small request per key
+ * No cookies, no fingerprinting (localStorage only holds the "skipgc" test opt-out
+ * if you set it with ?nocount=1): one small request per key
  * action straight to GoatCounter. Events are skipped off szzxli.github.io
  * (local copies, forks), and when the browser sends Do Not Track or Global
  * Privacy Control.
@@ -19,6 +20,7 @@
   var PROJECT = 'soc-home-lab';
   var SITE_HOST = 'szzxli.github.io';
   if (!GOATCOUNTER_CODE || location.hostname !== SITE_HOST || location.protocol !== 'https:') return;
+  if (window.gcSkip) return;              // test visit (?nocount=1, ?v=, ?cb=, ...): see the GoatCounter loader in the page
   if (navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.globalPrivacyControl === true) return;
   var ENDPOINT = 'https://' + GOATCOUNTER_CODE + '.goatcounter.com/count';
 

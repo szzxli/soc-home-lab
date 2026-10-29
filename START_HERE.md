@@ -14,7 +14,7 @@ incident data is included.
 
 | If you are… | Start with | Then |
 |---|---|---|
-| **New to SOC**: you want to learn what a Tier-1 analyst actually does | [03 phishing-analysis-lab](./03-phishing-analysis-lab/) (offline, no setup) → [02 python-ioc-analyzer](./02-python-ioc-analyzer/) (one `pip install`, or try the [browser demo](https://szzxli.github.io/soc-home-lab/web/demo.html)) | [01 mini-soc](./01-mini-soc/) if you have an AWS account (costs about $5–15/month; run `terraform destroy` when you're done) |
+| **New to SOC**: you want to learn what a Tier-1 analyst actually does | [03 phishing-analysis-lab](./03-phishing-analysis-lab/) (offline, no setup) → [02 python-ioc-analyzer](./02-python-ioc-analyzer/) (one `pip install`, or try the [browser demo](https://szzxli.github.io/soc-home-lab/web/demo.html?ref=gh-shl)) | [01 mini-soc](./01-mini-soc/) if you have an AWS account (costs about $5–15/month; run `terraform destroy` when you're done) |
 | **Practicing detection**: you want to hunt in logs and check your logic against a reference | Any 07 hunt pack marked **Hunt pack** below that has a command in the "Verify" column. Work through the checklist, write your own detection, *then* run the reference script | [04 rea-triage](./04-rea-triage/) for binary triage, plus the Sigma rules in [02](./02-python-ioc-analyzer/rules/) |
 | **Prepping for interviews**: you want talking points and resume bullets | The [README](./README.md) (resume bullets + JD-keyword skills matrix) | Do one 07 hunt pack end to end so you can talk through a real recent CVE: what you'd look for, in which log, and why |
 
@@ -154,4 +154,4 @@ logs, not as a production rule.
 
 ---
 
-Back to the [README](./README.md) · Website: <https://szzxli.github.io/soc-home-lab/web/>
+Back to the [README](./README.md) · Website: <https://szzxli.github.io/soc-home-lab/web/?ref=gh-shl>
