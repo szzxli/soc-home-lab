@@ -22,9 +22,10 @@ enough of the attack chain to hunt on.
   `Codecs` directory via transcoder prefs → loaded without signature checks.
   Affected: builds before **1.43.3.10861** (fixed in that build; Plex warned
   2026-09-01, published CVEs 2026-10-19, public PoC 2026-10-16).
-  BoredHackerBlog honeypot: in-the-wild from 2026-10-17 — attack IPs
-  `45.194.92.222` / `91.92.40.202` / `176.65.139.228`, payloads from
-  `217.60.194.116` (XMRig), `myawesomeproxy` residential-proxy stage,
+  BoredHackerBlog honeypot: in-the-wild from 2026-10-17 — three attack IPs
+  (shown here as documentation-range stand-ins `203.0.113.101` /
+  `203.0.113.102` / `203.0.113.103` for the publicly reported indicators),
+  payloads from a fourth (stand-in `198.51.100.116`, XMRig), `myawesomeproxy` residential-proxy stage,
   `proxystream.st` outbound, process names `myawesomeproxy` /
   `mylovelyminer` / `x12345`. Plex's compromise signs: unfamiliar
   `.so`/`.dll` in `Codecs`, high CPU with nothing playing — if in doubt,
