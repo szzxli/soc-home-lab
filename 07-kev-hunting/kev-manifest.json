@@ -1,8 +1,8 @@
 {
   "_comment": "Single source of truth for every CVE / KEV claim in this repo. tools/verify_kev.py checks this file against the official CISA KEV JSON feed, then checks that every pack's generated 'kev-verify' block and every KEV claim on the site and in the READMEs agree with it. Edit this file, then run: python3 tools/verify_kev.py --write",
   "verified": {
-    "date": "2026-10-24",
-    "catalogVersion": "2026.10.23"
+    "date": "2026-11-04",
+    "catalogVersion": "2026.11.03"
   },
   "cves": {
     "CVE-2026-96652": {
