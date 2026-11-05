@@ -20,9 +20,12 @@ rule. No exploit, no download, no listener.
 
 ## Safety
 
-1. `docker-compose.yml` publishes `127.0.0.1` only. Do not change that to
-   `0.0.0.0`, and do not point `BASE` at another host. `lab/deploy-benign.sh`
-   exits if `BASE` is not loopback.
+1. Node-RED is published as `127.0.0.1:1881:1880`. The proxy uses host
+   networking and `lab/nginx.conf` listens on `127.0.0.1:1880` only. Do not
+   publish either port on every interface, and do not replace that listen
+   line with a bare `listen 1880` (that binds every IPv4 interface). Do not point
+   `BASE` at another host. `lab/deploy-benign.sh` exits if `BASE` is not
+   loopback.
 2. The flow command is fixed. `addpay` is false, so nothing you send is
    appended to the shell command. There is no `http in` node in the
    container flow.

@@ -1,11 +1,13 @@
 # Local detection lab only.
 # Node-RED keeps the image default: adminAuth is not enabled.
-# Both published ports are loopback. Do not change 127.0.0.1 to 0.0.0.0.
+# Both published ports are loopback. Do not publish on every interface.
 #
 # The proxy uses the host network namespace so it can reach Node-RED on
-# 127.0.0.1:1881 and write a combined access log. Talk to the lab at
-# http://127.0.0.1:1880 so the deploy is recorded. Port 1881 is the
-# container admin port and bypasses that log.
+# 127.0.0.1:1881 and write a combined access log. nginx.conf must listen
+# on 127.0.0.1:1880 only — a bare "listen 1880" would publish the
+# unauthenticated admin proxy on every host IPv4 interface. Talk to the
+# lab at http://127.0.0.1:1880 so the deploy is recorded. Port 1881 is
+# the container admin port and bypasses that log.
 name: nodered-flow-audit
 
 services:

@@ -64,7 +64,7 @@ def test_exec_flow_is_incident(audit):
     assert res["access"]["203.0.113.50"]["hits"][0][0] == 6
     assert res["access"]["198.51.100.40"]["hits"][0][0] == 8
     assert "192.0.2.10" not in res["access"]
-    assert "10.0.0.5" not in res["access"]
+    assert "192.0.2.15" not in res["access"]
     assert stats["skipped_malformed"] == 1
 
 
@@ -155,16 +155,33 @@ def test_cli_prints_signals(audit, capsys):
     assert "malformed line" in out
 
 
+def _ips(text):
+    return set(re.findall(r"\b\d{1,3}(?:\.\d{1,3}){3}\b", text))
+
+
+def _assert_rfc5737(ip):
+    addr = ipaddress.ip_address(ip)
+    assert any(addr in n for n in DOC_RANGES), ip
+
+
 def test_samples_are_labeled_and_use_doc_ranges():
-    for path in SAMPLES.glob("*.log"):
+    """Sample addresses must be RFC 5737. Private and loopback ranges do not qualify."""
+    saw = False
+    for path in sorted(SAMPLES.iterdir()):
+        if not path.is_file():
+            continue
         text = path.read_text(encoding="utf-8")
-        assert "SYNTHETIC" in text.splitlines()[0].upper()
-        for ip in set(re.findall(r"\b\d{1,3}(?:\.\d{1,3}){3}\b", text)):
-            addr = ipaddress.ip_address(ip)
-            assert addr.is_private or addr.is_loopback or any(addr in n for n in DOC_RANGES), ip
-    for path in SAMPLES.glob("*.json"):
-        data = json.loads(path.read_text(encoding="utf-8"))
-        assert "SYNTHETIC" in data.get("_comment", "").upper()
+        if path.suffix == ".log":
+            assert "SYNTHETIC" in text.splitlines()[0].upper()
+        elif path.suffix == ".json":
+            data = json.loads(text)
+            assert "SYNTHETIC" in data.get("_comment", "").upper()
+        for ip in _ips(text):
+            saw = True
+            _assert_rfc5737(ip)
+    assert saw, "samples contained no IP addresses to check"
+    # The old self-check treated 10.0.0.0/8 as acceptable. It is not.
+    assert not any(ipaddress.ip_address("10.0.0.5") in n for n in DOC_RANGES)
 
 
 def test_pack_has_no_banned_indicators_or_public_ips():
@@ -174,9 +191,26 @@ def test_pack_has_no_banned_indicators_or_public_ips():
     text = "\n".join(p.read_text(encoding="utf-8", errors="replace") for p in files)
     for banned in BANNED:
         assert banned not in text, banned
-    for ip in set(re.findall(r"\b\d{1,3}(?:\.\d{1,3}){3}\b", text)):
-        addr = ipaddress.ip_address(ip)
-        assert addr.is_private or addr.is_loopback or any(addr in n for n in DOC_RANGES), ip
+    for path in files:
+        in_samples = "samples" in path.parts
+        for ip in _ips(path.read_text(encoding="utf-8", errors="replace")):
+            addr = ipaddress.ip_address(ip)
+            if in_samples:
+                _assert_rfc5737(ip)
+            else:
+                # Lab config may name loopback. It may not use other private ranges.
+                assert addr.is_loopback or any(addr in n for n in DOC_RANGES), f"{path}: {ip}"
+
+
+def test_proxy_listen_is_loopback_only():
+    conf = (ROOT / "lab" / "nginx.conf").read_text(encoding="utf-8")
+    listens = re.findall(r"(?m)^\s*listen\s+([^;]+);", conf)
+    assert listens == ["127.0.0.1:1880"]
+    assert "listen 1880;" not in conf
+    assert not re.search(r"listen\s+(?:0\.0\.0\.0|\[::\])", conf)
+    compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
+    assert '"127.0.0.1:1881:1880"' in compose
+    assert not re.search(r'["\']0\.0\.0\.0:', compose)
 
 
 def test_benign_flow_is_marker_only():
