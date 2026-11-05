@@ -22,8 +22,8 @@ incident data is included.
 
 Blank cell = the repo doesn't say. Nothing here is estimated. No document in
 the repo rates difficulty, so the Difficulty column is blank throughout.
-"Verify" commands run from the repo root. Three 07 reference detection scripts
-(BeyondTrust, Nextcloud, Atlassian) ship in this repo under
+"Verify" commands run from the repo root. Four 07 reference detection scripts
+(BeyondTrust, Nextcloud, Atlassian, WordPress) ship in this repo under
 [`07-kev-hunting/detect/`](./07-kev-hunting/detect/), with a pytest suite in
 [`07-kev-hunting/tests/`](./07-kev-hunting/tests/). The other seven live in the
 companion repo [szzxli/soc-skills](https://github.com/szzxli/soc-skills),
@@ -44,7 +44,7 @@ cd soc-home-lab
 | 04 | [rea-triage](./04-rea-triage/): one-command ELF triage | No CVE | binary triage, detection | | Tool, synthetic demo ELF + generator, tests | `cd 04-rea-triage && pip install -r requirements.txt && python -m pytest tests/ -v` |
 | 05 | [soc-skills](./05-soc-skills/): 6 agent skills for the Tier-1 loop | No CVE | triage, IR, detection, phishing, binary triage, cloud | | 6 `SKILL.md` files | |
 | 06 | [ghostaction-supply-chain](./06-ghostaction-supply-chain/): GhostAction-style malicious VS Code workspace tasks + cron persistence | No CVE | supply chain, hunting, IR | | Inert training samples (`tasks.json`, `font-cache.js`), hunt checklist, 4 exercises, IR report template | Static review only: read `06-ghostaction-supply-chain/samples/` (don't run them outside a disposable VM) |
-| 07 | [kev-hunting](./07-kev-hunting/): umbrella for the hunt packs below | See each case | detection, hunting | | 10 hunt checklists, 10 synthetic logs (+ 3 [noisy variants](./NOISY_DATA.md)), 3 in-repo detection scripts + tests | `cd 07-kev-hunting && python -m pytest tests/ -v` (in-repo detectors); see each case |
+| 07 | [kev-hunting](./07-kev-hunting/): umbrella for the hunt packs below | See each case | detection, hunting | | 11 hunt checklists, 11 synthetic logs (+ 3 [noisy variants](./NOISY_DATA.md)), 4 in-repo detection scripts + tests | `cd 07-kev-hunting && python -m pytest tests/ -v` (in-repo detectors); see each case |
 
 ### 07 kev-hunting: hunt packs
 
@@ -59,6 +59,7 @@ cd soc-home-lab
 | [M365 app-identity persistence (ConnectWise incident)](./07-kev-hunting/hunt-checklist-m365-app-identity-persistence.md) | No CVE, not KEV | cloud, detection, hunting, IR | | Hunt checklist, [synthetic M365 audit log](./07-kev-hunting/samples/m365-app-identity-audit.log), reference detection (soc-skills) | `python3 ../soc-skills/labs/m365-app-identity-persistence-detect.py 07-kev-hunting/samples/m365-app-identity-audit.log` |
 | [Atlassian Data Center `::` path traversal](./07-kev-hunting/hunt-checklist-cve-2026-21589.md) | CVE-2026-21589. **KEV: listed** (added 2026-10-15, due 2026-10-18) | detection, hunting | | Hunt checklist, [synthetic log](./07-kev-hunting/samples/confluence-access.log), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-21589-log-detect.py)), plus a soc-skills version with built-in synthetic lines and a [lab card](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-21589-atlassian-traversal.md) | `python3 07-kev-hunting/detect/cve-2026-21589-log-detect.py 07-kev-hunting/samples/confluence-access.log` (or `python3 ../soc-skills/labs/cve-2026-21589-detect.py`) |
 | [Nextcloud Collabora CODE server RCE](./07-kev-hunting/hunt-checklist-cve-2026-110447.md) | CVE-2026-110447. **KEV: listed** (added 2026-10-23, due 2026-10-26) | detection, hunting | | Hunt checklist, [synthetic log](./07-kev-hunting/samples/nextcloud-access.log), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-110447-detect.py)), [lab card](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-110447-nextcloud-collabora-rce.md) (soc-skills) | `python3 07-kev-hunting/detect/cve-2026-110447-detect.py 07-kev-hunting/samples/nextcloud-access.log` |
+| [WordPress Core upgrade-window staged installer](./07-kev-hunting/hunt-checklist-cve-2026-119977.md) | CVE-2026-119977. **KEV: listed** (added 2026-11-03, due 2026-11-06; forensic triage Yes) | detection, hunting, IR | | Hunt checklist, [synthetic log](./07-kev-hunting/samples/wordpress-upgrade-access.log), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-119977-detect.py)) | `python3 07-kev-hunting/detect/cve-2026-119977-detect.py 07-kev-hunting/samples/wordpress-upgrade-access.log` |
 | [BeyondTrust Remote Support (RS) auth bypass (ARMORY CASTLE)](./07-kev-hunting/hunt-checklist.md) | CVE-2026-102764. **KEV: listed** (added 2026-10-16, due 2026-10-19) | detection, hunting, IR | | Hunt checklist + exercises in the [07 README](./07-kev-hunting/README.md), [synthetic appliance log](./07-kev-hunting/samples/appliance.log), [incident-report template](./07-kev-hunting/incident-report-template.md), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-102764-detect.py)), [lab card](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-102764-beyondtrust-auth-bypass.md) (soc-skills) | `python3 07-kev-hunting/detect/cve-2026-102764-detect.py 07-kev-hunting/samples/appliance.log` |
 
 ### 07 kev-hunting: tracked as intel only (no lab, reason in the [07 README](./07-kev-hunting/README.md))
@@ -82,9 +83,9 @@ cited) and that date. [`tools/verify_kev.py`](./tools/verify_kev.py) re-checks
 all of it, weekly and on every pull request, and opens an issue if anything
 drifts. It never edits the repo itself.
 
-**Totals:** 23 indexed entries = 6 published projects (01–06) + 10 hunt packs
-in 07 (all 10 with a synthetic log *and* a runnable reference detection: 7 in
-soc-skills, 3 in `07-kev-hunting/detect/`) + 7 intel-only notes.
+**Totals:** 24 indexed entries = 6 published projects (01–06) + 11 hunt packs
+in 07 (all 11 with a synthetic log *and* a runnable reference detection: 7 in
+soc-skills, 4 in `07-kev-hunting/detect/`) + 7 intel-only notes.
 
 ## Case details (dates, sources, log type, prerequisites)
 
@@ -107,6 +108,7 @@ Blank = not stated.
 | Case | Published / last reviewed | Threat source & evidence | KEV status | Log source & data form | How to run | Difficulty | Est. time | Prerequisites | Output | Status |
 |---|---|---|---|---|---|---|---|---|---|---|
 | CVE-2026-96652 / 96654 / 96655 / 96656 — Plex2Shell (Plex Media Server RCE chain) | CVEs published 2026-10-19; in the wild from 2026-10-17 (per 07 README) | Plex advisory + BoredHackerBlog honeypot (per 07 README) | Listed (added 2026-10-20, federal due 2026-10-23 / 2026-11-03) | Synthetic Plex access log (`samples/plex2shell-access.log`) | Offline (optional isolated `plexinc/pms-docker` lab, per 07 README) |  |  | Plex Media Server access logs |  | Hunt pack |
+| CVE-2026-119977 — WordPress Core upgrade-window staged-installer RCE | KEV 2026-11-03; federal due 2026-11-06; vendor fix 2026-10-28 (7.1.4) | CISA KEV + WordPress 7.1.4 release + Wordfence / NVD (Wordfence CNA) | Listed (added 2026-11-03, federal due 2026-11-06; forensicTriage Yes; ransomware Unknown) | Synthetic WordPress access log (`samples/wordpress-upgrade-access.log`) | Offline (optional local WordPress container for log shape only; detection uses the sample) |  |  | WordPress access logs covering `/wp-content/upgrade/` and `wp-admin` update paths | Hunt results + forensic triage notes + incident report | Hunt pack |
 | CVE-2026-102764 — BeyondTrust Remote Support (RS) auth bypass (ARMORY CASTLE chain) | KEV 2026-10-16; federal due 2026-10-19 | Mandiant/GTIG reporting (per 07 README and hunt checklist) | Listed (added 2026-10-16, federal due 2026-10-19) | Synthetic appliance log (`samples/appliance.log`) | Offline |  | ~2.25 hours (exercise times as written: 30 + 45 + 30 + 30 min) |  | Huntable-artifact table, hunt script, completed incident report | Hunt pack |
 | CVE-2025-61624 — Fortinet multiple-products path traversal (PEERSTITCH) | KEV Oct 2026 (per 07 README) | Palo Alto Networks reporting (per 07 README) | Listed | None — no sample log | Not applicable |  |  |  | Intel note in the 07 README | Intel only |
 | CVE-2026-21589 — Atlassian Data Center `::` path traversal | KEV 2026-10-15; federal due 2026-10-18 | watchTowr research + Previdian honeypot reporting (per 07 README) | Listed (added 2026-10-15, federal due 2026-10-18) | Synthetic Confluence access log (`samples/confluence-access.log`); the soc-skills script also has built-in synthetic lines | Offline |  |  | Web access logs for the affected Atlassian DC products (per hunt checklist) | Hunt results + incident report | Hunt pack |
@@ -136,7 +138,7 @@ with soc-skills at commit `4118685`:
   one `[INCIDENT]` for the planted attack. Most also print `[SUSPICIOUS]`
   lines for borderline benign activity that you're meant to triage.
 - The Atlassian script reports `TP=4 FP=0 TN=6 FN=0` on its built-in lines.
-- Re-checked 2026-10-21 on main (`b43ec3c`): the 3 in-repo detections in
+- Re-checked 2026-10-21 on main (`b43ec3c`): the in-repo detections in
   `07-kev-hunting/detect/` each exited 0 and printed exactly one `[INCIDENT]`
   on their sample (plus `[SUSPICIOUS]` / `[RECON]` lines to triage), and
   `07-kev-hunting/tests/` passed (6 tests).

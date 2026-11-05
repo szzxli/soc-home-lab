@@ -149,7 +149,23 @@ enough of the attack chain to hunt on.
   + `detect/cve-2026-110447-detect.py` + `hunt-checklist-cve-2026-110447.md`
   + `samples/nextcloud-access.log`.
 
-All three also ship a **noisy** sample variant in [`samples/noisy/`](./samples/noisy/)
+- **CVE-2026-119977** — WordPress Core TOCTOU race during full-package core
+  upgrades (CVSS 3.1 8.1 High, CWE-367). Predictable, web-accessible staging
+  paths under `wp-content/upgrade/` let an unauthenticated attacker reach the
+  staged installer during the upgrade window. Affected: **4.7.0 through 7.1.3**;
+  fixed in **7.1.4** plus branch backports (WordPress security release
+  2026-10-28, reporter Umut Bayram). **In CISA KEV** (added 2026-11-03,
+  federal due 2026-11-06, forensic triage Yes, ransomware use Unknown).
+  Public reporting describes active probing / blocked requests; treat as
+  attempted exploitation with a KEV listing, not a confirmed-takeover count.
+  Detection: hunt `setup-config.php` / staged installer hits under
+  `/wp-content/upgrade/` correlated with `wp-admin` upgrade activity; then
+  forensic-triage any site that upgraded while unpatched. Companion in this
+  repo: `detect/cve-2026-119977-detect.py` +
+  `hunt-checklist-cve-2026-119977.md` +
+  `samples/wordpress-upgrade-access.log`.
+
+All four in-repo detectors ship with the sample above; three of them also ship a **noisy** sample variant in [`samples/noisy/`](./samples/noisy/)
 (thousands of lines, benign look-alikes, missing fields). Expected TP/FP numbers
 are in [NOISY_DATA.md](../NOISY_DATA.md).
 

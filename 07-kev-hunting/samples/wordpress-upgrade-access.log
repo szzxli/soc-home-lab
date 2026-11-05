@@ -1,0 +1,33 @@
+# SYNTHETIC training log — WordPress web server access log (CVE-2026-119977 lab,
+# upgrade-window staged-installer probing).
+# ALL DATA SYNTHETIC: generated for this lab, no real attacker data, no working
+# payloads — request strings are reduced to the INDICATORS a defender keys on
+# (wp-content/upgrade/ staging paths, setup-config.php under that tree,
+# correlation with wp-admin update-core / update.php upgrade activity).
+# Attacker addresses are from documentation ranges (RFC 5737) only.
+# Hostnames use example.com. Format: combined log.
+# Contains: benign visitor + admin traffic, one recon-only prober (all 4xx), and
+# one attacker whose staged-installer hits overlap an upgrade window (2xx).
+192.0.2.10 - - [28/Oct/2026:14:01:08 +0000] "GET / HTTP/1.1" 200 18420 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+192.0.2.10 - - [28/Oct/2026:14:01:12 +0000] "GET /wp-content/themes/twentytwentyfive/style.css HTTP/1.1" 200 4120 "https://blog.example.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+192.0.2.11 - editor [28/Oct/2026:14:05:40 +0000] "GET /wp-admin/index.php HTTP/1.1" 200 22110 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+192.0.2.11 - editor [28/Oct/2026:14:06:02 +0000] "GET /wp-admin/edit.php HTTP/1.1" 200 19880 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+192.0.2.12 - - [28/Oct/2026:14:10:15 +0000] "GET /wp-json/wp/v2/posts?per_page=5 HTTP/1.1" 200 3310 "-" "WordPress/7.1.3; https://blog.example.com"
+# --- recon-only prober: staged-installer guesses, all 4xx, no upgrade window ---
+198.51.100.77 - - [28/Oct/2026:14:40:01 +0000] "GET /wp-content/upgrade/wordpress-7.1.4/setup-config.php HTTP/1.1" 404 196 "-" "curl/8.5.0"
+198.51.100.77 - - [28/Oct/2026:14:40:02 +0000] "GET /wp-content/upgrade/wordpress/wp-admin/setup-config.php HTTP/1.1" 404 196 "-" "curl/8.5.0"
+198.51.100.77 - - [28/Oct/2026:14:40:04 +0000] "GET /wp-content/upgrade/wordpress-7.1.3/wp-admin/install.php HTTP/1.1" 404 196 "-" "curl/8.5.0"
+192.0.2.10 - - [28/Oct/2026:14:55:22 +0000] "GET /2026/10/weekly-notes/ HTTP/1.1" 200 9120 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+# --- upgrade window: admin starts a core update ---
+192.0.2.11 - editor [28/Oct/2026:15:02:10 +0000] "GET /wp-admin/update-core.php HTTP/1.1" 200 15440 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+192.0.2.11 - editor [28/Oct/2026:15:02:18 +0000] "POST /wp-admin/update-core.php?action=do-core-upgrade HTTP/1.1" 200 8820 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+192.0.2.11 - editor [28/Oct/2026:15:02:40 +0000] "GET /wp-admin/update.php?action=update-selected-core HTTP/1.1" 200 4210 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+# --- attacker: staged-installer access overlapping the upgrade window (2xx) ---
+203.0.113.88 - - [28/Oct/2026:15:02:44 +0000] "GET /wp-content/upgrade/wordpress-7.1.4/setup-config.php HTTP/1.1" 200 6120 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.85 Safari/537.36"
+203.0.113.88 - - [28/Oct/2026:15:02:46 +0000] "GET /wp-content/upgrade/wordpress-7.1.4/wp-admin/setup-config.php HTTP/1.1" 200 5980 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+203.0.113.88 - - [28/Oct/2026:15:02:51 +0000] "POST /wp-content/upgrade/wordpress-7.1.4/setup-config.php HTTP/1.1" 200 2210 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+203.0.113.88 - - [28/Oct/2026:15:03:05 +0000] "GET /wp-content/upgrade/wordpress-7.1.4/wp-admin/install.php HTTP/1.1" 200 4410 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+# --- post-upgrade benign ---
+192.0.2.11 - editor [28/Oct/2026:15:04:12 +0000] "GET /wp-admin/about.php?updated HTTP/1.1" 200 12100 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+192.0.2.10 - - [28/Oct/2026:15:20:33 +0000] "GET / HTTP/1.1" 200 18480 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+192.0.2.12 - - [28/Oct/2026:15:30:01 +0000] "GET /wp-cron.php?doing_wp_cron HTTP/1.1" 200 0 "-" "WordPress/7.1.4; https://blog.example.com"
