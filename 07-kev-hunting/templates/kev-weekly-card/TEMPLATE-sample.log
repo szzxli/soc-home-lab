@@ -1,0 +1,15 @@
+# SYNTHETIC training log — TEMPLATE weekly KEV card (no real CVE, no real data).
+# ALL DATA SYNTHETIC: generated for this template, no real attacker data.
+# Source addresses are from documentation ranges (RFC 5737) only.
+# Hostnames are example.com / example.org only.
+# Format: combined log — IP - user [time] "METHOD path HTTP/1.1" status bytes "referer" "user-agent"
+# Contains: benign user traffic, one approved scanner (192.0.2.8, allowlisted),
+# one recon-only prober (all 404s), and one attacker who guesses paths (404 burst)
+# and then reads a sensitive path (200).
+192.0.2.10 - - [02/Nov/2026:09:12:44 +0000] "GET /index.html HTTP/1.1" 200 4821 "-" "Mozilla/5.0"
+192.0.2.8 - - [02/Nov/2026:12:05:11 +0000] "GET /health HTTP/1.1" 200 128 "-" "Scanner/1.0 (approved weekly scan)"
+198.51.100.23 - - [02/Nov/2026:13:41:02 +0000] "GET /[PLACEHOLDER-PATH] HTTP/1.1" 404 512 "-" "curl/8.0"
+198.51.100.23 - - [02/Nov/2026:13:41:09 +0000] "GET /[PLACEHOLDER-PATH] HTTP/1.1" 404 512 "-" "curl/8.0"
+198.51.100.23 - - [02/Nov/2026:13:41:17 +0000] "GET /[PLACEHOLDER-PATH] HTTP/1.1" 404 512 "-" "curl/8.0"
+203.0.113.45 - - [02/Nov/2026:14:02:33 +0000] "GET /[PLACEHOLDER-SENSITIVE-PATH] HTTP/1.1" 200 9403 "-" "curl/8.0"
+203.0.113.45 - - [02/Nov/2026:14:02:40 +0000] "GET /[PLACEHOLDER-SENSITIVE-PATH] HTTP/1.1" 200 12044 "-" "curl/8.0"
