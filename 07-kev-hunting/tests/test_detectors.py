@@ -56,7 +56,15 @@ def test_nextcloud_detector():
     assert "10.0.0.9" not in res  # health check polling proxy.php?status
 
 
-@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log"])
+
+
+def test_wordpress_upgrade_detector():
+    res = load("cve-2026-119977-detect.py").analyze(SAMPLES / "wordpress-upgrade-access.log")
+    assert verdicts(res) == {"203.0.113.88": "INCIDENT", "198.51.100.77": "RECON"}
+    assert flagged_lines(res) == {17, 18, 19, 26, 27, 28, 29}
+    assert "192.0.2.11" not in res  # admin upgrade traffic is correlation-only
+
+@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log", "wordpress-upgrade-access.log"])
 def test_sample_is_labeled_synthetic_and_uses_doc_ranges(name):
     text = (SAMPLES / name).read_text()
     assert "SYNTHETIC" in text.splitlines()[0].upper()
