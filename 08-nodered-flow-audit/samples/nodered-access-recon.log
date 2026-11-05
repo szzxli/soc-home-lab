@@ -1,0 +1,2 @@
+# SYNTHETIC. Rejected POST /flows only.
+198.51.100.77 - - [05/Nov/2026:19:11:00 +0000] "POST /flows HTTP/1.1" 401 32 "-" "curl/8.5.0"

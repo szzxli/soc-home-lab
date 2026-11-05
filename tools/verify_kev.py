@@ -55,7 +55,7 @@ INTEL_RE = re.compile(r"<!-- kev-verify-intel:begin.*?-->.*?<!-- kev-verify-inte
 
 # Files whose prose / markup is scanned for KEV claims (rule 4) and CVE IDs (rule 3).
 SCAN_GLOBS = ("README.md", "START_HERE.md", "NOISY_DATA.md", "07-kev-hunting/*.md",
-              "web/*.html", "06-ghostaction-supply-chain/*.md")
+              "08-nodered-flow-audit/*.md", "web/*.html", "06-ghostaction-supply-chain/*.md")
 
 CVE_RE = re.compile(r"CVE-(\d{4})-(\d{4,7})((?:\s*/\s*\d{4,7}(?![\d.]))*)", re.I)
 POSITIVE = re.compile(r"KEV: listed|(?<!not )\bIn CISA KEV\b|\bNow in CISA KEV\b|\bKEV-listed\b|"

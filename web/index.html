@@ -132,7 +132,7 @@
 
 <section id="labs" aria-labelledby="labs-h">
 <h2 id="labs-h">Labs</h2>
-<p class="sec-sub">Seven hands-on projects, each opens on GitHub. Prerequisites: <span class="pq">browser</span> read or run in a browser · <span class="pq">Python</span> run locally · <span class="pq">AWS $</span> your own AWS account, costs money.</p>
+<p class="sec-sub">Eight hands-on projects, each opens on GitHub. Prerequisites: <span class="pq">browser</span> read or run in a browser · <span class="pq">Python</span> run locally · <span class="pq">Docker</span> local containers · <span class="pq">AWS $</span> your own AWS account, costs money.</p>
 <div class="grid">
 <article class="tile"><span class="num">01</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/01-mini-soc">AWS mini-SOC detections</a></h3><p>Deploy CloudTrail → GuardDuty → SecurityHub with Terraform, emulate attacks with Stratus Red Team, triage the findings.</p><p class="pre"><span class="pq aws">AWS $</span> about $5–15/month; run <code>terraform destroy</code> when done</p></article>
 <article class="tile"><span class="num">02</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/02-python-ioc-analyzer">CloudTrail IOC analyzer</a></h3><p>A Python CLI that flags unusual logins, failed-login spikes and risky IAM changes in CloudTrail logs, with Sigma rules and tests.</p><p class="pre"><span class="pq">Python</span><span class="pq">browser</span> demo</p><a class="extra" href="demo.html">▶ Try it live</a></article>
@@ -141,6 +141,7 @@
 <article class="tile"><span class="num">05</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/05-soc-skills">SOC agent skill pack</a></h3><p>Six Tier-1 agent skills (triage, incident report, CloudTrail, phishing, binary triage, detection engineering) to copy into an agent.</p><p class="pre"><span class="pq">browser</span> Markdown files</p></article>
 <article class="tile"><span class="num">06</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/06-ghostaction-supply-chain">Editor supply-chain hunt</a></h3><p>Inert samples of malicious VS Code tasks plus cron persistence, a hunt checklist and a report template.</p><p class="pre"><span class="pq">browser</span> Linux VM for the persistence hunt</p></article>
 <article class="tile"><span class="num">07</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/07-kev-hunting">CISA KEV hunt packs</a></h3><p>The hunt packs below, as one project.</p><p class="pre"><span class="pq">Python</span></p></article>
+<article class="tile"><span class="num">08</span><h3><a href="https://github.com/szzxli/soc-home-lab/tree/main/08-nodered-flow-audit">Node-RED flow-audit lab</a></h3><p>Misconfiguration lab for CVE-2026-58115 (not in CISA KEV): local Node-RED with adminAuth off, a benign inject-to-exec marker, then a flows.json audit plus Sigma and Suricata rules. Not a KEV pack. Siemens hardware is not required.</p><p class="pre"><span class="pq">Python</span><span class="pq">Docker</span></p></article>
 </div>
 </section>
 
@@ -225,7 +226,7 @@
 <details>
 <summary>Is it really free? Do I need AWS?</summary>
 <div class="body">
-<p>Yes. Everything is open source under the MIT license, and nothing needs an account on this site. Only <a href="https://github.com/szzxli/soc-home-lab/tree/main/01-mini-soc">01 mini-soc</a> needs your own AWS account (START_HERE estimates about $5–15/month; run <code>terraform destroy</code> when you're done). The demo runs in your browser; the other labs are documents you read or Python scripts you run on your laptop.</p>
+<p>Yes. Everything is open source under the MIT license, and nothing needs an account on this site. Only <a href="https://github.com/szzxli/soc-home-lab/tree/main/01-mini-soc">01 mini-soc</a> needs your own AWS account (START_HERE estimates about $5–15/month; run <code>terraform destroy</code> when you're done). The demo runs in your browser. Lab 08 needs Docker and stays on localhost. The other labs are documents you read or Python scripts you run on your laptop.</p>
 </div>
 </details>
 </div>

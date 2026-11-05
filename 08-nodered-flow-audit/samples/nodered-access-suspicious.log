@@ -1,0 +1,2 @@
+# SYNTHETIC. Accepted POST /flows from a documentation address, paired with the known-good baseline (no exec node).
+203.0.113.51 - - [05/Nov/2026:19:10:00 +0000] "POST /flows HTTP/1.1" 200 74 "-" "curl/8.5.0"

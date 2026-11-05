@@ -24,3 +24,6 @@ venv/
 
 # Test caches
 .pytest_cache/
+
+# Local Node-RED lab snapshots and proxy logs
+08-nodered-flow-audit/lab/runtime/

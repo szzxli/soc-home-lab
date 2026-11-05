@@ -4,8 +4,8 @@
 (Security Operations Center) work.** It has hands-on projects you can run on
 your own laptop or AWS account: a mini cloud SOC, a CloudTrail log analyzer,
 a phishing analysis walkthrough, an ELF binary triage tool, SOC agent skills,
-a VS Code supply-chain defense lab, and a set of threat-hunting packs built from real October 2026 vulnerabilities
-(CISA KEV and in-the-wild cases). Each hunt pack gives you a hunt checklist and
+a VS Code supply-chain defense lab, a set of threat-hunting packs built from real October 2026 vulnerabilities
+(CISA KEV and in-the-wild cases), and a Node-RED misconfiguration flow-audit lab (not a KEV pack). Each hunt pack gives you a hunt checklist and
 a synthetic log to hunt in, and most come with a reference detection script you
 can run yourself. All logs and samples are **synthetic training data**. No real
 incident data is included.
@@ -45,6 +45,7 @@ cd soc-home-lab
 | 05 | [soc-skills](./05-soc-skills/): 6 agent skills for the Tier-1 loop | No CVE | triage, IR, detection, phishing, binary triage, cloud | | 6 `SKILL.md` files | |
 | 06 | [ghostaction-supply-chain](./06-ghostaction-supply-chain/): GhostAction-style malicious VS Code workspace tasks + cron persistence | No CVE | supply chain, hunting, IR | | Inert training samples (`tasks.json`, `font-cache.js`), hunt checklist, 4 exercises, IR report template | Static review only: read `06-ghostaction-supply-chain/samples/` (don't run them outside a disposable VM) |
 | 07 | [kev-hunting](./07-kev-hunting/): umbrella for the hunt packs below | See each case | detection, hunting | | 11 hunt checklists, 11 synthetic logs (+ 3 [noisy variants](./NOISY_DATA.md)), 4 in-repo detection scripts + tests | `cd 07-kev-hunting && python -m pytest tests/ -v` (in-repo detectors); see each case |
+| 08 | [nodered-flow-audit](./08-nodered-flow-audit/): Node-RED missing-adminAuth misconfiguration and flow-audit lab | CVE-2026-58115. KEV: not listed (not in CISA KEV). VulnCheck's own KEV lists this CVE; that catalog is not CISA KEV | detection, hunting | | Hunt checklist, benign inject→exec lab flow, synthetic flows + access log, Sigma and Suricata rules, flows.json auditor + tests. Not a KEV pack. No Siemens hardware | `python3 -m pytest 08-nodered-flow-audit/tests -v` |
 
 ### 07 kev-hunting: hunt packs
 
@@ -61,6 +62,12 @@ cd soc-home-lab
 | [Nextcloud Collabora CODE server RCE](./07-kev-hunting/hunt-checklist-cve-2026-110447.md) | CVE-2026-110447. **KEV: listed** (added 2026-10-23, due 2026-10-26) | detection, hunting | | Hunt checklist, [synthetic log](./07-kev-hunting/samples/nextcloud-access.log), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-110447-detect.py)), [lab card](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-110447-nextcloud-collabora-rce.md) (soc-skills) | `python3 07-kev-hunting/detect/cve-2026-110447-detect.py 07-kev-hunting/samples/nextcloud-access.log` |
 | [WordPress Core upgrade-window staged installer](./07-kev-hunting/hunt-checklist-cve-2026-119977.md) | CVE-2026-119977. **KEV: listed** (added 2026-11-03, due 2026-11-06; forensic triage Yes) | detection, hunting, IR | | Hunt checklist, [synthetic log](./07-kev-hunting/samples/wordpress-upgrade-access.log), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-119977-detect.py)) | `python3 07-kev-hunting/detect/cve-2026-119977-detect.py 07-kev-hunting/samples/wordpress-upgrade-access.log` |
 | [BeyondTrust Remote Support (RS) auth bypass (ARMORY CASTLE)](./07-kev-hunting/hunt-checklist.md) | CVE-2026-102764. **KEV: listed** (added 2026-10-16, due 2026-10-19) | detection, hunting, IR | | Hunt checklist + exercises in the [07 README](./07-kev-hunting/README.md), [synthetic appliance log](./07-kev-hunting/samples/appliance.log), [incident-report template](./07-kev-hunting/incident-report-template.md), reference detection in this repo ([`detect/`](./07-kev-hunting/detect/cve-2026-102764-detect.py)), [lab card](https://github.com/szzxli/soc-skills/blob/main/labs/cve-2026-102764-beyondtrust-auth-bypass.md) (soc-skills) | `python3 07-kev-hunting/detect/cve-2026-102764-detect.py 07-kev-hunting/samples/appliance.log` |
+
+### 08 nodered-flow-audit (not a KEV pack)
+
+| Case | CVE / KEV | Skills | Difficulty | Included | Verify |
+|---|---|---|---|---|---|
+| [Node-RED missing adminAuth, flow audit](./08-nodered-flow-audit/hunt-checklist.md) | CVE-2026-58115. KEV: not listed (not in CISA KEV). VulnCheck's own KEV lists this CVE; that catalog is not CISA KEV. Siemens SSA-834709 is advisory context only | detection, hunting | | Checklist, [synthetic flows and access log](./08-nodered-flow-audit/samples/), reference audit in this repo ([`detect/flows-audit.py`](./08-nodered-flow-audit/detect/flows-audit.py)), Sigma and Suricata rules, local Docker repro | `python3 08-nodered-flow-audit/detect/flows-audit.py --flows 08-nodered-flow-audit/samples/flows-lab-exec.json --baseline 08-nodered-flow-audit/samples/flows-baseline.json --access 08-nodered-flow-audit/samples/nodered-access.log` |
 
 ### 07 kev-hunting: tracked as intel only (no lab, reason in the [07 README](./07-kev-hunting/README.md))
 
@@ -83,9 +90,10 @@ cited) and that date. [`tools/verify_kev.py`](./tools/verify_kev.py) re-checks
 all of it, weekly and on every pull request, and opens an issue if anything
 drifts. It never edits the repo itself.
 
-**Totals:** 24 indexed entries = 6 published projects (01–06) + 11 hunt packs
+**Totals:** 25 indexed entries = 7 published projects (01–06 and 08) + 11 hunt packs
 in 07 (all 11 with a synthetic log *and* a runnable reference detection: 7 in
 soc-skills, 4 in `07-kev-hunting/detect/`) + 7 intel-only notes.
+08 is a misconfiguration lab, not one of the 11 KEV hunt packs.
 
 ## Case details (dates, sources, log type, prerequisites)
 
@@ -104,6 +112,7 @@ Blank = not stated.
 | 05 | [soc-skills](./05-soc-skills/) |  | Not applicable — agent skill pack | No CVE | SKILL.md files (Markdown) | Offline (copy into an agent's skills directory) |  |  |  | Six installed agent skills | Complete |
 | 06 | [ghostaction-supply-chain](./06-ghostaction-supply-chain/) | October 2026 (per 06 README) | GhostAction reporting (GBHackers, per 06 README) | No CVE | Inert `.vscode/tasks.json` + disguised JS payload samples; your own host's cron/systemd entries | Offline (static review; persistence hunt on your own Linux VM) |  | ~2 hours (exercise times as written: 15 + 45 + 30 + 30 min) | A Linux VM for the persistence hunt | Red-flag list, `tasks.json` detector, completed incident report | Complete lab |
 | 07 | [kev-hunting](./07-kev-hunting/) | Oct 2026 (CISA catalog version 2026.10.21, per 07 README) | CISA KEV catalog + vendor/researcher reporting, per case below | Per case (see table below) | Synthetic sample logs in `07-kev-hunting/samples/` | Offline (samples + reference detection scripts in `07-kev-hunting/detect/` and the companion repo) |  | Per case (see table below) | Per case (see table below) | Hunt findings + incident report | Complete lab (umbrella project; per-case status below) |
+| 08 | [nodered-flow-audit](./08-nodered-flow-audit/) | Lab written 2026-11-05. Advisory SSA-834709 published 2026-08-11, V1.1 updated 2026-11-04 | Siemens SSA-834709; CISA ICSA-26-237-03 republication; VulnCheck public write-up of in-the-wild attempts (2026-10-30) | CVE-2026-58115 is not in CISA KEV (catalog 2026.11.04, re-checked 2026-11-05). VulnCheck's own KEV lists this CVE; that catalog is not CISA KEV | Synthetic flows JSON + combined access log. Optional local Node-RED container (adminAuth off) and proxy access log | Local Docker for the repro; offline pytest for the detector |  |  | Docker, Python 3.9+ | Flow-audit findings (exec, http-in→exec, POST /flows, /tmp and /dev/shm writes) | Complete lab |
 
 | Case | Published / last reviewed | Threat source & evidence | KEV status | Log source & data form | How to run | Difficulty | Est. time | Prerequisites | Output | Status |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -138,6 +147,12 @@ with soc-skills at commit `4118685`:
   one `[INCIDENT]` for the planted attack. Most also print `[SUSPICIOUS]`
   lines for borderline benign activity that you're meant to triage.
 - The Atlassian script reports `TP=4 FP=0 TN=6 FN=0` on its built-in lines.
+- Re-checked 2026-11-05: `python3 -m pytest 08-nodered-flow-audit/tests -v`
+  (18 passed). The same day the loopback Node-RED 4.1.0 lab
+  (`adminAuth` off, benign inject→exec marker) produced `EXEC_NODE`,
+  `TMP_WRITE`, and `POST /flows` on the proxy log. CVE-2026-58115 was
+  absent from the live CISA KEV JSON (catalog version 2026.11.04).
+
 - Re-checked 2026-10-21 on main (`b43ec3c`): the in-repo detections in
   `07-kev-hunting/detect/` each exited 0 and printed exactly one `[INCIDENT]`
   on their sample (plus `[SUSPICIOUS]` / `[RECON]` lines to triage), and

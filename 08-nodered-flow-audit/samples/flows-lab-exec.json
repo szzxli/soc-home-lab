@@ -1,0 +1,59 @@
+{
+  "_comment": "SYNTHETIC. Known-good heartbeat plus the benign lab exec flow (id and echo markers under /dev/shm and /tmp). Overlapping node ids match flows-baseline.json so only the lab tab is unexpected.",
+  "flows": [
+    {
+      "id": "tab-ok",
+      "type": "tab",
+      "label": "example status",
+      "disabled": false,
+      "info": "Known-good lab baseline for example.com practice data."
+    },
+    {
+      "id": "inj-ok",
+      "type": "inject",
+      "z": "tab-ok",
+      "name": "heartbeat",
+      "props": [{"p": "payload"}],
+      "repeat": "900",
+      "once": false,
+      "topic": "",
+      "payload": "ok",
+      "payloadType": "str",
+      "wires": [["dbg-ok"]]
+    },
+    {
+      "id": "dbg-ok",
+      "type": "debug",
+      "z": "tab-ok",
+      "name": "heartbeat",
+      "active": true,
+      "wires": []
+    },
+    {
+      "id": "lab-tab",
+      "type": "tab",
+      "label": "benign lab marker",
+      "disabled": false,
+      "info": ""
+    },
+    {
+      "id": "lab-inject",
+      "type": "inject",
+      "z": "lab-tab",
+      "name": "once at deploy",
+      "once": true,
+      "onceDelay": 0.1,
+      "wires": [["lab-exec"]]
+    },
+    {
+      "id": "lab-exec",
+      "type": "exec",
+      "z": "lab-tab",
+      "name": "write lab markers",
+      "command": "id > /dev/shm/nodered-lab-whoami.txt; echo lab-ok > /tmp/nodered-lab-marker.txt",
+      "addpay": false,
+      "useSpawn": "false",
+      "wires": [[], [], []]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+title: Shell command writes under /tmp or /dev/shm
+id: 9b2e7c10-1a44-4f6d-8e2b-58115b0d4e02
+status: experimental
+description: >
+  A process command line references /tmp/ or /dev/shm/. In the Node-RED
+  missing-adminAuth lab this is the host-side partner to an exec node
+  whose command writes a marker (or, in public reporting, a staged file)
+  on a temp filesystem. High false-positive rate on build hosts; start
+  by requiring a node or node-red parent and the flows.json audit.
+author: soc-home-lab
+date: 2026/11/05
+references:
+  - https://nvd.nist.gov/vuln/detail/CVE-2026-58115
+  - https://cert-portal.siemens.com/productcert/html/ssa-834709.html
+logsource:
+  category: process_creation
+  product: linux
+detection:
+  selection_parent:
+    ParentImage|endswith:
+      - /node
+      - /nodejs
+  selection_path:
+    CommandLine|contains:
+      - /dev/shm/
+      - /tmp/
+  condition: selection_parent and selection_path
+falsepositives:
+  - Package installs and local tooling that stage files under /tmp
+level: medium
+tags:
+  - attack.execution
+  - attack.t1059
+  - cve.2026.58115

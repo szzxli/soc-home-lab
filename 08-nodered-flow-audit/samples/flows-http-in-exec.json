@@ -1,0 +1,46 @@
+{
+  "_comment": "SYNTHETIC graph fixture. An http-in node reaches an exec node through a function node. The exec command is a fixed echo into /tmp (addpay false). It is not a command channel and it is not deployed by the container lab.",
+  "flows": [
+    {
+      "id": "tab-http",
+      "type": "tab",
+      "label": "http fixture",
+      "disabled": false,
+      "info": ""
+    },
+    {
+      "id": "http-in-1",
+      "type": "http in",
+      "z": "tab-http",
+      "name": "fixed echo endpoint",
+      "url": "/lab-marker",
+      "method": "get",
+      "wires": [["fn-1"]]
+    },
+    {
+      "id": "fn-1",
+      "type": "function",
+      "z": "tab-http",
+      "name": "pass through",
+      "func": "return msg;",
+      "wires": [["exec-http"]]
+    },
+    {
+      "id": "exec-http",
+      "type": "exec",
+      "z": "tab-http",
+      "name": "fixed echo",
+      "command": "echo lab-fixed > /tmp/nodered-lab-http.txt",
+      "addpay": false,
+      "useSpawn": "false",
+      "wires": [[], [], []]
+    },
+    {
+      "id": "http-resp",
+      "type": "http response",
+      "z": "tab-http",
+      "name": "unused response",
+      "wires": []
+    }
+  ]
+}

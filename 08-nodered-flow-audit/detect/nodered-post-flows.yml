@@ -1,0 +1,35 @@
+title: Node-RED admin API flow deployment (POST /flows)
+id: 6f0c1b2a-7e44-4d1a-9c3e-58115a0d4e01
+status: experimental
+description: >
+  A client sent POST to a path ending in /flows and the server accepted it.
+  On Node-RED that path is the admin API which replaces the running flows.
+  When adminAuth is off, the request needs no credentials. This is a
+  detection rule for CVE-2026-58115 lab telemetry (Siemens SSA-834709
+  context). It does not contain an exploit. Authorized editors produce
+  the same request after adminAuth is enabled — tune with a known
+  source allowlist.
+author: soc-home-lab
+date: 2026/11/05
+references:
+  - https://nvd.nist.gov/vuln/detail/CVE-2026-58115
+  - https://cert-portal.siemens.com/productcert/html/ssa-834709.html
+  - https://nodered.org/docs/user-guide/runtime/securing-node-red
+logsource:
+  category: webserver
+  product: node-red
+detection:
+  selection:
+    cs-method: POST
+    cs-uri-stem|endswith: /flows
+  success:
+    sc-status|gte: 200
+    sc-status|lt: 300
+  condition: selection and success
+falsepositives:
+  - An editor who is supposed to deploy flows (keep adminAuth on and allowlist their source)
+level: high
+tags:
+  - attack.initial_access
+  - attack.t1190
+  - cve.2026.58115

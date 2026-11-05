@@ -14,7 +14,7 @@ import pytest
 WEB = Path(__file__).resolve().parent.parent
 REPO = "https://github.com/szzxli/soc-home-lab"
 LABS = ["01-mini-soc", "02-python-ioc-analyzer", "03-phishing-analysis-lab", "04-rea-triage",
-        "05-soc-skills", "06-ghostaction-supply-chain", "07-kev-hunting"]
+        "05-soc-skills", "06-ghostaction-supply-chain", "07-kev-hunting", "08-nodered-flow-audit"]
 
 
 class Page(HTMLParser):
@@ -156,8 +156,10 @@ def test_go_deeper_collapsible_links(index):
 
 def test_every_kev_tile_declares_its_kev_status(index):
     tiles = [a for t, a in index.tags if t == "article" and "data-kev" in a]
-    assert len(tiles) == 10
-    assert sum(a["data-kev"] == "yes" for a in tiles) == 6
+    # 11 hunt-pack tiles: 7 in CISA KEV (including WordPress CVE-2026-119977), 4 not.
+    # Lab 08 is a separate project tile and does not carry data-kev.
+    assert len(tiles) == 11
+    assert sum(a["data-kev"] == "yes" for a in tiles) == 7
     html = _text("index.html")
     assert "PRA" not in html  # KEV, NVD and BT26-05 name Remote Support only
 

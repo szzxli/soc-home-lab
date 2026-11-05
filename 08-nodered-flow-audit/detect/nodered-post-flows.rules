@@ -1,0 +1,27 @@
+# Lab Suricata rules for the Node-RED missing-adminAuth condition
+# (CVE-2026-58115, Siemens SSA-834709 context). Detection only.
+# SIDs are in the local range. Remap them before loading on a production sensor.
+# No addresses are hardcoded. $HOME_NET / $EXTERNAL_NET come from the sensor config.
+
+alert http $EXTERNAL_NET any -> $HOME_NET any (
+  msg:"LAB Node-RED POST /flows admin API deploy";
+  flow:to_server,established;
+  http.method; content:"POST";
+  http.uri; content:"/flows"; endswith;
+  classtype:attempted-admin;
+  sid:1000001;
+  rev:1;
+  metadata:cve CVE_2026_58115, lab nodered-flow-audit;
+)
+
+alert http $EXTERNAL_NET any -> $HOME_NET any (
+  msg:"LAB Node-RED POST /flows body includes an exec node";
+  flow:to_server,established;
+  http.method; content:"POST";
+  http.uri; content:"/flows"; endswith;
+  http.request_body; content:"\"type\""; content:"\"exec\""; distance:0; within:16;
+  classtype:attempted-admin;
+  sid:1000002;
+  rev:1;
+  metadata:cve CVE_2026_58115, lab nodered-flow-audit;
+)
