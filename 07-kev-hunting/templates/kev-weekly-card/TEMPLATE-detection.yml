@@ -1,0 +1,28 @@
+title: "[TEMPLATE] Weekly KEV hunt — replace with the week's CVE"
+id: 00000000-0000-0000-0000-000000000000
+status: test
+description: >-
+  TEMPLATE Sigma rule for a weekly KEV card. Replace the title, the URI
+  pattern, and the log source fields with the week's real data before use.
+  Matches a burst of failed requests for the hunt pattern followed by a
+  successful read of a sensitive path. A match means the pattern appears
+  in the log; triage before concluding compromise.
+references:
+  - https://www.cisa.gov/known-exploited-vulnerabilities-catalog
+author: soc-home-lab (template)
+date: 2026-11-02
+logsource:
+  category: webserver
+  product: apache
+detection:
+  selection_probe:
+    cs-uri-stem|contains: '[PLACEHOLDER-PATH]'
+    sc-status: 404
+  selection_success:
+    cs-uri-stem|contains: '[PLACEHOLDER-SENSITIVE-PATH]'
+    sc-status: 200
+  condition: selection_probe and selection_success
+falsepositives:
+  - Approved vulnerability scanners (allowlist their source addresses first)
+  - Legitimate users hitting the same path by mistake
+level: medium
