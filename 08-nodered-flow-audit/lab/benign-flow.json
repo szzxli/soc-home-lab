@@ -1,0 +1,48 @@
+{
+  "_comment": "BENIGN detection-lab flow. inject fires once and exec writes id/echo markers under /dev/shm and /tmp. No download, no listener, no parameter passed into the command.",
+  "flows": [
+    {
+      "id": "lab-tab",
+      "type": "tab",
+      "label": "benign lab marker",
+      "disabled": false,
+      "info": "Detection lab only. Writes two local marker files."
+    },
+    {
+      "id": "lab-inject",
+      "type": "inject",
+      "z": "lab-tab",
+      "name": "once at deploy",
+      "props": [
+        {"p": "payload"},
+        {"p": "topic", "vt": "str"}
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": true,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "",
+      "payloadType": "date",
+      "x": 180,
+      "y": 80,
+      "wires": [["lab-exec"]]
+    },
+    {
+      "id": "lab-exec",
+      "type": "exec",
+      "z": "lab-tab",
+      "command": "id > /dev/shm/nodered-lab-whoami.txt; echo lab-ok > /tmp/nodered-lab-marker.txt",
+      "addpay": false,
+      "append": "",
+      "useSpawn": "false",
+      "timer": "",
+      "winHide": false,
+      "oldrc": false,
+      "name": "write lab markers",
+      "x": 420,
+      "y": 80,
+      "wires": [[], [], []]
+    }
+  ]
+}

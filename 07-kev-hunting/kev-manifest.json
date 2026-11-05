@@ -182,6 +182,12 @@
       "vulnerabilityName": "WordPress WordPress Core Time-of-check Time-of-use (TOCTOU) Race Condition Vulnerability",
       "dateAdded": "2026-11-03",
       "dueDate": "2026-11-06"
+    },
+    "CVE-2026-58115": {
+      "inKev": false,
+      "vendorProject": "Node-RED",
+      "product": "Node-RED",
+      "note": "VulnCheck's own KEV lists this CVE; that catalog is not CISA KEV"
     }
   },
   "packs": [
@@ -292,6 +298,18 @@
       "vendorAdvisory": {
         "label": "BeyondTrust advisory BT26-05",
         "url": "https://www.beyondtrust.com/trust-center/security-advisories/bt26-05"
+      }
+    },
+    {
+      "id": "nodered-flow-audit",
+      "title": "Node-RED missing adminAuth flow-audit lab",
+      "file": "08-nodered-flow-audit/hunt-checklist.md",
+      "cves": [
+        "CVE-2026-58115"
+      ],
+      "vendorAdvisory": {
+        "label": "Siemens ProductCERT SSA-834709",
+        "url": "https://cert-portal.siemens.com/productcert/html/ssa-834709.html"
       }
     }
   ],

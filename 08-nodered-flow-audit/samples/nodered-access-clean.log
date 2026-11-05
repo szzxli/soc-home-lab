@@ -1,0 +1,4 @@
+# SYNTHETIC training log. Health checks and a read of /flows only. No POST /flows.
+192.0.2.10 - - [05/Nov/2026:18:00:01 +0000] "GET / HTTP/1.1" 200 1024 "https://example.com/" "nodered-lab-health"
+192.0.2.10 - - [05/Nov/2026:18:01:02 +0000] "GET /flows HTTP/1.1" 200 480 "-" "nodered-lab-health"
+192.0.2.15 - - [05/Nov/2026:18:06:01 +0000] "GET / HTTP/1.1" 200 100 "-" "kube-probe"

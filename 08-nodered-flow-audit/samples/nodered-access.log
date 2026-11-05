@@ -1,0 +1,10 @@
+# SYNTHETIC training log. RFC 5737 addresses and example.com only. Not a real incident.
+192.0.2.10 - - [05/Nov/2026:18:00:01 +0000] "GET / HTTP/1.1" 200 1024 "https://example.com/" "nodered-lab-health"
+192.0.2.10 - - [05/Nov/2026:18:01:02 +0000] "GET /flows HTTP/1.1" 200 480 "-" "nodered-lab-health"
+192.0.2.10 - - [05/Nov/2026:18:02:03 +0000] "POST /flowers HTTP/1.1" 404 12 "-" "nodered-lab-health"
+192.0.2.10 - - [05/Nov/2026:18:02:04 +0000] "POST /flows.json HTTP/1.1" 404 12 "-" "nodered-lab-health"
+203.0.113.50 - - [05/Nov/2026:18:04:11 +0000] "POST /flows HTTP/1.1" 200 74 "-" "curl/8.5.0"
+203.0.113.50 - - [05/Nov/2026:18:04:12 +0000] "GET / HTTP/1.1" 200 2048 "https://example.com/" "curl/8.5.0"
+198.51.100.40 - - [05/Nov/2026:18:05:40 +0000] "POST /admin/flows?rev=1 HTTP/1.1" 401 32 "-" "curl/8.5.0"
+this line is malformed and must be skipped
+192.0.2.15 - - [05/Nov/2026:18:06:01 +0000] "GET / HTTP/1.1" 200 100 "-" "kube-probe"

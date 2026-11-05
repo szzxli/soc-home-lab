@@ -1,0 +1,33 @@
+{
+  "_comment": "SYNTHETIC known-good Node-RED export. Heartbeat inject to a debug node. No exec, no http in. RFC 5737 and example.com are the only external names used in this pack's samples.",
+  "flows": [
+    {
+      "id": "tab-ok",
+      "type": "tab",
+      "label": "example status",
+      "disabled": false,
+      "info": "Known-good lab baseline for example.com practice data."
+    },
+    {
+      "id": "inj-ok",
+      "type": "inject",
+      "z": "tab-ok",
+      "name": "heartbeat",
+      "props": [{"p": "payload"}],
+      "repeat": "900",
+      "once": false,
+      "topic": "",
+      "payload": "ok",
+      "payloadType": "str",
+      "wires": [["dbg-ok"]]
+    },
+    {
+      "id": "dbg-ok",
+      "type": "debug",
+      "z": "tab-ok",
+      "name": "heartbeat",
+      "active": true,
+      "wires": []
+    }
+  ]
+}

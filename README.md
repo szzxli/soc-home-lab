@@ -2,7 +2,7 @@
 
 > **👉 New here? Read [START_HERE.md](./START_HERE.md) first.** It explains what this repo is, gives you a path to follow (new to SOC / practicing detection / prepping for interviews), and has one table of every case with its CVE/KEV status, skills, contents, and the command to verify its detection.
 
-Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a phishing analysis lab, binary triage, agent skills, a VS Code supply-chain defense lab, and KEV-driven threat-hunting packs. Built to demonstrate verifiable, practical security skills.
+Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a phishing analysis lab, binary triage, agent skills, a VS Code supply-chain defense lab, KEV-driven threat-hunting packs, and a Node-RED misconfiguration flow-audit lab. Built to demonstrate verifiable, practical security skills.
 
 🔗 **https://github.com/szzxli/soc-home-lab**
 
@@ -67,6 +67,11 @@ python ioc_analyzer.py --input sample_data/sample_cloudtrail.json --output repor
 
 **Skills:** Threat-intel consumption, IOC extraction, log hunting, detection engineering, incident documentation.
 
+### 08 — [nodered-flow-audit](./08-nodered-flow-audit/)
+**Problem:** Node-RED's admin API deploys flows that can run operating-system commands. With `adminAuth` left off, that API is unauthenticated. CVE-2026-58115 is that missing-auth condition as published for Siemens SIMATIC IoT2050 (SSA-834709). It is not in CISA KEV.
+**What it is:** A detection-only lab, separate from the KEV packs. Start the official Node-RED image with `adminAuth` off, deploy a benign inject→exec marker flow (`id` and `echo` into `/tmp` and `/dev/shm`), then hunt with a flows.json audit, a proxy `POST /flows` log, and Sigma- and Suricata-style rules. Siemens hardware is not required. VulnCheck's own KEV lists CVE-2026-58115; that catalog is not CISA KEV. Re-checked against the CISA feed on 2026-11-05 (catalog version 2026.11.04).
+**Skills:** Misconfiguration hunting, flow review, web-log detection, Sigma / Suricata.
+
 ## Go deeper (free, complementary)
 
 This kit is small on purpose. For real attack telemetry, bigger datasets and graded challenges:
@@ -85,6 +90,7 @@ This kit is small on purpose. For real attack telemetry, bigger datasets and gra
 - Authored six MIT-licensed agent skills for SOC analysts (alert triage, incident reporting, CloudTrail IOC analysis, phishing analysis, binary triage, detection engineering), distilled from working home-lab projects.
 - Built a supply-chain defense lab around the GhostAction technique (malicious VS Code workspace tasks + cron persistence): wrote a static detector for dangerous `tasks.json` patterns and a persistence-hunt runbook covering cron/systemd/autostart.
 - Authored incident report templates and detection triage guides following SOC documentation standards.
+- Built a detection-only Node-RED flow-audit lab for CVE-2026-58115 (not in CISA KEV): loopback container with `adminAuth` off, a benign inject-to-exec marker flow, and rules for `POST /flows`, exec nodes, http-in wired to exec, and writes under `/tmp` or `/dev/shm`.
 
 ## Skills matrix
 
@@ -92,7 +98,7 @@ This kit is small on purpose. For real attack telemetry, bigger datasets and gra
 |---|---|
 | SIEM / log analysis | 01 (CloudTrail, GuardDuty), 02 (log parsing) |
 | Incident response & triage | 01 (triage guide, IR templates), 06 + 07 (IR report templates) |
-| Threat detection / IOCs | 02 (heuristics, AbuseIPDB enrichment), 03 (IOC extraction), 07 (hunt checklists + detection scripts) |
+| Threat detection / IOCs | 02 (heuristics, AbuseIPDB enrichment), 03 (IOC extraction), 07 (hunt checklists + detection scripts), 08 (Node-RED flow audit) |
 | Phishing analysis | 03 (full walkthrough + cheatsheet) |
 | Cloud security (AWS) | 01 (VPC, IAM, S3, GuardDuty, SecurityHub) |
 | Scripting / automation (Python) | 02 (CLI tool + tests) |
@@ -102,7 +108,7 @@ This kit is small on purpose. For real attack telemetry, bigger datasets and gra
 ## Cost & cleanup
 
 - Project 01 needs your own AWS account; estimated **$5–15/month** at minimal config. **Run `terraform destroy` when done** — do not leave detectors running unattended.
-- Projects 02–07 are free (local only; 02 can use an optional AbuseIPDB free API key).
+- Projects 02–08 are free (local only; 02 can use an optional AbuseIPDB free API key). 08 needs Docker and keeps Node-RED on `127.0.0.1`.
 
 ## Privacy
 
