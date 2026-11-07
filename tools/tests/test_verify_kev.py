@@ -128,4 +128,4 @@ def test_stale_verified_line_on_site_is_caught(manifest):
     m = copy.deepcopy(manifest)
     m["verified"] = {"date": "2026-10-28", "catalogVersion": "2026.10.28"}
     problems = vk.scan_claims(m, feed_from(manifest), ROOT)
-    assert any(p.startswith("web/index.html") and "says verified 2026-11-05" in p for p in problems)
+    assert any(p.startswith("web/index.html") and "says verified 2026-11-07" in p for p in problems)

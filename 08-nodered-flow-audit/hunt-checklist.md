@@ -8,7 +8,7 @@ Work top to bottom. Check the box when done, note what you found.
 >
 > **Sources:** [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-58115) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-58115) · Vendor advisory: [Siemens ProductCERT SSA-834709](https://cert-portal.siemens.com/productcert/html/ssa-834709.html)
 >
-> **Verified against CISA KEV on 2026-11-05 (catalog version 2026.11.04).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
+> **Verified against CISA KEV on 2026-11-07 (catalog version 2026.11.06).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
 <!-- kev-verify:end -->
 Detection only. This is a misconfiguration and flow-audit lab, not a CISA KEV pack.
 No Siemens hardware is required. SIMATIC IoT2050 is advisory context.
