@@ -1,8 +1,8 @@
 {
   "_comment": "Single source of truth for every CVE / KEV claim in this repo. tools/verify_kev.py checks this file against the official CISA KEV JSON feed, then checks that every pack's generated 'kev-verify' block and every KEV claim on the site and in the READMEs agree with it. Edit this file, then run: python3 tools/verify_kev.py --write",
   "verified": {
-    "date": "2026-11-07",
-    "catalogVersion": "2026.11.06"
+    "date": "2026-11-09",
+    "catalogVersion": "2026.11.09"
   },
   "cves": {
     "CVE-2026-96652": {
@@ -183,6 +183,14 @@
       "dateAdded": "2026-11-03",
       "dueDate": "2026-11-06"
     },
+    "CVE-2026-123158": {
+      "inKev": true,
+      "vendorProject": "OpenBSD",
+      "product": "OpenSSH",
+      "vulnerabilityName": "OpenBSD OpenSSH Unexpected Status Code or Return Value Vulnerability",
+      "dateAdded": "2026-11-09",
+      "dueDate": "2026-11-12"
+    },
     "CVE-2026-58115": {
       "inKev": false,
       "vendorProject": "Node-RED",
@@ -224,6 +232,18 @@
       "vendorAdvisory": {
         "label": "WordPress 7.1.4 security release",
         "url": "https://wordpress.org/news/2026/10/wordpress-7-1-4/"
+      }
+    },
+    {
+      "id": "openssh-password-bypass",
+      "title": "OpenSSH password authentication bypass (musl, PAM disabled)",
+      "file": "07-kev-hunting/hunt-checklist-cve-2026-123158.md",
+      "cves": [
+        "CVE-2026-123158"
+      ],
+      "vendorAdvisory": {
+        "label": "OpenSSH 10.6p2 release notes",
+        "url": "https://www.openssh.org/releasenotes.html#10.6p2"
       }
     },
     {

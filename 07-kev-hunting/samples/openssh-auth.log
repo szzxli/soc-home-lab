@@ -1,0 +1,25 @@
+# SYNTHETIC training log — sshd auth log (CVE-2026-123158 lab).
+# ALL DATA SYNTHETIC: generated for this lab, no real attacker data.
+# Addresses are documentation ranges (RFC 5737) only. Hostname is ssh.example.com.
+# sshd does not record the password or the shadow field. The INVENTORY lines are
+# the stand-in for a per-host account census: the password field only, never a hash.
+# INVENTORY password_field=* : alpine root
+# INVENTORY password_field=hash : admin
+# INVENTORY password_field=! : nobody
+# Benign: publickey logins, a password login for an account that has a hash,
+# failed passwords (the advisory signal is an accepted password, not a failure),
+# and a password login for a locked account. Those must not alert.
+# SUSPICIOUS: accepted password for a user missing from the inventory.
+# INCIDENT: accepted password for an account whose password field is *.
+Nov  9 15:01:02 ssh.example.com sshd[1101]: Accepted publickey for admin from 192.0.2.10 port 51001 ssh2: ED25519 SHA256:syntheticexamplekeyadmin
+Nov  9 15:04:18 ssh.example.com sshd[1108]: Accepted publickey for alpine from 192.0.2.11 port 51022 ssh2: ED25519 SHA256:syntheticexamplekeyalpine
+Nov  9 15:10:44 ssh.example.com sshd[1114]: Accepted password for admin from 192.0.2.10 port 51040 ssh2
+Nov  9 15:18:02 ssh.example.com sshd[1119]: Accepted password for nobody from 192.0.2.12 port 51055 ssh2
+Nov  9 15:22:03 ssh.example.com sshd[1120]: Failed password for root from 198.51.100.22 port 44110 ssh2
+Nov  9 15:22:05 ssh.example.com sshd[1120]: Failed password for invalid user guest from 198.51.100.22 port 44112 ssh2
+Nov  9 15:30:12 ssh.example.com sshd[1133]: Accepted password for contractor from 198.51.100.40 port 44180 ssh2
+Nov  9 16:02:11 ssh.example.com sshd[1204]: Accepted password for alpine from 203.0.113.50 port 45021 ssh2
+Nov  9 16:02:40 ssh.example.com sshd[1209]: Accepted password for root from 203.0.113.50 port 45022 ssh2
+Nov  9 16:05:01 ssh.example.com sshd[1215]: Accepted publickey for root from 192.0.2.11 port 51090 ssh2: ED25519 SHA256:syntheticexamplekeyroot
+this line is not an sshd record
+Nov  9 16:10:00 ssh.example.com CRON[1300]: (root) CMD (echo synthetic)
