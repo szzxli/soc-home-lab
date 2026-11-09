@@ -6,8 +6,8 @@ SSA-834709 for SIMATIC IoT2050 devices that ship Node-RED. The lab below
 uses the official Node-RED container so you can practice the hunt without
 Siemens hardware.
 
-**CISA KEV:** not listed. Re-checked the live CISA KEV JSON on 2026-11-07
-(catalog version 2026.11.06, `dateReleased` 2026-11-06T19:44:45.1797Z).
+**CISA KEV:** not listed. Re-checked the live CISA KEV JSON on 2026-11-09
+(catalog version 2026.11.09, `dateReleased` 2026-11-09T16:16:16.4275Z).
 `CVE-2026-58115` is absent. VulnCheck's own KEV lists this CVE, according
 to VulnCheck's public write-up (they added it after observations on
 2026-10-30). That is VulnCheck KEV, not CISA KEV.

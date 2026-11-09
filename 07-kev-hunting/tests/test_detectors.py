@@ -64,7 +64,35 @@ def test_wordpress_upgrade_detector():
     assert flagged_lines(res) == {17, 18, 19, 26, 27, 28, 29}
     assert "192.0.2.11" not in res  # admin upgrade traffic is correlation-only
 
-@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log", "wordpress-upgrade-access.log"])
+
+def test_openssh_password_bypass_detector():
+    res = load("cve-2026-123158-detect.py").analyze(SAMPLES / "openssh-auth.log")
+    assert verdicts(res) == {"203.0.113.50": "INCIDENT", "198.51.100.40": "SUSPICIOUS"}
+    assert flagged_lines(res) == {20, 21, 22}
+    kinds = {h[2] for h in res["203.0.113.50"]["hits"]}
+    assert kinds == {"ACCEPTED_STAR"}
+    assert res["198.51.100.40"]["hits"][0][2] == "ACCEPTED_UNKNOWN"
+    # publickey, hashed-account password, locked-account password, failures
+    for ip in ("192.0.2.10", "192.0.2.11", "192.0.2.12", "198.51.100.22"):
+        assert ip not in res
+
+
+def test_openssh_detector_accepts_sshd_session_and_iso_timestamp(tmp_path):
+    log = tmp_path / "auth.log"
+    log.write_text(
+        "# SYNTHETIC\n"
+        "# INVENTORY password_field=* : alpine\n"
+        "2026-11-09T16:02:11.000000+00:00 ssh.example.com sshd-session[9]: "
+        "Accepted password for alpine from 203.0.113.9 port 22 ssh2\n"
+        "Nov  9 16:03:00 sshd[10]: Accepted publickey for alpine from 192.0.2.9 "
+        "port 22 ssh2: ED25519 SHA256:synthetic\n"
+    )
+    res = load("cve-2026-123158-detect.py").analyze(log)
+    assert verdicts(res) == {"203.0.113.9": "INCIDENT"}
+    assert flagged_lines(res) == {3}
+
+
+@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log", "wordpress-upgrade-access.log", "openssh-auth.log"])
 def test_sample_is_labeled_synthetic_and_uses_doc_ranges(name):
     text = (SAMPLES / name).read_text()
     assert "SYNTHETIC" in text.splitlines()[0].upper()

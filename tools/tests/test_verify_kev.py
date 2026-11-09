@@ -37,7 +37,7 @@ def test_repo_is_consistent_with_its_manifest(manifest):
 
 
 def test_every_pack_has_sources_and_verified_line(manifest):
-    assert len(manifest["packs"]) == 12
+    assert len(manifest["packs"]) == 13
     for pack in manifest["packs"]:
         text = (ROOT / pack["file"]).read_text()
         assert "**Sources:**" in text and "Verified against CISA KEV on " in text, pack["file"]
@@ -82,7 +82,7 @@ def test_stale_block_is_caught(manifest):
     m = copy.deepcopy(manifest)
     m["verified"]["date"] = "2099-01-01"
     problems = vk.check_blocks(m, ROOT)
-    assert len([p for p in problems if "out of date" in p]) == 13  # 12 packs + intel table
+    assert len([p for p in problems if "out of date" in p]) == 14  # 13 packs + intel table
 
 
 def test_prose_scanner_catches_wrong_claims(tmp_path, manifest):
@@ -128,4 +128,4 @@ def test_stale_verified_line_on_site_is_caught(manifest):
     m = copy.deepcopy(manifest)
     m["verified"] = {"date": "2026-10-28", "catalogVersion": "2026.10.28"}
     problems = vk.scan_claims(m, feed_from(manifest), ROOT)
-    assert any(p.startswith("web/index.html") and "says verified 2026-11-07" in p for p in problems)
+    assert any(p.startswith("web/index.html") and "says verified 2026-11-09" in p for p in problems)

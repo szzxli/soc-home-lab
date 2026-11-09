@@ -156,10 +156,10 @@ def test_go_deeper_collapsible_links(index):
 
 def test_every_kev_tile_declares_its_kev_status(index):
     tiles = [a for t, a in index.tags if t == "article" and "data-kev" in a]
-    # 11 hunt-pack tiles: 7 in CISA KEV (including WordPress CVE-2026-119977), 4 not.
+    # 12 hunt-pack tiles: 8 in CISA KEV (including OpenSSH CVE-2026-123158), 4 not.
     # Lab 08 is a separate project tile and does not carry data-kev.
-    assert len(tiles) == 11
-    assert sum(a["data-kev"] == "yes" for a in tiles) == 7
+    assert len(tiles) == 12
+    assert sum(a["data-kev"] == "yes" for a in tiles) == 8
     html = _text("index.html")
     assert "PRA" not in html  # KEV, NVD and BT26-05 name Remote Support only
 
