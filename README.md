@@ -6,9 +6,17 @@ Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a
 
 🔗 **https://github.com/szzxli/soc-home-lab**
 
-**▶ Live demo:** [CloudTrail IOC analyzer in your browser](https://szzxli.github.io/soc-home-lab/web/demo.html?ref=gh-shl) (synthetic data, nothing leaves the page) · [Project site](https://szzxli.github.io/soc-home-lab/web/?ref=gh-shl)
+## Where to start
 
-**Quick start** (Python 3.9+):
+No AWS account needed to start. Pick the path that matches you — each is a short sequence, not the whole repo.
+
+**Path 1 — Start here, no AWS needed (browser only):**
+
+1. **[▶ Try the live demo](https://szzxli.github.io/soc-home-lab/web/demo.html?ref=gh-shl)** — the CloudTrail IOC analyzer in your browser: a detection report on a sample log in about 10 seconds, nothing to install, nothing leaves the page.
+2. **[Lab 03: phishing email triage](./03-phishing-analysis-lab/)** — work through a reconstructed training phish: header forensics, SPF/DKIM/DMARC, URL analysis. No setup.
+3. Then run [lab 02 itself](./02-python-ioc-analyzer/) with Python (Path 2 below).
+
+**Path 2 — Practicing detection (Python, local only):
 
 ```bash
 git clone https://github.com/szzxli/soc-home-lab.git
@@ -16,6 +24,14 @@ cd soc-home-lab/02-python-ioc-analyzer
 pip install -r requirements.txt
 python ioc_analyzer.py --input sample_data/sample_cloudtrail.json --output report.md
 ```
+
+Then pick a [noisy KEV pack](./07-kev-hunting/) and write your own detection before comparing with the reference script.
+
+**Path 3 — AWS mini-SOC (optional):**
+
+[Lab 01: mini-soc](./01-mini-soc/) is the only lab that needs your own AWS account, and it costs money — see [Cost & cleanup](#cost--cleanup). Optional: do it after Paths 1–2, or skip it.
+
+Browse the full lab site: [Project site](https://szzxli.github.io/soc-home-lab/web/?ref=gh-shl)
 
 📊 Skills quantified: these projects are graded against a public rubric and mapped to the NIST NICE framework in the companion repo **[szzxli/soc-skills](https://github.com/szzxli/soc-skills)** — including a one-page HR-readable skill profile.
 
