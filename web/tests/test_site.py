@@ -197,11 +197,13 @@ def test_start_here_is_on_site_and_right_under_hero(index):
     assert 'START_HERE.md" data-count="open-start-here">Start here' not in html
 
 
-def test_hero_does_not_claim_no_setup_for_labs():
+def test_hero_does_not_mention_aws_price():
     html = _text("index.html")
     hero = html[html.index('<div class="hero">'):html.index("</figure>")]
     assert "No login, no setup." not in hero
-    assert "Python" in hero and "AWS" in hero and "$5–15/month" in hero
+    assert "Python" in hero and "AWS" in hero
+    assert "$5–15/month" not in hero
+    assert "needs your own AWS account" in hero
     assert "lab 02" in hero and "not a KEV hunt pack" in hero
 
 
