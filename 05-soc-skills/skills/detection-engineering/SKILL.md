@@ -1,3 +1,8 @@
+---
+name: detection-engineering
+description: Write and validate detection rules that catch attacker behavior without drowning the SOC in noise, and ship each rule with its test evidence.
+---
+
 # detection-engineering
 
 Write and validate detection rules that catch attacker behavior without

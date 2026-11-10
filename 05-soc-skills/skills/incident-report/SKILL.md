@@ -1,3 +1,8 @@
+---
+name: incident-report
+description: Turn triage notes and forensic findings into a structured incident report a SOC lead, auditor, or future-you can act on.
+---
+
 # incident-report
 
 Turn triage notes and forensic findings into a structured incident report

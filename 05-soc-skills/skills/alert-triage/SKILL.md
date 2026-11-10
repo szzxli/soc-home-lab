@@ -1,3 +1,8 @@
+---
+name: alert-triage
+description: Triage a raw SOC alert into a severity-scored, action-oriented assessment of what happened, how bad it is, and what to do in the next 30 minutes.
+---
+
 # alert-triage
 
 Triage a SOC alert (GuardDuty finding, SIEM alert, or detector output)

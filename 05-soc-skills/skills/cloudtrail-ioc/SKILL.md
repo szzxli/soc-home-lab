@@ -1,3 +1,8 @@
+---
+name: cloudtrail-ioc
+description: Analyze AWS CloudTrail logs for indicators of compromise with three heuristic detectors covering unusual-geography logins, brute-force bursts, and high-risk IAM and EC2 API calls.
+---
+
 # cloudtrail-ioc
 
 Analyze AWS CloudTrail logs for indicators of compromise using three
