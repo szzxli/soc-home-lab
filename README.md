@@ -65,7 +65,7 @@ Browse the full lab site: [Project site](https://szzxli.github.io/soc-home-lab/w
 
 ### 05 — [soc-skills](./05-soc-skills/)
 **Problem:** General-purpose agent skill packs don't cover SOC work.
-**What it is:** Seven agent skills for the Tier-1 analyst loop, each distilled from a working project in this repo: `alert-triage`, `incident-report`, `cloudtrail-ioc`, `phishing-analysis`, `binary-triage`, `detection-engineering`. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.
+**What it is:** Seven agent skills for the Tier-1 analyst loop, distilled from working SOC practice in this repo: `alert-triage`, `incident-report`, `cloudtrail-ioc`, `phishing-analysis`, `binary-triage`, `detection-engineering`, `yaral-detection`. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.
 **Skills:** Detection triage, incident documentation, knowledge distillation into agent skills.
 
 ### 06 — [ghostaction-supply-chain](./06-ghostaction-supply-chain/)
