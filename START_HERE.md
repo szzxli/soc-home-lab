@@ -22,7 +22,7 @@ incident data is included.
 
 Blank cell = the repo doesn't say. Nothing here is estimated. No document in
 the repo rates difficulty, so the Difficulty column is blank throughout.
-"Verify" commands run from the repo root. Six 07 reference detection scripts
+"Verify" commands run from the repo root. Seven 07 reference detection scripts
 (BeyondTrust, Nextcloud, Atlassian, WordPress, OpenSSH, PHP) ship in this repo under
 [`07-kev-hunting/detect/`](./07-kev-hunting/detect/), with a pytest suite in
 [`07-kev-hunting/tests/`](./07-kev-hunting/tests/). The other seven live in the
@@ -42,9 +42,9 @@ cd soc-home-lab
 | 02 | [python-ioc-analyzer](./02-python-ioc-analyzer/): CloudTrail IOC CLI + Sigma engine | No CVE | cloud, detection, triage | | Tool, synthetic CloudTrail log + [noisy variant](./NOISY_DATA.md), 3 Sigma rules, sample reports, tests | `cd 02-python-ioc-analyzer && pip install -r requirements.txt && python -m pytest tests/ -v` |
 | 03 | [phishing-analysis-lab](./03-phishing-analysis-lab/): header forensics walkthrough | No CVE | phishing, triage | | Walkthrough, header cheatsheet, report template, GoPhish self-test guide | |
 | 04 | [rea-triage](./04-rea-triage/): one-command ELF triage | No CVE | binary triage, detection | | Tool, synthetic demo ELF + generator, tests | `cd 04-rea-triage && pip install -r requirements.txt && python -m pytest tests/ -v` |
-| 05 | [soc-skills](./05-soc-skills/): 7 agent skills for the Tier-1 loop | No CVE | triage, IR, detection, phishing, binary triage, cloud | | 6 `SKILL.md` files | |
+| 05 | [soc-skills](./05-soc-skills/): 7 agent skills for the Tier-1 loop | No CVE | triage, IR, detection, phishing, binary triage, cloud | | 7 `SKILL.md` files | |
 | 06 | [ghostaction-supply-chain](./06-ghostaction-supply-chain/): GhostAction-style malicious VS Code workspace tasks + cron persistence | No CVE | supply chain, hunting, IR | | Inert training samples (`tasks.json`, `font-cache.js`), hunt checklist, 4 exercises, IR report template | Static review only: read `06-ghostaction-supply-chain/samples/` (don't run them outside a disposable VM) |
-| 07 | [kev-hunting](./07-kev-hunting/): umbrella for the hunt packs below | See each case | detection, hunting | | 13 hunt checklists, 13 synthetic logs (+ 3 [noisy variants](./NOISY_DATA.md)), 6 in-repo detection scripts + tests | `cd 07-kev-hunting && python -m pytest tests/ -v` (in-repo detectors); see each case |
+| 07 | [kev-hunting](./07-kev-hunting/): umbrella for the hunt packs below | See each case | detection, hunting | | 14 hunt checklists, 14 synthetic logs (+ 3 [noisy variants](./NOISY_DATA.md)), 7 in-repo detection scripts + tests | `cd 07-kev-hunting && python -m pytest tests/ -v` (in-repo detectors); see each case |
 | 08 | [nodered-flow-audit](./08-nodered-flow-audit/): Node-RED missing-adminAuth misconfiguration and flow-audit lab | CVE-2026-58115. KEV: not listed (not in CISA KEV). VulnCheck's own KEV lists this CVE; that catalog is not CISA KEV | detection, hunting | | Hunt checklist, benign inject→exec lab flow, synthetic flows + access log, Sigma and Suricata rules, flows.json auditor + tests. Not a KEV pack. No Siemens hardware | `python3 -m pytest 08-nodered-flow-audit/tests -v` |
 
 ### 07 kev-hunting: hunt packs
@@ -92,9 +92,9 @@ cited) and that date. [`tools/verify_kev.py`](./tools/verify_kev.py) re-checks
 all of it, weekly and on every pull request, and opens an issue if anything
 drifts. It never edits the repo itself.
 
-**Totals:** 27 indexed entries = 7 published projects (01–06 and 08) + 13 hunt packs
-in 07 (all 13 with a synthetic log *and* a runnable reference detection: 7 in
-soc-skills, 6 in `07-kev-hunting/detect/`) + 7 intel-only notes.
+**Totals:** 28 indexed entries = 7 published projects (01–06 and 08) + 14 hunt packs
+in 07 (all 14 with a synthetic log *and* a runnable reference detection: 7 in
+soc-skills, 7 in `07-kev-hunting/detect/`) + 7 intel-only notes.
 08 is a misconfiguration lab, not one of the 13 KEV hunt packs.
 
 ## Case details (dates, sources, log type, prerequisites)
