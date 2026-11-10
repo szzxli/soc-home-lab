@@ -77,6 +77,17 @@ def test_openssh_password_bypass_detector():
         assert ip not in res
 
 
+def test_php2shell_detector():
+    res = load("php2shell-detect.py").analyze(SAMPLES / "php2shell-sysmon.log")
+    assert verdicts(res) == {"web-01": "INCIDENT", "web-02": "SUSPICIOUS",
+                            "web-03": "SUSPICIOUS", "web-05": "SUSPICIOUS"}
+    assert flagged_lines(res) == {18, 19, 20, 21, 22, 23, 24}
+    kinds = {h[2] for h in res["web-01"]["hits"]}
+    assert kinds == {"SHELL_SPAWN", "TOOL_DOWNLOAD", "NET_OUT", "WEBSHELL_DROP"}
+    assert "web-04" not in res  # FPM pool spawns, cron php, admin/monitoring curl,
+    # direct worker outbound, template-cache .php write
+
+
 def test_openssh_detector_accepts_sshd_session_and_iso_timestamp(tmp_path):
     log = tmp_path / "auth.log"
     log.write_text(
@@ -92,7 +103,7 @@ def test_openssh_detector_accepts_sshd_session_and_iso_timestamp(tmp_path):
     assert flagged_lines(res) == {3}
 
 
-@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log", "wordpress-upgrade-access.log", "openssh-auth.log"])
+@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log", "wordpress-upgrade-access.log", "openssh-auth.log", "php2shell-sysmon.log"])
 def test_sample_is_labeled_synthetic_and_uses_doc_ranges(name):
     text = (SAMPLES / name).read_text()
     assert "SYNTHETIC" in text.splitlines()[0].upper()
