@@ -191,6 +191,22 @@
       "dateAdded": "2026-11-09",
       "dueDate": "2026-11-12"
     },
+    "CVE-2026-109618": {
+      "inKev": true,
+      "vendorProject": "PHP Group",
+      "product": "PHP",
+      "vulnerabilityName": "PHP Memory Corruption Vulnerability",
+      "dateAdded": "2026-10-26",
+      "dueDate": "2026-10-29"
+    },
+    "CVE-2026-109619": {
+      "inKev": true,
+      "vendorProject": "PHP Group",
+      "product": "PHP",
+      "vulnerabilityName": "PHP Stale Internal Request-State Vulnerability",
+      "dateAdded": "2026-10-26",
+      "dueDate": "2026-10-29"
+    },
     "CVE-2026-58115": {
       "inKev": false,
       "vendorProject": "Node-RED",
@@ -244,6 +260,19 @@
       "vendorAdvisory": {
         "label": "OpenSSH 10.6p2 release notes",
         "url": "https://www.openssh.org/releasenotes.html#10.6p2"
+      }
+    },
+    {
+      "id": "php2shell",
+      "title": "PHP2Shell (PHP unauthenticated RCE)",
+      "file": "07-kev-hunting/hunt-checklist-php2shell.md",
+      "cves": [
+        "CVE-2026-109618",
+        "CVE-2026-109619"
+      ],
+      "vendorAdvisory": {
+        "label": "PHP security advisories GHSA-w8hw-w9fx-j79w / GHSA-6wmf-4rv5-p3rp",
+        "url": "https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w"
       }
     },
     {

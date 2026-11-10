@@ -182,8 +182,24 @@ enough of the attack chain to hunt on.
   2026-11-12, forensic triage Yes, ransomware use Unknown). Companion in
   this repo: `detect/cve-2026-123158-detect.py` +
   `hunt-checklist-cve-2026-123158.md` + `samples/openssh-auth.log`.
+- **CVE-2026-109618 / CVE-2026-109619 — PHP2Shell** — PHP unauthenticated RCE
+  (CVSS 3.1 9.8 / 8.1; CVSS 4.0 9.2 for both, PHP security team; CWE-416 and
+  friends). Two memory bugs in PHP itself: 109618, OOM handling leaves
+  request memory uninitialized and the shutdown procedure reads it; 109619,
+  request-owned global state survives into the next request on the same
+  worker. Affects every PHP that serves web requests below **8.2.35 /
+  8.3.36 / 8.4.27 / 8.5.12**; mod_php is the highest-risk SAPI (RCE
+  confirmed over HTTP, before any application code runs), FPM is susceptible
+  too, FrankenPHP likely, LSAPI conditional. The triggering request has no
+  distinctive shape, so detection pivots to post-trigger behaviour: a PHP
+  worker spawning a shell or a download tool, and new `.php` dropped by a
+  web worker. **In CISA KEV** (added 2026-10-26, federal due 2026-10-29,
+  forensic triage Yes, ransomware use Unknown). Companion in this repo:
+  `detect/php2shell-detect.py` + `detect/php2shell-wazuh-rules.xml` (four
+  Wazuh rules, structurally checked only — no Wazuh manager in this lab) +
+  `hunt-checklist-php2shell.md` + `samples/php2shell-sysmon.log`.
 
-All five in-repo detectors ship with the sample above; three of them (BeyondTrust, Atlassian, Nextcloud) also ship a **noisy** sample variant in [`samples/noisy/`](./samples/noisy/)
+All six in-repo detectors ship with the sample above; three of them (BeyondTrust, Atlassian, Nextcloud) also ship a **noisy** sample variant in [`samples/noisy/`](./samples/noisy/)
 (thousands of lines, benign look-alikes, missing fields). Expected TP/FP numbers
 are in [NOISY_DATA.md](../NOISY_DATA.md).
 

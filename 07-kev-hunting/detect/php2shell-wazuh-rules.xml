@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PHP2Shell (CVE-2026-109618 / CVE-2026-109619) — Wazuh detection rules.
+  Detection only: these rules look for post-trigger behaviour, not for the
+  flaw itself. The triggering request has no distinctive shape (the flaw is
+  memory corruption inside PHP, reached before any application code runs),
+  so the rules key on what CISA names as the observable: a PHP worker
+  process launching a shell or downloading tools — plus the usual follow-on,
+  a new .php file dropped by a web worker.
+
+  Assumptions (read before deploying):
+  - Events arrive through the stock Wazuh Sysmon decoder (Sysmon for Linux,
+    EventID 1 ProcessCreate / 3 NetworkConnect / 11 FileCreate), so the
+    fields below are win.system.* / win.eventdata.*. No custom decoder is
+    needed. If your pipeline ingests auditd instead, the same patterns apply
+    but the field names must be remapped — see the checklist.
+  - A "PHP web worker" is a web SAPI worker: php-fpm, php-cgi, httpd /
+    apache2 (mod_php), frankenphp, lsphp. Bare `php` (CLI) is deliberately
+    NOT a worker: cron running `php artisan` must not fire.
+  - Rule 100110 correlates: any two rules from this group on one host within
+    an hour. Cross-kind correlation (shell + download / webshell) is a hunt
+    step in the checklist, not a Wazuh-native join.
+  - NOT executed against a Wazuh manager: there is no manager in this lab.
+    These rules were checked structurally only (well-formed XML, unique IDs
+    in the custom range, valid levels, patterns cross-checked against the
+    synthetic sample with an approximation — see check_wazuh.py, not shipped).
+    Validate on a manager before relying on them, and confirm the
+    `negate` field handling and the `if_matched_group` composite on your
+    Wazuh version.
+  - All example values in the comments are synthetic (documentation ranges
+    only). No exploit code, no payloads, no request construction.
+-->
+<group name="php2shell,">
+
+  <!-- A PHP web worker spawned a shell. This is the primary signal: CISA's
+       stated observable for php2shell. A lone hit is suspicious, not proof —
+       known application shell-outs (document conversion, media tools) are the
+       main false-positive source; triage the command line. -->
+  <rule id="100100" level="12">
+    <field name="win.system.eventID" type="pcre2">^1$</field>
+    <field name="win.eventdata.parentImage" type="pcre2">(?i)(php-fpm[^/]*|php-cgi|httpd|apache2|frankenphp|lsphp)$</field>
+    <field name="win.eventdata.image" type="pcre2">(?i)(sh|bash|dash|zsh)$</field>
+    <description>PHP2Shell: PHP web worker spawned a shell</description>
+    <mitre>
+      <id>T1059.004</id>
+      <tactic>Execution</tactic>
+      <technique>Unix Shell</technique>
+    </mitre>
+  </rule>
+
+  <!-- A download tool spawned directly under a PHP web worker. The chained
+       case (shell spawned by the worker, then curl/wget under that shell) is
+       caught by correlation (rule 100110 + the checklist), not by this rule
+       alone: Wazuh cannot join on the parent GUID here. -->
+  <rule id="100101" level="12">
+    <field name="win.system.eventID" type="pcre2">^1$</field>
+    <field name="win.eventdata.parentImage" type="pcre2">(?i)(php-fpm[^/]*|php-cgi|httpd|apache2|frankenphp|lsphp)$</field>
+    <field name="win.eventdata.image" type="pcre2">(?i)(curl|wget)$</field>
+    <description>PHP2Shell: download tool spawned directly under a PHP web worker</description>
+    <mitre>
+      <id>T1105</id>
+      <tactic>Command and Control</tactic>
+      <technique>Ingress Tool Transfer</technique>
+    </mitre>
+  </rule>
+
+  <!-- A PHP web worker created a new .php file. Template-cache directories
+       (storage/framework/views, var/cache, cache/twig) are excluded: frameworks
+       write compiled templates there legitimately. Anything else is a possible
+       webshell drop — patching does not remove a planted shell, so a hit here
+       is a forensic-triage trigger even on a patched host. -->
+  <rule id="100102" level="12">
+    <field name="win.system.eventID" type="pcre2">^11$</field>
+    <field name="win.eventdata.image" type="pcre2">(?i)(php-fpm[^/]*|php-cgi|httpd|apache2|frankenphp|lsphp)$</field>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\.(php|phtml|php\d)$</field>
+    <field name="win.eventdata.targetFilename" type="pcre2" negate="yes">(?i)(storage/framework/views|var/cache|cache/twig)/</field>
+    <description>PHP2Shell: PHP web worker dropped a new PHP file (possible webshell)</description>
+    <mitre>
+      <id>T1505.003</id>
+      <tactic>Persistence</tactic>
+      <technique>Web Shell</technique>
+    </mitre>
+  </rule>
+
+  <!-- Correlation: any two rules from this group on one host within an hour.
+       On the synthetic sample this fires for web-01 (shell + download tool +
+       webshell drop inside 30 seconds). -->
+  <rule id="100110" level="15" frequency="2" timeframe="3600">
+    <if_matched_group>php2shell</if_matched_group>
+    <same_field>win.system.computer</same_field>
+    <description>PHP2Shell: repeated PHP2Shell signals on one host within an hour</description>
+    <mitre>
+      <id>T1059.004</id>
+      <tactic>Execution</tactic>
+      <technique>Unix Shell</technique>
+    </mitre>
+  </rule>
+
+</group>
