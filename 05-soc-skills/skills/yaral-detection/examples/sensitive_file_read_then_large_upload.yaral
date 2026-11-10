@@ -1,0 +1,27 @@
+rule sensitive_file_read_then_large_upload {
+  meta:
+    author = "soc-lab"
+    description = "A host reads a credential or archive file and then sends far more bytes than its own hourly average."
+    severity = "High"
+
+  events:
+    $read.metadata.event_type = "FILE_READ"
+    $read.target.file.full_path = /\.(kdbx|pem|ppk|7z|zip)$/ nocase
+    $host = $read.principal.hostname
+    $conn.metadata.event_type = "NETWORK_CONNECTION"
+    $conn.principal.hostname = $host
+
+  match:
+    $host over 1h
+
+  outcome:
+    $max_sent_bytes = max($conn.network.sent_bytes)
+    $avg_sent_bytes = window.avg($conn.network.sent_bytes)
+    $upload_threshold = 3 * $avg_sent_bytes
+    $read_count = count($read.metadata.id)
+    $risk_score = 85
+    $files_read = array_distinct($read.target.file.full_path)
+
+  condition:
+    $read and $conn and $max_sent_bytes > $upload_threshold
+}
