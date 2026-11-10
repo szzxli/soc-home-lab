@@ -16,7 +16,7 @@ No AWS account needed to start. Pick the path that matches you — each is a sho
 2. **[Lab 03: phishing email triage](./03-phishing-analysis-lab/)** — work through a reconstructed training phish: header forensics, SPF/DKIM/DMARC, URL analysis. No setup.
 3. Then run [lab 02 itself](./02-python-ioc-analyzer/) with Python (Path 2 below).
 
-**Path 2 — Practicing detection (Python, local only):
+**Path 2 — Practicing detection (Python, local only):**
 
 ```bash
 git clone https://github.com/szzxli/soc-home-lab.git
