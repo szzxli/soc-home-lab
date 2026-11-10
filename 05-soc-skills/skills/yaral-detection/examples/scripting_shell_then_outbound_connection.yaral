@@ -1,0 +1,27 @@
+rule scripting_shell_then_outbound_connection {
+  meta:
+    author = "soc-lab"
+    description = "A scripting shell launches on a host and the same host opens an outbound connection within five minutes."
+    severity = "High"
+
+  events:
+    $shell.metadata.event_type = "PROCESS_LAUNCH"
+    re.regex($shell.target.process.command_line, `\bpowershell(\.exe)?\b|\bcmd(\.exe)?\b`) nocase
+    not re.regex($shell.target.process.command_line, `C:\\Tools\\PatchMgmt\\`) nocase
+    $host = $shell.principal.hostname
+    $conn.metadata.event_type = "NETWORK_CONNECTION"
+    $conn.principal.hostname = $host
+    $conn.target.ip != ""
+
+  match:
+    $host over 5m
+
+  outcome:
+    $event_count = count($shell.metadata.id)
+    $risk_score = 85
+    $shell_command = array_distinct($shell.target.process.command_line)
+    $dest_ips = array_distinct($conn.target.ip)
+
+  condition:
+    $shell and $conn
+}

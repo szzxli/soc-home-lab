@@ -1,0 +1,23 @@
+rule repeated_failed_logins_single_user {
+  meta:
+    author = "soc-lab"
+    description = "One user account fails to log in more than five times in ten minutes."
+    severity = "Medium"
+
+  events:
+    $login.metadata.event_type = "USER_LOGIN"
+    $login.security_result.action = "FAIL"
+    $login.principal.user.userid != ""
+    $user = $login.principal.user.userid
+
+  match:
+    $user over 10m
+
+  outcome:
+    $failed_login_count = count($login.metadata.id)
+    $first_fail_time = min($login.metadata.event_timestamp.seconds)
+    $risk_score = 65
+
+  condition:
+    $failed_login_count > 5
+}
