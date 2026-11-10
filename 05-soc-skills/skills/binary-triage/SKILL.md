@@ -1,3 +1,8 @@
+---
+name: binary-triage
+description: Statically triage a Linux ELF binary without executing it, and produce file identity, heuristic findings with severity, and a score-based verdict.
+---
+
 # binary-triage
 
 Static triage of an ELF binary: one command in, one analyst-readable

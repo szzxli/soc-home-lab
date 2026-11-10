@@ -1,3 +1,8 @@
+---
+name: phishing-analysis
+description: Dissect a suspicious email — header forensics, authentication results, URL deobfuscation, attachment triage — and give a verdict with a confidence level.
+---
+
 # phishing-analysis
 
 Dissect a suspicious email: header forensics, authentication results,

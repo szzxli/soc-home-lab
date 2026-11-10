@@ -1,3 +1,8 @@
+---
+name: yaral-detection
+description: Write YARA-L 2.0 detection rules in Google SecOps — single-event checks, multi-event correlation, and volume rules with a risk score — and validate each rule before it ships.
+---
+
 # yaral-detection
 
 Write YARA-L 2.0 detection rules that catch attacker behavior in
