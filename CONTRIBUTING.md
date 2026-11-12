@@ -14,5 +14,5 @@ The loader is the inline `GoatCounter loader` script in each page; `web/tests/te
 
 ## Links to the other sites
 
-Links from this repo to li jun's other sites carry a `?ref=` source tag (placed before any `#fragment`):
+Links from this repo to David Lee's other sites carry a `?ref=` source tag (placed before any `#fragment`):
 `?ref=gh-shl` from Markdown files in this repo, `?ref=shl` from the website. Links to third-party sites are not tagged.
