@@ -3,8 +3,8 @@
 Agent skills for security analysts.
 
 General-purpose agent skill packs focus on software engineering workflows
-and don't cover SOC work. These seven skills cover the Tier-1 analyst loop.
-Six are distilled from a working home-lab project in this repo;
+and don't cover SOC work. These eight skills cover the Tier-1 analyst loop.
+Seven are distilled from a working home-lab project in this repo;
 `yaral-detection` covers the YARA-L 2.0 rule language:
 
 | Skill | Does | Distilled from |
@@ -16,6 +16,7 @@ Six are distilled from a working home-lab project in this repo;
 | `binary-triage` | Static ELF triage → scored verdict + one-page report | `04-rea-triage` |
 | `detection-engineering` | Write + validate detection rules (Sigma), tune TP/FP, ship with test evidence | `02-python-ioc-analyzer` Sigma module |
 | `yaral-detection` | Write + validate YARA-L 2.0 rules: single-event, multi-event correlation, volume + risk score | — |
+| `agent-tool-call-guard` | Review a proposed agent tool call before it runs: declaration check, misuse scan, escalate suspicious ones | `06-ghostaction-supply-chain`, `07-kev-hunting` agent-tool case |
 
 ## Install
 
