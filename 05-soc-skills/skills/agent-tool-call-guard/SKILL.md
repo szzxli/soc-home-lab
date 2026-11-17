@@ -85,8 +85,11 @@ python3 guard.py samples/synthetic-tool-calls.jsonl
 For a full audit of a real agent's log — scope, log collection,
 human review of the suspicious calls, red-team fill, and the
 report — follow `RUNBOOK.md`. It also states what is still open
-(real logs, the blind set, the capture harness) before any audit
-may claim independent validation.
+(the blind set) before any audit may claim independent validation.
+
+Real logs come from `harness/` — the recorder, the task sets, and
+the run reports. Start there before quoting any number about real
+agent behaviour.
 
 ## Use it in CI
 

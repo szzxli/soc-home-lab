@@ -13,8 +13,8 @@ scores on synthetic calls). Read those two first.
 | Guard (`guard.py`) + 100-call eval set | Done. Self-test 100/100 on calls written by the same author as the checker. That is calibration, not production performance. |
 | Held-out set (40 calls, written before the fixes) | Done as a repair check (40/40 after fixes). It is now a dev set, not independent validation. |
 | Second-author blind set (30–50 calls, checker frozen) | **Open.** Requested from a second author; not written yet. No audit may claim independent validation until it exists and has been run blind. |
-| Real agent logs | **Open.** No real log has been scored yet. Every sample in `samples/` is synthetic. |
-| Log capture harness (instrumented agent runs) | **Open.** This is how real logs get made (step 1). Until it exists, audits run on client-provided logs only. |
+| Real agent logs | **First run done 2026-11-16:** `harness/runs/run-2026-11-16-muse-01.scrubbed.jsonl`, 15 records (12 scored task calls: allow 2, suspicious 1, block 9; 3 admin). One run, one agent — a first observation, not a benchmark. |
+| Log capture harness (instrumented agent runs) | **Built 2026-11-16** (`harness/`): record.py, scrub.py, benign + attack task sets, first run. Driver is muse with manual recording; the runtime-database export route was checked and is empty (see `harness/README.md`). |
 | Suspicious-review checklist | This file, step 3. |
 
 **The rule that follows from the table:** an audit report must name
@@ -60,9 +60,9 @@ agent's reasoning or earlier tool results, so do not collect them.
 1. **Instrumented runs of our own agents.** The capture harness
    records every tool call an agent proposes, in the schema above,
    as the run happens. This is the primary source for the demo and
-   for calibrating the guard on real traffic. Status: the harness
-   is not built yet; until it is, this source is unavailable and
-   the report must say so.
+   for calibrating the guard on real traffic. Status: built
+   2026-11-16 (`harness/`); first run
+   `harness/runs/run-2026-11-16-muse-01` is scored and reported.
 2. **Client-provided logs.** The client exports their agent's
    proposed-call log in the schema above (or a raw log we convert
    mechanically — a script, never hand edits). If a client's log
