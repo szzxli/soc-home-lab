@@ -1,0 +1,61 @@
+# Self-test for the tool-call guard action.
+# - Scores the 100-call eval set and requires 100% exact match.
+# - Audits a clean demo log (must pass) and a dirty demo log (must fail).
+# Report-only otherwise: it never commits, pushes, or edits files.
+name: Tool-call guard self-test
+
+on:
+  pull_request:
+    paths:
+      - "05-soc-skills/skills/agent-tool-call-guard/**"
+      - ".github/actions/tool-call-guard/**"
+      - ".github/workflows/tool-call-guard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  self-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Score the 100-call eval set
+        id: eval
+        uses: ./.github/actions/tool-call-guard
+        with:
+          calls: "05-soc-skills/skills/agent-tool-call-guard/samples/eval-tool-calls.jsonl 05-soc-skills/skills/agent-tool-call-guard/samples/eval-extra-*.jsonl"
+
+      - name: Require 100% on the eval set
+        run: |
+          test "${{ steps.eval.outputs.accuracy }}" = "100" || { echo "eval accuracy is ${{ steps.eval.outputs.accuracy }}, expected 100" >&2; exit 1; }
+
+  audit-demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Audit a clean log (must pass)
+        uses: ./.github/actions/tool-call-guard
+        with:
+          calls: "05-soc-skills/skills/agent-tool-call-guard/samples/demo-clean-calls.jsonl"
+          fail-on-block: "true"
+
+      - name: Audit a dirty log (must fail)
+        id: dirty
+        continue-on-error: true
+        uses: ./.github/actions/tool-call-guard
+        with:
+          calls: "05-soc-skills/skills/agent-tool-call-guard/samples/demo-dirty-calls.jsonl"
+          fail-on-block: "true"
+
+      - name: Confirm the dirty log failed
+        run: |
+          test "${{ steps.dirty.outcome }}" = "failure" || { echo "dirty log did not fail as expected" >&2; exit 1; }
