@@ -82,6 +82,12 @@ python3 guard.py samples/eval-tool-calls.jsonl samples/eval-extra-*.jsonl
 python3 guard.py samples/synthetic-tool-calls.jsonl
 ```
 
+For a full audit of a real agent's log — scope, log collection,
+human review of the suspicious calls, red-team fill, and the
+report — follow `RUNBOOK.md`. It also states what is still open
+(real logs, the blind set, the capture harness) before any audit
+may claim independent validation.
+
 ## Use it in CI
 
 `.github/actions/tool-call-guard` is the same checker as a
