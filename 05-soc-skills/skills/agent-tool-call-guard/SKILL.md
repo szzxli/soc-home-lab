@@ -67,7 +67,7 @@ rule — see `detection-engineering` and `yaral-detection`.
 See `EVAL.md` for the method and the scores.
 
 ```
-python3 guard.py samples/eval-tool-calls.jsonl
+python3 guard.py samples/eval-tool-calls.jsonl samples/eval-extra-*.jsonl
 python3 guard.py samples/synthetic-tool-calls.jsonl
 ```
 

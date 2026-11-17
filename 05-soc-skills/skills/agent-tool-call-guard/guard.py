@@ -25,6 +25,7 @@ Checks, in order (same order as SKILL.md):
 
 Usage:
     python3 guard.py samples/eval-tool-calls.jsonl
+    python3 guard.py samples/eval-tool-calls.jsonl samples/eval-extra-*.jsonl
     python3 guard.py samples/synthetic-tool-calls.jsonl
 
 Output: one line per call (id, verdict, deciding stage, finding),
@@ -56,7 +57,8 @@ from pathlib import Path
 
 HIGH_PATTERNS = [
     (re.compile(r"/proc/\d+/environ|/proc/\*/environ"), "reading another process environment"),
-    (re.compile(r"~?/\.netrc|~?/\.aws/credentials|/etc/shadow"), "credential file read"),
+    (re.compile(r"~?/\.netrc|~?/\.aws/credentials|/etc/shadow|~?/\.ssh/id_rsa|~?/\.ssh/id_ed25519"), "credential file read"),
+    (re.compile(r"AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{10,}"), "secret-looking token passed in the call"),
     (re.compile(r"curl\s+--noproxy|wget\s+--no-proxy"), "proxy bypass on outbound fetch"),
     (re.compile(r"serviceaccount|/var/run/secrets/kubernetes\.io"), "Kubernetes service-account token"),
     (re.compile(r"\bunshare\b|\bnsenter\b"), "namespace escape"),
@@ -81,9 +83,17 @@ MEDIUM_PATTERNS = [
     (re.compile(r"cat\s+/etc/passwd"), "system account file read"),
     (re.compile(r">\s*/tmp/\S+\.sh\s+&&\s+(sh|bash)\b"), "write a script then run it in the same call"),
     (re.compile(r"curl\b.*-d\s+@\S+"), "uploading file contents to a host"),
+    (re.compile(r"(curl|wget)\b.*\|\s*(sh|bash|zsh)\b"), "pipe a download straight into a shell"),
+    (re.compile(r"<\(.*(curl|wget)"), "process substitution fetching a remote script"),
+    (re.compile(r"\bscp\b.*@"), "uploading a file with scp"),
+    (re.compile(r"~?/\.bash_history|~?/\.zsh_history"), "shell history read, may contain secrets"),
+    (re.compile(r"wget\b.*--post-file="), "uploading file contents with wget"),
 ]
 
 HOST_RE = re.compile(r"https?://([A-Za-z0-9.\-]+)|(?<![\w.])(\d{1,3}(?:\.\d{1,3}){3})(?![\w.])")
+# The @ must follow a username (scp/ssh user@host), so "-d @file"
+# in a curl upload is not mistaken for a host.
+USER_AT_HOST_RE = re.compile(r"[A-Za-z0-9_.\-]+@([A-Za-z0-9.\-]+\.[A-Za-z]{2,})")
 IPV4_RE = re.compile(r"^\d{1,3}(\.\d{1,3}){3}$")
 
 
@@ -107,6 +117,8 @@ def hosts_in(text: str) -> set[str]:
             hosts.add(url_host.lower())
         if bare_ip:
             hosts.add(bare_ip)
+    for at_host in USER_AT_HOST_RE.findall(text):
+        hosts.add(at_host.lower())
     return hosts
 
 
@@ -142,11 +154,15 @@ def check_call(call: dict) -> tuple[str, int, str]:
 
 
 def main(argv: list[str]) -> int:
-    if len(argv) != 2:
-        print(f"usage: {argv[0]} <calls.jsonl>", file=sys.stderr)
+    if len(argv) < 2:
+        print(f"usage: {argv[0]} <calls.jsonl> [<calls.jsonl> ...]", file=sys.stderr)
         return 2
-    path = Path(argv[1])
-    calls = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    calls = []
+    for name in argv[1:]:
+        path = Path(name)
+        calls.extend(
+            json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()
+        )
 
     verdicts: Counter[str] = Counter()
     exact = 0
