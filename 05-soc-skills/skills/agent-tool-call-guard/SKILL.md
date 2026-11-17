@@ -71,6 +71,16 @@ python3 guard.py samples/eval-tool-calls.jsonl samples/eval-extra-*.jsonl
 python3 guard.py samples/synthetic-tool-calls.jsonl
 ```
 
+## Use it in CI
+
+`.github/actions/tool-call-guard` is the same checker as a
+GitHub Action: give it a JSONL log, get counts and accuracy in
+the job summary, and fail the step on `block` (or `suspicious`)
+when you ask for it. `.github/workflows/tool-call-guard.yml`
+runs it on every PR that touches this skill: it scores the
+100-call eval set and requires 100%, and it audits a clean
+demo log (must pass) and a dirty demo log (must fail).
+
 ## Output
 
 A short guard note, under 300 words: verdict line (verdict +

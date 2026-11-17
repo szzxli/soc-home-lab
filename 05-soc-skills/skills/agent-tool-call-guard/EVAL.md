@@ -17,6 +17,11 @@ No dependencies beyond Python 3.9+ standard library. No network
 access. The checker reads one or more JSONL files and prints one
 verdict per call, then a summary.
 
+The same checker runs in CI: `.github/actions/tool-call-guard`
+is a GitHub Action, and `.github/workflows/tool-call-guard.yml`
+scores the 100-call eval set on every PR touching this skill
+and requires 100%.
+
 ## Results (2026-11-16, local run)
 
 | File | Calls | Exact-match accuracy | Block detection (stopped = block or suspicious) |
