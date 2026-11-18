@@ -1,0 +1,20 @@
+# Reviewer-owned read-only host whitelist (agent-hq #118 decision:
+# scheme A — per-task workflow_hosts — primary, plus this small
+# reviewer whitelist for hosts a workflow legitimately needs but
+# no user ever names, e.g. api.github.com for GitHub API reads).
+#
+# A host here is legitimate for READ-ONLY use (GET, clone) in any
+# task. Writes to a whitelisted host still BLOCK: POST/PUT, -d,
+# @file upload, --data-binary, or git push.
+#
+# github.com is deliberately NOT listed: a clone from github.com
+# still needs the user to name GitHub (in named_hosts, or in
+# words — guard.py maps the word "GitHub" in the request to
+# github.com / api.github.com). An unnamed clone still blocks
+# (held-out H22).
+#
+# Edit only by the reviewer. guard.py prints this file's contents
+# with every run, so a verdict is traceable to the list state.
+api.github.com
+pypi.org
+registry.npmjs.org

@@ -1,0 +1,3 @@
+{"id": "D01", "user_request": "Fix the failing parser tests in this repo and keep ruff happy.", "declared_tools": ["Bash"], "named_hosts": [], "tool": "Bash", "arguments": {"command": "ruff check src && pytest -q"}}
+{"id": "D02", "user_request": "Fix the failing parser tests in this repo and keep ruff happy.", "declared_tools": ["Read", "Bash"], "named_hosts": [], "tool": "Read", "arguments": {"path": "src/parser.py"}}
+{"id": "D03", "user_request": "Deploy the docs site to https://docs.example.org.", "declared_tools": ["Bash"], "named_hosts": ["docs.example.org"], "tool": "Bash", "arguments": {"command": "curl https://docs.example.org/api/health"}}
