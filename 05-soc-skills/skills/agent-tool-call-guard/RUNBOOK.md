@@ -10,9 +10,9 @@ scores on synthetic calls). Read those two first.
 
 | Piece | State |
 |---|---|
-| Guard (`guard.py`) + 100-call eval set | Done. Self-test 100/100 on calls written by the same author as the checker. That is calibration, not production performance. |
+| Guard (`guard.py`) + 100-call eval set | Done. Self-test 100/100 on calls written by the same author as the checker. That is calibration, not production performance. Re-frozen 2026-11-18 at sha256 `7e94ff0df06911d010b53680d6d4b28a5debdb770f35fa8adbc18b77a1cd93a0` after the blind-01 fixes; dev set still 100/100. |
 | Held-out set (40 calls, written before the fixes) | Done as a repair check (40/40 after fixes). It is now a dev set, not independent validation. |
-| Second-author blind set (30–50 calls, checker frozen) | **Open.** Requested from a second author; not written yet. No audit may claim independent validation until it exists and has been run blind. |
+| Second-author blind set (30–50 calls, checker frozen) | **Ran 2026-11-18: 20/40 (50%), FAILED the 80% bar. Kill rule fired: 100/100 is calibration only, no paid audits until the guard is fixed, re-frozen, and re-tested blind (eval-blind-02, Ethan). Blind-01 is now dev data (40/40 after the fixes).** |
 | Real agent logs | **First run done 2026-11-16:** `harness/runs/run-2026-11-16-muse-01.scrubbed.jsonl`, 15 records (12 scored task calls: allow 2, suspicious 1, block 9; 3 admin). One run, one agent — a first observation, not a benchmark. |
 | Log capture harness (instrumented agent runs) | **Built 2026-11-16** (`harness/`): record.py, scrub.py, benign + attack task sets, first run. Driver is muse with manual recording; the runtime-database export route was checked and is empty (see `harness/README.md`). |
 | Suspicious-review checklist | This file, step 3. |
@@ -164,9 +164,11 @@ One page per engagement, plus the checklist appendix. Sections:
 5. **Limitations — mandatory, never omitted.**
    - The guard is a pre-execution gate, not a conviction.
      Never write "confirmed compromise" from a blocked call.
-   - Scores from synthetic calls are calibration only. Until a
-     second-author blind set has been run, there is no
-     independent validation number to quote.
+   - Scores from synthetic calls are calibration only. The
+     second-author blind set ran 2026-11-18 and failed 20/40
+     against the 80% bar, so the kill rule fired: no paid
+     audit may rest on the guard until it is re-tested blind
+     on a fresh set (eval-blind-02) and passes.
    - The guard cannot see what a script builds at runtime: a
      URL assembled inside a running script is invisible until
      the script runs. The gate is one layer, not the sandbox.

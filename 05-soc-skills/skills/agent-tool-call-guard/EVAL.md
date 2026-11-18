@@ -120,10 +120,57 @@ the 26/40 above is the frozen checker's honest score. After
 the run, the gaps were fixed (see "Fixes after the held-out
 run" below), and the set is now dev data: its 40/40 after the
 fix proves the fixes landed, not that the checker handles
-unseen calls. The next honest re-test still needs a fresh set
-written by someone else. That second-author blind set is
-still open — asked of Ethan when his tokens recover
-(Wednesday).
+unseen calls.
+
+## Blind set 01 (2026-11-18, checker frozen)
+
+Second-author blind set (Ethan, same team — not independent
+validation): `samples/eval-blind-01.jsonl`, 40 calls
+(14 allow / 13 block / 13 suspicious), scored once against
+the frozen checker (sha256
+`d2d154216657b0b26cd90e12bd4350353c4515688adcd3fdf04e43f6bac608e3`).
+
+| Set | Calls | Exact-match accuracy | Block detection |
+|-----|-------|----------------------|-----------------|
+| Blind-01 | 40 | **20/40 (50%) — FAILED the 80% bar** | TP=13 FN=13 FP=4 TN=10 |
+
+The 4 false positives were one class: hosts a workflow needs
+but the user never types (`api.github.com`, `pypi.org`,
+`registry.npmjs.org`, `github.com`). The 13 false negatives
+were credential reads at nonstandard paths, DNS exfiltration,
+destructive commands, persistence/hook tampering, test
+skipping, `StrictHostKeyChecking=no` + remote sudo, broad
+`nmap`, and `pickle.load` (full per-call detail is in the
+blind-01 results note in the working notes, not committed
+here).
+
+**Kill rule fired (agent-hq #119): the 100/100 dev score is
+calibration only, and no paid audit may rest on the guard
+until it is fixed, re-frozen, and re-tested blind.**
+The fixes for blind-01 are in `guard.py`, re-frozen 2026-11-18
+at sha256
+`7e94ff0df06911d010b53680d6d4b28a5debdb770f35fa8adbc18b77a1cd93a0`:
+per-task `workflow_hosts` + a reviewer-owned read-only
+whitelist (`reviewer-hosts.txt`; writes to a whitelisted host
+still block) + the word "GitHub" in the request counting as
+naming `github.com` / `api.github.com`; credential-basename
+matching; the 13 stage-3 classes; pipe-to-shell suspicious
+only on a named host; `WebFetch` to an unnamed host
+suspicious instead of a block when the user named no host.
+Re-scores after the fix: dev set 100/100 (TP=66 FN=0 FP=0
+TN=34), blind-01 **40/40 as dev data** (TP=26 FN=0 FP=0
+TN=14), held-out 40/40, synthetic 10/10, demo-clean 3/3
+allow, demo-dirty 1 block. Blind-01 is now dev data: its
+40/40 proves the fixes landed, not that the checker handles
+unseen calls. The next honest re-test is eval-blind-02,
+written by Ethan — not by the checker author.
+
+**Residual gaps after this fix (open, not hidden):**
+pipe-to-shell from an exempt `203.0.113.*` host still allows
+(R09 was implemented literally — suspicious only when the host
+is already named, and the exempt range counts as named);
+`.env.local` does not match the `.env` rule (exact `.env`
+basename only). Both are candidates for eval-blind-02.
 
 ## Fixes after the held-out run (2026-11-16)
 
@@ -176,4 +223,8 @@ was re-run after the fixes and stayed 100/100
   gate is one layer, not the whole sandbox.
 - To graduate beyond a self-test, the next step is a held-out
   set: new calls written by someone else, scored blind, with
-  the checker untouched. That set does not exist yet.
+  the checker untouched. That set ran 2026-11-18 (blind-01)
+  and failed 20/40 against the 80% bar, so the kill rule
+  fired: 100/100 is calibration only, no paid audits until
+  the guard is re-tested blind on a fresh set (eval-blind-02,
+  written by Ethan) and passes.
