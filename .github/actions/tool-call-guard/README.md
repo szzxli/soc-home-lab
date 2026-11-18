@@ -42,8 +42,10 @@ to the job summary.
   human review — the reviewer sees only the user request, the
   tool call, and the finding.
 - A score on the bundled eval set is a self-test: the checker
-  and the eval calls were written by the same author. The
-  blind held-out set does not exist yet.
+  and the eval calls were written by the same author. Blind-set
+  scores and the current `guard.py` freeze are in
+  `05-soc-skills/skills/agent-tool-call-guard/EVAL.md`.
+  Blind-02 is now dev data. A new unseen blind set is pending.
 
 ## Local run
 
