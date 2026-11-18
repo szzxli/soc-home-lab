@@ -1,0 +1,18 @@
+# SYNTHETIC training log — Barracuda ESG appliance log (CVE-2026-116606 / CVE-2026-111560 lab).
+# ALL DATA SYNTHETIC: generated for this lab, no real appliance data, no real
+# backup files, no working payloads. The crafted timezone values below are
+# inert strings chosen only to show the detector's shell-metacharacter pattern.
+# Hostnames and users are fictional; addresses are documentation ranges (RFC 5737) only.
+# Format: ISO-8601 UTC timestamp, appliance, event, key=value fields.
+# Contains: one full chain (esg-01: unauthenticated import + shell-metacharacter
+# timezone + root command from the restored config), one lone shell-metacharacter
+# timezone (esg-03), one lone unauthenticated import (esg-04), and clean traffic (esg-02).
+2026-11-09T08:00:00Z esg-02 CONFIG_IMPORT auth=admin user=admin result=success source=192.0.2.10 file=backup-2026-11-08.cfg
+2026-11-09T08:05:00Z esg-02 TZ_SET auth=admin user=admin value=America/Los_Angeles result=success
+2026-11-09T08:10:00Z esg-02 SHELL_CMD auth=admin user=root origin=admin-shell command="/usr/sbin/esg-status"
+2026-11-09T09:00:00Z esg-03 TZ_SET auth=admin user=admin value="UTC;id>/tmp/x" result=success
+2026-11-09T14:02:11Z esg-01 CONFIG_IMPORT auth=none user=- result=success source=203.0.113.50 file=crafted-backup.cfg
+2026-11-09T14:02:40Z esg-01 TZ_SET auth=none user=- value="UTC;$(id>/tmp/pwn)" result=success
+2026-11-09T14:03:05Z esg-01 SHELL_CMD auth=none user=root origin=config-import command="id; cat /etc/passwd"
+2026-11-09T15:20:00Z esg-04 CONFIG_IMPORT auth=none user=- result=success source=198.51.100.44 file=backup-unknown.cfg
+2026-11-09T16:00:00Z esg-02 TZ_SET auth=admin user=admin value=UTC result=success

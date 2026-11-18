@@ -212,6 +212,30 @@
       "vendorProject": "Node-RED",
       "product": "Node-RED",
       "note": "VulnCheck's own KEV lists this CVE; that catalog is not CISA KEV"
+    },
+    "CVE-2026-116606": {
+      "inKev": true,
+      "vendorProject": "Barracuda Networks",
+      "product": "Barracuda Email Security Gateway (ESG)",
+      "vulnerabilityName": "Barracuda Networks Email Security Gateway (ESG) Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+      "dateAdded": "2026-11-10",
+      "dueDate": "2026-11-13"
+    },
+    "CVE-2026-111560": {
+      "inKev": true,
+      "vendorProject": "Barracuda Networks",
+      "product": "Multiple Products",
+      "vulnerabilityName": "Barracuda Networks Multiple Products OS Command Injection Vulnerability",
+      "dateAdded": "2026-11-10",
+      "dueDate": "2026-11-13"
+    },
+    "CVE-2026-123039": {
+      "inKev": true,
+      "vendorProject": "Check Point",
+      "product": "Multiple Products",
+      "vulnerabilityName": "Check Point Multiple Products Incorrect Permission Assignment for Critical Resource Vulnerability",
+      "dateAdded": "2026-11-13",
+      "dueDate": "2026-11-16"
     }
   },
   "packs": [
@@ -360,6 +384,37 @@
         "label": "Siemens ProductCERT SSA-834709",
         "url": "https://cert-portal.siemens.com/productcert/html/ssa-834709.html"
       }
+    },
+    {
+      "id": "barracuda-esg",
+      "title": "Barracuda ESG pre-auth config-import + timezone command injection",
+      "file": "07-kev-hunting/hunt-checklist-barracuda-esg.md",
+      "cves": [
+        "CVE-2026-116606",
+        "CVE-2026-111560"
+      ],
+      "vendorAdvisory": {
+        "label": "Barracuda security advisory (pre-authentication authorization bypass / command injection)",
+        "url": "https://trust.barracuda.com/security/pre-authentication-authorization-bypass-command-injection"
+      }
+    },
+    {
+      "id": "checkpoint-dynamiccli",
+      "title": "Check Point DynamicCLI local privilege escalation (PHP2Shell second layer)",
+      "file": "07-kev-hunting/hunt-checklist-checkpoint-dynamiccli.md",
+      "cves": [
+        "CVE-2026-123039"
+      ],
+      "vendorAdvisory": {
+        "label": "Check Point security advisory — active exploitation of PHP2Shell and local privilege escalation",
+        "url": "https://blog.checkpoint.com/security/security-advisory-active-exploitation-of-php2shell-and-local-privilege-escalation/"
+      }
+    },
+    {
+      "id": "optimizely-supply-chain",
+      "title": "Optimizely supply-chain incident (16 Nov 2026)",
+      "file": "07-kev-hunting/hunt-checklist-optimizely-supply-chain.md",
+      "cves": []
     }
   ],
   "intel": [

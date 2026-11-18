@@ -103,7 +103,47 @@ def test_openssh_detector_accepts_sshd_session_and_iso_timestamp(tmp_path):
     assert flagged_lines(res) == {3}
 
 
-@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log", "wordpress-upgrade-access.log", "openssh-auth.log", "php2shell-sysmon.log"])
+def test_barracuda_esg_detector():
+    res = load("barracuda-esg-detect.py").analyze(SAMPLES / "barracuda-esg.log")
+    assert verdicts(res) == {"esg-01": "INCIDENT", "esg-03": "SUSPICIOUS",
+                            "esg-04": "SUSPICIOUS"}
+    assert flagged_lines(res) == {13, 14, 15, 16, 17}
+    kinds = {h[2] for h in res["esg-01"]["hits"]}
+    assert kinds == {"UNAUTH_CONFIG_IMPORT", "TZ_SHELL_META", "ROOT_CMD_FROM_CONFIG"}
+    assert res["esg-03"]["hits"][0][2] == "TZ_SHELL_META"
+    assert res["esg-04"]["hits"][0][2] == "UNAUTH_CONFIG_IMPORT"
+    assert "esg-02" not in res  # authenticated admin import, normal timezone,
+    # admin shell use
+
+
+def test_checkpoint_dynamiccli_detector():
+    res = load("checkpoint-dynamiccli-detect.py").analyze(SAMPLES / "checkpoint-dynamiccli.log")
+    assert verdicts(res) == {"gw-01": "INCIDENT", "gw-04": "SUSPICIOUS",
+                            "gw-03": "BLOCKED_ATTEMPT"}
+    assert flagged_lines(res) == {11, 12, 13, 14, 16}
+    kinds = {h[2] for h in res["gw-01"]["hits"]}
+    assert kinds == {"NON_WRAPPER_RECEIVED", "SYSTEM_SINK", "EXPLOIT_KEYWORD"}
+    assert res["gw-04"]["hits"][0][2] == "NON_WRAPPER_RECEIVED"
+    assert res["gw-03"]["hits"][0][2] == "REJECTED_UID"
+    assert "gw-02" not in res  # legitimate Clish wrapper lines never fire
+
+
+def test_optimizely_supply_chain_detector():
+    res = load("optimizely-detect.py").analyze(SAMPLES / "optimizely-snippets.log")
+    assert verdicts(res) == {"site-c.example.com": "INCIDENT",
+                            "site-d.example.com": "INCIDENT",
+                            "site-b.example.com": "SUSPICIOUS"}
+    assert flagged_lines(res) == {12, 13, 14, 15, 16, 17}
+    kinds = {h[2] for h in res["site-c.example.com"]["hits"]}
+    assert kinds == {"INFECTED_SNIPPET", "C2_CONTACT", "SKIMMER_BEACON"}
+    kinds_d = {h[2] for h in res["site-d.example.com"]["hits"]}
+    assert kinds_d == {"INFECTED_SNIPPET", "C2_CONTACT", "IOS_ROUTER"}
+    assert res["site-b.example.com"]["hits"][0][2] == "INFECTED_SNIPPET"
+    assert "site-a.example.com" not in res  # clean snippet, unrelated script,
+    # CSP block naming an IOC domain is not contact
+
+
+@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log", "wordpress-upgrade-access.log", "openssh-auth.log", "php2shell-sysmon.log", "barracuda-esg.log", "checkpoint-dynamiccli.log", "optimizely-snippets.log"])
 def test_sample_is_labeled_synthetic_and_uses_doc_ranges(name):
     text = (SAMPLES / name).read_text()
     assert "SYNTHETIC" in text.splitlines()[0].upper()

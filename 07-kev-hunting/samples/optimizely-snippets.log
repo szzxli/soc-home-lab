@@ -1,0 +1,18 @@
+# SYNTHETIC training log — Optimizely snippet fetch / CSP-report log (supply-chain incident lab, 16 Nov 2026).
+# ALL DATA SYNTHETIC: generated for this lab, no real customer data. The
+# attacker domains below are the published Report URI IOCs, used here only so
+# the detector has something true to match; every other host is example.com-style.
+# Format: ISO-8601 UTC timestamp, site, event, URL, fields. FETCH/BEACON lines
+# are evaluated; CSP-REPORT lines are never treated as contact (see detector).
+# Contains: one incident site with snippet + skimmer beacon + C2 hit (site-c),
+# one incident site with an iOS-kit router (site-d), one suspicious site with an
+# infected snippet only (site-b), and clean traffic (site-a, including a CSP block).
+2026-11-16T10:00:00Z site-a.example.com FETCH https://cdn.optimizely.com/js/123456789.js status=200 hash=not-infected-clean-build marker=none
+2026-11-16T10:05:00Z site-a.example.com FETCH https://cdn.example.org/lib/analytics.js status=200
+2026-11-16T11:00:00Z site-b.example.com FETCH https://cdn.optimizely.com/js/987654321.js status=200 hash=814a963c0da480e2449d9b6664480156e1cd6d731014117401bf635badec3a0f marker=_k7
+2026-11-16T12:00:00Z site-c.example.com FETCH https://cdn.optimizely.com/js/555555555.js status=200 hash=f7b84b9a94f749f8ced3f0112d0a66894e8bbc3b4aa5592021d1b8976a9bad40 marker=__k7b channel=02111110
+2026-11-16T12:30:00Z site-c.example.com BEACON https://1688360.cc/card.php method=sendBeacon status=200
+2026-11-16T12:31:00Z site-c.example.com FETCH https://1688360.cc/hit.php status=200
+2026-11-16T13:00:00Z site-d.example.com FETCH https://5vobauua3ojpklx.icu/boot.js status=200
+2026-11-16T13:05:00Z site-d.example.com FETCH https://cdn.optimizely.com/js/777777777.js status=200 hash=f7b84b9a94f749f8ced3f0112d0a66894e8bbc3b4aa5592021d1b8976a9bad40 marker=BIGNIAO
+2026-11-16T14:00:00Z site-a.example.com CSP-REPORT blocked-uri=https://1688360.cc/track.js violated-directive=script-src

