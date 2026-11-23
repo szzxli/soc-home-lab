@@ -51,7 +51,7 @@
 <label>window <input id="winMin" type="number" value="10" min="1"> min</label>
 <label>threshold <input id="bfThresh" type="number" value="5" min="2"> failures</label>
 </div>
-<p class="notice">⚠ <b>Synthetic demo data.</b> The built-in log is fabricated training data (same file shipped with the repo). The <b>noisy sample</b> is also synthetic, but closer to a real day: 2,870 records, benign look-alikes and missing fields. It's scored against its answer key, so you'll see the false positives too (<a href="https://github.com/szzxli/soc-home-lab/blob/main/NOISY_DATA.md">why each one fires</a>). Paste your own CloudTrail JSON to analyze real records. They never leave your browser.</p>
+<p class="notice">⚠ <b>Synthetic demo data.</b> The built-in log is synthetic training data (same file shipped with the repo). The <b>noisy sample</b> is also synthetic, but closer to a real day: 2,870 records, benign look-alikes and missing fields. It's scored against its answer key, so you'll see the false positives too (<a href="https://github.com/szzxli/soc-home-lab/blob/main/NOISY_DATA.md">why each one fires</a>). Paste your own CloudTrail JSON to analyze real records. They never leave your browser.</p>
 <label for="customJson" class="sub" style="font-size:14px">Your CloudTrail JSON (optional)</label>
 <textarea id="customJson" placeholder='Paste CloudTrail JSON here — {"Records": [...]} or a bare [...] array — then click "Run on pasted JSON".'></textarea>
 <div class="meta" id="inputInfo" role="status" style="font-size:13px;color:var(--dim);margin-top:8px;"></div>
