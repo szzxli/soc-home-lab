@@ -1,8 +1,8 @@
 {
   "_comment": "Single source of truth for every CVE / KEV claim in this repo. tools/verify_kev.py checks this file against the official CISA KEV JSON feed, then checks that every pack's generated 'kev-verify' block and every KEV claim on the site and in the READMEs agree with it. Edit this file, then run: python3 tools/verify_kev.py --write",
   "verified": {
-    "date": "2026-11-09",
-    "catalogVersion": "2026.11.09"
+    "date": "2026-11-23",
+    "catalogVersion": "2026.11.23"
   },
   "cves": {
     "CVE-2026-96652": {
@@ -236,6 +236,14 @@
       "vulnerabilityName": "Check Point Multiple Products Incorrect Permission Assignment for Critical Resource Vulnerability",
       "dateAdded": "2026-11-13",
       "dueDate": "2026-11-16"
+    },
+    "CVE-2024-10441": {
+      "inKev": true,
+      "vendorProject": "Synology",
+      "product": "DiskStation Manager (DSM)",
+      "vulnerabilityName": "Synology DiskStation Manager (DSM) Improper Encoding or Escaping of Output Vulnerability",
+      "dateAdded": "2026-11-18",
+      "dueDate": "2026-11-21"
     }
   },
   "packs": [
@@ -414,6 +422,24 @@
       "id": "optimizely-supply-chain",
       "title": "Optimizely supply-chain incident (16 Nov 2026)",
       "file": "07-kev-hunting/hunt-checklist-optimizely-supply-chain.md",
+      "cves": []
+    },
+    {
+      "id": "synology-dsm",
+      "title": "Synology DSM system plugin daemon RCE",
+      "file": "07-kev-hunting/hunt-checklist-cve-2024-10441.md",
+      "cves": [
+        "CVE-2024-10441"
+      ],
+      "vendorAdvisory": {
+        "label": "Synology-SA-24:20 DSM (PWN2OWN 2024)",
+        "url": "https://www.synology.com/en-global/security/advisory/Synology_SA_24_20"
+      }
+    },
+    {
+      "id": "artex-agentic-attacks",
+      "title": "ARTEX agentic attack framework traffic (no CVE)",
+      "file": "07-kev-hunting/hunt-checklist-artex-agentic-attacks.md",
       "cves": []
     }
   ],

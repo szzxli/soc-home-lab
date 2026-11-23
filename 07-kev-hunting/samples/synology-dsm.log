@@ -1,0 +1,21 @@
+# SYNTHETIC training log — Synology DSM audit log (CVE-2024-10441 lab).
+# ALL DATA SYNTHETIC: generated for this lab, no real NAS data, no real
+# plugin-daemon traffic, no working payloads. The unauthenticated API calls
+# below are inert strings chosen only to show the detector's patterns.
+# Hostnames and users are fictional; addresses are documentation ranges (RFC 5737) only.
+# Format: ISO-8601 UTC timestamp, NAS host, event, key=value fields.
+# Contains: one full chain (dsm-01: unauthenticated plugin API call +
+# unexpected daemon restart + shell child of the daemon + unauthenticated
+# scheduled task), one lone unexpected daemon restart (dsm-03), one lone
+# unauthenticated plugin API call (dsm-04), and clean traffic (dsm-02).
+2026-11-18T08:00:00Z dsm-02 ADMIN_LOGIN auth=admin user=admin result=success source=192.0.2.10
+2026-11-18T08:05:00Z dsm-02 PLUGIN_API auth=admin user=admin endpoint=plugin/daemon action=status result=success
+2026-11-18T08:10:00Z dsm-02 PLUGIN_DAEMON_RESTART reason=scheduled user=system note=after-update-7.2.2-72806-1
+2026-11-18T08:15:00Z dsm-02 SCHED_TASK_CREATE auth=admin user=admin name=nightly-backup result=success
+2026-11-18T09:00:00Z dsm-03 PLUGIN_DAEMON_RESTART reason=unexpected user=system
+2026-11-18T14:02:11Z dsm-01 PLUGIN_API auth=none user=- endpoint=plugin/daemon action=status result=success source=203.0.113.50
+2026-11-18T14:02:40Z dsm-01 PLUGIN_DAEMON_RESTART reason=unexpected user=system
+2026-11-18T14:03:05Z dsm-01 PLUGIN_DAEMON_CHILD parent=plugin-daemon process=/bin/sh user=root
+2026-11-18T14:05:22Z dsm-01 SCHED_TASK_CREATE auth=none user=- name=sync-helper result=success
+2026-11-18T15:20:00Z dsm-04 PLUGIN_API auth=none user=- endpoint=plugin/daemon action=status result=success source=198.51.100.44
+2026-11-18T16:00:00Z dsm-02 PLUGIN_API auth=admin user=admin endpoint=plugin/daemon action=list result=success

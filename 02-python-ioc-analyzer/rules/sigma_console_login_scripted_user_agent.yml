@@ -1,0 +1,24 @@
+title: AWS Console Login from Scripted User Agent
+id: a1b2c3d4-0000-4000-8000-000000000006
+status: test
+description: Detects an AWS Management Console login attempt whose user
+    agent is a scripting client (curl, python-requests, python-urllib,
+    Go-http-client, wget) instead of a browser. The console is a human
+    web UI; a scripted client driving it is automation against the login
+    form, usually a brute-force or credential-stuffing attempt.
+author: home-lab
+date: 2026/11/23
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventName: 'ConsoleLogin'
+    userAgent|contains:
+      - 'curl'
+      - 'python-requests'
+      - 'python-urllib'
+      - 'Go-http-client'
+      - 'Wget'
+  condition: selection
+level: medium

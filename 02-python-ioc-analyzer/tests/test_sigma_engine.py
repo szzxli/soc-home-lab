@@ -5,6 +5,7 @@ inline or shipped under ``rules/`` — no real log data is used anywhere in
 this suite.
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -15,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from sigma_engine import load_rules, rule_matches, scan_records
 
 RULES_DIR = str(Path(__file__).resolve().parent.parent / "rules")
+AUTH_LOG = Path(__file__).resolve().parent.parent / "sample_data" / "sample_auth_log.json"
 
 
 def _failed_login():
@@ -95,7 +97,76 @@ def _rules_by_title():
 def test_all_sample_rules_load():
     rules, problems = load_rules(RULES_DIR)
     assert not problems
-    assert len(rules) == 3
+    assert len(rules) == 6
+
+
+def test_new_auth_rules_on_sample_log():
+    all_rules = _rules_by_title()
+    new_titles = {
+        "Failed AWS Console Login for Root User",
+        "AWS Console Login Without MFA",
+        "AWS Console Login from Scripted User Agent",
+    }
+    rules = [all_rules[t] for t in sorted(new_titles)]
+    records = json.loads(AUTH_LOG.read_text(encoding="utf-8"))
+    assert len(records) == 8
+    findings, problems = scan_records(rules, records)
+    assert not problems
+    # TP: exactly the 4 malicious records, one finding each; the 4 benign
+    # records (MFA success, non-root failure, MFA root success) fire nothing.
+    assert len(findings) == 4
+    titles = sorted(f["rule_title"] for f in findings)
+    assert titles == [
+        "AWS Console Login Without MFA",
+        "AWS Console Login from Scripted User Agent",
+        "AWS Console Login from Scripted User Agent",
+        "Failed AWS Console Login for Root User",
+    ]
+    actors = sorted(f["actor"] for f in findings)
+    assert actors == ["bob", "dave", "frank", "root"]
+
+
+def test_root_login_rule_needs_failure():
+    rules = _rules_by_title()
+    rule = rules["Failed AWS Console Login for Root User"]
+    failed_root = {
+        "eventName": "ConsoleLogin",
+        "responseElements": {"ConsoleLogin": "Failure"},
+        "userIdentity": {"userName": "root"},
+    }
+    ok_root = dict(failed_root)
+    ok_root["responseElements"] = {"ConsoleLogin": "Success"}
+    assert rule_matches(rule, failed_root)
+    assert not rule_matches(rule, ok_root)  # root success must not fire
+
+
+def test_mfa_rule_needs_no_mfa():
+    rules = _rules_by_title()
+    rule = rules["AWS Console Login Without MFA"]
+    no_mfa = {
+        "eventName": "ConsoleLogin",
+        "responseElements": {"ConsoleLogin": "Success"},
+        "additionalEventData": {"MFAUsed": "No"},
+        "userIdentity": {"userName": "bob"},
+    }
+    with_mfa = dict(no_mfa)
+    with_mfa["additionalEventData"] = {"MFAUsed": "Yes"}
+    assert rule_matches(rule, no_mfa)
+    assert not rule_matches(rule, with_mfa)  # MFA success must not fire
+
+
+def test_scripted_ua_rule_ignores_browsers():
+    rules = _rules_by_title()
+    rule = rules["AWS Console Login from Scripted User Agent"]
+    scripted = {
+        "eventName": "ConsoleLogin",
+        "userAgent": "python-requests/2.31.0",
+        "userIdentity": {"userName": "frank"},
+    }
+    browser = dict(scripted)
+    browser["userAgent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    assert rule_matches(rule, scripted)
+    assert not rule_matches(rule, browser)  # browser UA must not fire
 
 
 def test_failed_login_rule_fires():

@@ -1,0 +1,19 @@
+title: Failed AWS Console Login for Root User
+id: a1b2c3d4-0000-4000-8000-000000000004
+status: test
+description: Detects a failed AWS Management Console login attempt for the
+    root user. Root console logins are rare by design; a failed one is a
+    brute-force or credential-stuffing probe against the most privileged
+    account in the AWS account.
+author: home-lab
+date: 2026/11/23
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventName: 'ConsoleLogin'
+    responseElements.ConsoleLogin: 'Failure'
+    userIdentity.userName: 'root'
+  condition: selection
+level: high

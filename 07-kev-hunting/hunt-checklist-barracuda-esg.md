@@ -10,7 +10,7 @@ Detection and forensic triage only — do not attempt to reproduce the flaw or r
 >
 > **Sources:** CISA KEV: [116606](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-116606) · [111560](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-111560) · NVD: [116606](https://nvd.nist.gov/vuln/detail/CVE-2026-116606) · [111560](https://nvd.nist.gov/vuln/detail/CVE-2026-111560) · Vendor advisory: [Barracuda security advisory (pre-authentication authorization bypass / command injection)](https://trust.barracuda.com/security/pre-authentication-authorization-bypass-command-injection)
 >
-> **Verified against CISA KEV on 2026-11-09 (catalog version 2026.11.09).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
+> **Verified against CISA KEV on 2026-11-23 (catalog version 2026.11.23).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
 <!-- kev-verify:end -->
 
 ## 1. Am I even in scope?

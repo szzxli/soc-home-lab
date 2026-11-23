@@ -1,0 +1,20 @@
+# SYNTHETIC training log — proxy log (ARTEX agentic attack framework lab).
+# ALL DATA SYNTHETIC: generated for this lab, no real proxy data, no real
+# framework traffic. The user agents and header names below are published
+# detection markers, shown only to exercise the detector's patterns.
+# Hostnames and users are fictional; addresses are documentation ranges (RFC 5737) only.
+# Format: ISO-8601 UTC timestamp, proxy host, source IP, method, URI,
+# ua="..." headers="..." dstport=...
+# Contains: one full chain (203.0.113.60: branded user agent + key header +
+# unsigned-JWT probe + recording-proxy port), one lone branded user agent
+# (198.51.100.30), one lone unsigned-JWT probe (192.0.2.90), and clean
+# traffic (192.0.2.10).
+2026-11-23T08:00:00Z proxy-01 192.0.2.10 GET /dashboard ua="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" headers="accept:text/html" dstport=443
+2026-11-23T08:05:00Z proxy-01 192.0.2.10 POST /api/v1/reports ua="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" headers="authorization:Bearer synthetic" dstport=443
+2026-11-23T08:10:00Z proxy-01 192.0.2.10 GET /static/app.js ua="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" headers="accept:*/*" dstport=443
+2026-11-23T09:00:00Z proxy-01 198.51.100.30 GET /login ua="artex-worker/1.0" headers="accept:text/html" dstport=443
+2026-11-23T14:02:11Z proxy-01 203.0.113.60 GET /console ua="artex-planner/1.0" headers="x-artx-key:synthetic" dstport=443
+2026-11-23T14:03:05Z proxy-01 203.0.113.60 GET /api/auth?token=eyJhbGciOiJub25lIn0.eyJzdWIiOiJzeW50aGV0aWMifQ. ua="artex-planner/1.0" headers="x-artx-key:synthetic" dstport=443
+2026-11-23T14:04:40Z proxy-01 203.0.113.60 GET /recordings ua="antifox-enrich/1.0" headers="accept:text/html" dstport=8788
+2026-11-23T15:20:00Z proxy-01 192.0.2.90 GET /api/auth?token=eyJhbGciOiJub25lIn0.eyJzdWIiOiJzeW50aGV0aWMifQ. ua="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" headers="accept:text/html" dstport=443
+2026-11-23T16:00:00Z proxy-01 192.0.2.10 GET /help ua="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" headers="accept:text/html" dstport=443

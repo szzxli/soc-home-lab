@@ -128,6 +128,35 @@ def test_checkpoint_dynamiccli_detector():
     assert "gw-02" not in res  # legitimate Clish wrapper lines never fire
 
 
+def test_synology_dsm_detector():
+    res = load("synology-dsm-detect.py").analyze(SAMPLES / "synology-dsm.log")
+    assert verdicts(res) == {"dsm-01": "INCIDENT", "dsm-03": "SUSPICIOUS",
+                            "dsm-04": "SUSPICIOUS"}
+    assert flagged_lines(res) == {15, 16, 17, 18, 19, 20}
+    kinds = {h[2] for h in res["dsm-01"]["hits"]}
+    assert kinds == {"ANON_PLUGIN_API", "DAEMON_RESTART", "DAEMON_SHELL_CHILD",
+                     "SUSPICIOUS_PERSISTENCE"}
+    assert res["dsm-03"]["hits"][0][2] == "DAEMON_RESTART"
+    assert res["dsm-04"]["hits"][0][2] == "ANON_PLUGIN_API"
+    assert "dsm-02" not in res  # authenticated admin API use, scheduled
+    # restart after an update, admin-created scheduled task
+
+
+def test_artex_agentic_detector():
+    res = load("artex-agentic-detect.py").analyze(SAMPLES / "artex-proxy.log")
+    assert verdicts(res) == {"203.0.113.60": "INCIDENT",
+                            "198.51.100.30": "SUSPICIOUS",
+                            "192.0.2.90": "SUSPICIOUS"}
+    assert flagged_lines(res) == {15, 16, 17, 18, 19}
+    kinds = {h[2] for h in res["203.0.113.60"]["hits"]}
+    assert kinds == {"ARTEX_UA", "ARTEX_KEY_HEADER", "UNSIGNED_JWT_PROBE",
+                     "CONSOLE_PORT"}
+    assert res["198.51.100.30"]["hits"][0][2] == "ARTEX_UA"
+    assert res["192.0.2.90"]["hits"][0][2] == "UNSIGNED_JWT_PROBE"
+    assert "192.0.2.10" not in res  # normal browser traffic, authenticated
+    # API calls, ordinary destination ports
+
+
 def test_optimizely_supply_chain_detector():
     res = load("optimizely-detect.py").analyze(SAMPLES / "optimizely-snippets.log")
     assert verdicts(res) == {"site-c.example.com": "INCIDENT",
@@ -143,7 +172,7 @@ def test_optimizely_supply_chain_detector():
     # CSP block naming an IOC domain is not contact
 
 
-@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log", "wordpress-upgrade-access.log", "openssh-auth.log", "php2shell-sysmon.log", "barracuda-esg.log", "checkpoint-dynamiccli.log", "optimizely-snippets.log"])
+@pytest.mark.parametrize("name", ["appliance.log", "confluence-access.log", "nextcloud-access.log", "wordpress-upgrade-access.log", "openssh-auth.log", "php2shell-sysmon.log", "barracuda-esg.log", "checkpoint-dynamiccli.log", "optimizely-snippets.log", "synology-dsm.log", "artex-proxy.log"])
 def test_sample_is_labeled_synthetic_and_uses_doc_ranges(name):
     text = (SAMPLES / name).read_text()
     assert "SYNTHETIC" in text.splitlines()[0].upper()

@@ -65,7 +65,7 @@ Browse the full lab site: [Project site](https://szzxli.github.io/soc-home-lab/w
 
 ### 05 — [soc-skills](./05-soc-skills/)
 **Problem:** General-purpose agent skill packs don't cover SOC work.
-**What it is:** Seven agent skills for the Tier-1 analyst loop, distilled from working SOC practice in this repo: `alert-triage`, `incident-report`, `cloudtrail-ioc`, `phishing-analysis`, `binary-triage`, `detection-engineering`, `yaral-detection`. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.
+**What it is:** Eight agent skills for the Tier-1 analyst loop, distilled from working SOC practice in this repo: `alert-triage`, `incident-report`, `cloudtrail-ioc`, `phishing-analysis`, `binary-triage`, `detection-engineering`, `yaral-detection`, `sigma-rule-pack`. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.
 **Skills:** Detection triage, incident documentation, knowledge distillation into agent skills.
 
 ### 06 — [ghostaction-supply-chain](./06-ghostaction-supply-chain/)
@@ -75,10 +75,10 @@ Browse the full lab site: [Project site](https://szzxli.github.io/soc-home-lab/w
 
 ### 07 — [kev-hunting](./07-kev-hunting/)
 **Problem:** CISA KEV entries come with a federal deadline, but your network doesn't patch itself — the gap between "KEV published" and "patch deployed" is the hunting window.
-**What it is:** Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Every pack starts with its KEV status, a **Sources** line (CISA KEV, NVD, vendor advisory where one is cited) and the date it was last checked; KEV status last verified 2026-11-09 (catalog version 2026.11.09), re-checked weekly. Each pack has a hunt checklist; each also has a synthetic log and a reference detection script — six in this repo under [`07-kev-hunting/detect/`](./07-kev-hunting/detect/) (with tests in [`07-kev-hunting/tests/`](./07-kev-hunting/tests/)), the rest in the companion repo [soc-skills](https://github.com/szzxli/soc-skills/tree/main/labs). Per-case details and verify commands are in [START_HERE.md](./START_HERE.md).
+**What it is:** Threat-hunting packs built from the October 2026 CISA KEV additions and same-week in-the-wild cases. Every pack starts with its KEV status, a **Sources** line (CISA KEV, NVD, vendor advisory where one is cited) and the date it was last checked; KEV status last verified 2026-11-23 (catalog version 2026.11.23), re-checked weekly. Each pack has a hunt checklist; each also has a synthetic log and a reference detection script — eleven in this repo under [`07-kev-hunting/detect/`](./07-kev-hunting/detect/) (with tests in [`07-kev-hunting/tests/`](./07-kev-hunting/tests/)), the rest in the companion repo [soc-skills](https://github.com/szzxli/soc-skills/tree/main/labs). Per-case details and verify commands are in [START_HERE.md](./START_HERE.md).
 
 - **Hunt packs (checklist + synthetic log + reference detection in soc-skills):** Plex2Shell CVE-2026-96652/96654/96655/96656 · Bricksforge CVE-2026-85097 · Ivanti Connect Secure CVE-2026-104935 · Siemens Software Center CVE-2026-110936 · Redis CVE-2026-25243 · AI agent tool endpoints without auth (CVE-2026-77936 / 75128 / 77932 / 109442 / 109437) · M365 app-identity persistence (ConnectWise incident, no CVE)
-- **Hunt packs (checklist + synthetic log + reference detection in [`07-kev-hunting/detect/`](./07-kev-hunting/detect/)):** Atlassian CVE-2026-21589 · Nextcloud CVE-2026-110447 · BeyondTrust Remote Support CVE-2026-102764 (noisy log + exercises in the 07 README) · WordPress Core CVE-2026-119977 · OpenSSH CVE-2026-123158. TP/FP on the noisy logs: [NOISY_DATA.md](./NOISY_DATA.md)
+- **Hunt packs (checklist + synthetic log + reference detection in [`07-kev-hunting/detect/`](./07-kev-hunting/detect/)):** Atlassian CVE-2026-21589 · Nextcloud CVE-2026-110447 · BeyondTrust Remote Support CVE-2026-102764 (noisy log + exercises in the 07 README) · WordPress Core CVE-2026-119977 · OpenSSH CVE-2026-123158 · Synology DSM CVE-2024-10441 · ARTEX agentic attack framework traffic (no CVE). TP/FP on the noisy logs: [NOISY_DATA.md](./NOISY_DATA.md)
 - **Intel only, with the reason recorded in the [07 README](./07-kev-hunting/README.md):** SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Microsoft Windows Command Injection Vulnerability (CVE-2026-96951) · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / CVE-2026-105134 · Fortinet CVE-2025-61624
 
 **Skills:** Threat-intel consumption, IOC extraction, log hunting, detection engineering, incident documentation.
@@ -87,6 +87,11 @@ Browse the full lab site: [Project site](https://szzxli.github.io/soc-home-lab/w
 **Problem:** Node-RED's admin API deploys flows that can run operating-system commands. With `adminAuth` left off, that API is unauthenticated. CVE-2026-58115 is that missing-auth condition as published for Siemens SIMATIC IoT2050 (SSA-834709). It is not in CISA KEV.
 **What it is:** A detection-only lab, separate from the KEV packs. Start the official Node-RED image with `adminAuth` off, deploy a benign inject→exec marker flow (`id` and `echo` into `/tmp` and `/dev/shm`), then hunt with a flows.json audit, a proxy `POST /flows` log, and Sigma- and Suricata-style rules. Siemens hardware is not required. VulnCheck's own KEV lists CVE-2026-58115; that catalog is not CISA KEV. Re-checked against the CISA feed on 2026-11-09 (catalog version 2026.11.09).
 **Skills:** Misconfiguration hunting, flow review, web-log detection, Sigma / Suricata.
+
+### 09 — [pcap-forensics](./09-pcap-forensics/)
+**Problem:** SOC analysts are handed packet captures and expected to find the attack in them, but most labs start with "open Wireshark and look around" — which teaches clicking, not reading packets.
+**What it is:** A from-scratch packet parser and hunt script (stdlib Python only, 233 lines), two synthetic pcaps (malicious + benign, generated deterministically), and a pytest suite pinning the exact finding set: SYN scan, long-label DNS queries, scripted-UA HTTP request, regular-interval beacon. Validated TP=6 FP=0 on the synthetic data.
+**Skills:** Packet parsing, protocol decoding, detection engineering, evidence handling (packet numbers as citations).
 
 ## Go deeper (free, complementary)
 
@@ -103,7 +108,7 @@ This kit is small on purpose. For real attack telemetry, bigger datasets and gra
 - Developed a Python CLI tool that parses CloudTrail logs, applies detection heuristics (impossible-travel logins, brute-force spikes, risky IAM changes), and enriches IOCs via AbuseIPDB — with synthetic test data and a passing pytest suite.
 - Performed structured phishing email analysis (header forensics, SPF/DKIM/DMARC interpretation, URL deobfuscation, IOC extraction) on reconstructed training samples; documented Tier-1 response procedures.
 - Built a one-command ELF binary triage tool: static heuristics (section entropy, W^X, suspicious imports, string IOCs), score-based verdict, analyst-ready report; optional REA provider enrichment.
-- Authored seven MIT-licensed agent skills for SOC analysts (alert triage, incident reporting, CloudTrail IOC analysis, phishing analysis, binary triage, detection engineering), distilled from working home-lab projects.
+- Authored eight MIT-licensed agent skills for SOC analysts (alert triage, incident reporting, CloudTrail IOC analysis, phishing analysis, binary triage, detection engineering, selection-only Sigma rules for auth logs), distilled from working home-lab projects.
 - Built a supply-chain defense lab around the GhostAction technique (malicious VS Code workspace tasks + cron persistence): wrote a static detector for dangerous `tasks.json` patterns and a persistence-hunt runbook covering cron/systemd/autostart.
 - Authored incident report templates and detection triage guides following SOC documentation standards.
 - Built a detection-only Node-RED flow-audit lab for CVE-2026-58115 (not in CISA KEV): loopback container with `adminAuth` off, a benign inject-to-exec marker flow, and rules for `POST /flows`, exec nodes, http-in wired to exec, and writes under `/tmp` or `/dev/shm`.
@@ -114,7 +119,7 @@ This kit is small on purpose. For real attack telemetry, bigger datasets and gra
 |---|---|
 | SIEM / log analysis | 01 (CloudTrail, GuardDuty), 02 (log parsing) |
 | Incident response & triage | 01 (triage guide, IR templates), 06 + 07 (IR report templates) |
-| Threat detection / IOCs | 02 (heuristics, AbuseIPDB enrichment), 03 (IOC extraction), 07 (hunt checklists + detection scripts), 08 (Node-RED flow audit) |
+| Threat detection / IOCs | 02 (heuristics, AbuseIPDB enrichment), 03 (IOC extraction), 07 (hunt checklists + detection scripts), 08 (Node-RED flow audit), 09 (packet hunt) |
 | Phishing analysis | 03 (full walkthrough + cheatsheet) |
 | Cloud security (AWS) | 01 (VPC, IAM, S3, GuardDuty, SecurityHub) |
 | Scripting / automation (Python) | 02 (CLI tool + tests) |
@@ -124,7 +129,7 @@ This kit is small on purpose. For real attack telemetry, bigger datasets and gra
 ## Cost & cleanup
 
 - Project 01 needs your own AWS account; estimated **$5–15/month** at minimal config. **Run `terraform destroy` when done** — do not leave detectors running unattended.
-- Projects 02–08 are free (local only; 02 can use an optional AbuseIPDB free API key). 08 needs Docker and keeps Node-RED on `127.0.0.1`.
+- Projects 02–09 are free (local only; 02 can use an optional AbuseIPDB free API key). 08 needs Docker and keeps Node-RED on `127.0.0.1`.
 
 ## Privacy
 

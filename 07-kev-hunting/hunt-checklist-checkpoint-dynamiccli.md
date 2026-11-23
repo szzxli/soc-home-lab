@@ -16,7 +16,7 @@ came after.
 >
 > **Sources:** [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-123039) · [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-123039) · Vendor advisory: [Check Point security advisory — active exploitation of PHP2Shell and local privilege escalation](https://blog.checkpoint.com/security/security-advisory-active-exploitation-of-php2shell-and-local-privilege-escalation/)
 >
-> **Verified against CISA KEV on 2026-11-09 (catalog version 2026.11.09).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
+> **Verified against CISA KEV on 2026-11-23 (catalog version 2026.11.23).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
 <!-- kev-verify:end -->
 
 ## 1. Am I even in scope?

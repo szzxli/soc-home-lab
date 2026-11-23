@@ -1,0 +1,19 @@
+title: AWS Console Login Without MFA
+id: a1b2c3d4-0000-4000-8000-000000000005
+status: test
+description: Detects a successful AWS Management Console login where no
+    multi-factor authentication was used. A console session without MFA
+    is a single-factor session on a privileged entry point; if the
+    password was phished or guessed, there is no second factor in the way.
+author: home-lab
+date: 2026/11/23
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventName: 'ConsoleLogin'
+    responseElements.ConsoleLogin: 'Success'
+    additionalEventData.MFAUsed: 'No'
+  condition: selection
+level: high
