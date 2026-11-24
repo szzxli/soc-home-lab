@@ -3,9 +3,12 @@
 Agent skills for security analysts.
 
 General-purpose agent skill packs focus on software engineering workflows
-and don't cover SOC work. These eight skills cover the Tier-1 analyst loop.
+and don't cover SOC work. These nine skills cover the Tier-1 analyst loop.
 Seven are distilled from a working home-lab project in this repo;
-`yaral-detection` covers the YARA-L 2.0 rule language:
+`yaral-detection` covers the YARA-L 2.0 rule language; `intent-drift-ledger`
+is a log-only trial (2026-11-23) that scores a recorded agent session
+against the user's original request — the drift-across-turns gap the
+guard's coverage ledger lists as unit U24:
 
 | Skill | Does | Distilled from |
 |-------|------|----------------|
@@ -17,6 +20,7 @@ Seven are distilled from a working home-lab project in this repo;
 | `detection-engineering` | Write + validate detection rules (Sigma), tune TP/FP, ship with test evidence | `02-python-ioc-analyzer` Sigma module |
 | `yaral-detection` | Write + validate YARA-L 2.0 rules: single-event, multi-event correlation, volume + risk score | — |
 | `sigma-rule-pack` | Write selection-only Sigma rules for auth logs the home-lab engine can run, ship with synthetic-log validation | `02-python-ioc-analyzer` Sigma rules + auth log |
+| `intent-drift-ledger` | Score a recorded agent session against the original request, one ledger row per call, show where drift started (log-only trial) | `agent-tool-call-guard` coverage gap U24 |
 
 ## Install
 

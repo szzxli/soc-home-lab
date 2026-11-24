@@ -65,7 +65,7 @@ Browse the full lab site: [Project site](https://szzxli.github.io/soc-home-lab/w
 
 ### 05 — [soc-skills](./05-soc-skills/)
 **Problem:** General-purpose agent skill packs don't cover SOC work.
-**What it is:** Eight agent skills for the Tier-1 analyst loop, distilled from working SOC practice in this repo: `alert-triage`, `incident-report`, `cloudtrail-ioc`, `phishing-analysis`, `binary-triage`, `detection-engineering`, `yaral-detection`, `sigma-rule-pack`. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory.
+**What it is:** Nine agent skills for the Tier-1 analyst loop, distilled from working SOC practice in this repo: `alert-triage`, `incident-report`, `cloudtrail-ioc`, `phishing-analysis`, `binary-triage`, `detection-engineering`, `yaral-detection`, `sigma-rule-pack`, `intent-drift-ledger`. Each skill declares its trigger, workflow, output contract, and honesty boundaries. MIT licensed, copy-paste installable into any agent's skills directory. `intent-drift-ledger` (log-only trial, 2026-11-23) scores a recorded agent session against the user's original request, one ledger row per call, and shows where the session started drifting — per-call blocking cannot see that trend, and no existing tool records it.
 **Skills:** Detection triage, incident documentation, knowledge distillation into agent skills.
 
 ### 06 — [ghostaction-supply-chain](./06-ghostaction-supply-chain/)
@@ -108,7 +108,7 @@ This kit is small on purpose. For real attack telemetry, bigger datasets and gra
 - Developed a Python CLI tool that parses CloudTrail logs, applies detection heuristics (impossible-travel logins, brute-force spikes, risky IAM changes), and enriches IOCs via AbuseIPDB — with synthetic test data and a passing pytest suite.
 - Performed structured phishing email analysis (header forensics, SPF/DKIM/DMARC interpretation, URL deobfuscation, IOC extraction) on reconstructed training samples; documented Tier-1 response procedures.
 - Built a one-command ELF binary triage tool: static heuristics (section entropy, W^X, suspicious imports, string IOCs), score-based verdict, analyst-ready report; optional REA provider enrichment.
-- Authored eight MIT-licensed agent skills for SOC analysts (alert triage, incident reporting, CloudTrail IOC analysis, phishing analysis, binary triage, detection engineering, selection-only Sigma rules for auth logs), distilled from working home-lab projects.
+- Authored nine MIT-licensed agent skills for SOC analysts (alert triage, incident reporting, CloudTrail IOC analysis, phishing analysis, binary triage, detection engineering, selection-only Sigma rules for auth logs, intent-drift ledger for agent sessions), distilled from working home-lab projects.
 - Built a supply-chain defense lab around the GhostAction technique (malicious VS Code workspace tasks + cron persistence): wrote a static detector for dangerous `tasks.json` patterns and a persistence-hunt runbook covering cron/systemd/autostart.
 - Authored incident report templates and detection triage guides following SOC documentation standards.
 - Built a detection-only Node-RED flow-audit lab for CVE-2026-58115 (not in CISA KEV): loopback container with `adminAuth` off, a benign inject-to-exec marker flow, and rules for `POST /flows`, exec nodes, http-in wired to exec, and writes under `/tmp` or `/dev/shm`.
