@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KEV This Week · SOC Home Lab</title>
+<meta name="description" content="CISA KEV entries added this week, each tied to a shipped SOC Home Lab hunt pack or marked not covered yet.">
+<link rel="canonical" href="https://szzxli.github.io/soc-home-lab/web/kev-this-week.html">
+<link rel="stylesheet" href="css/style.css?v=20261029">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main">
+<div class="wrap">
+<a class="brand" href="./">soc<span>-home-lab</span></a>
+<ul>
+<li class="opt"><a href="./#labs">Labs</a></li>
+<li><a href="./#kev">KEV hunts</a></li>
+<li><a href="kev-this-week.html" aria-current="page">KEV this week</a></li>
+<li><a href="demo.html">Demo</a></li>
+<li class="opt"><a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md" data-count="open-start-here">Start here</a></li>
+<li><a href="https://github.com/szzxli/soc-home-lab">GitHub</a></li>
+</ul>
+</div>
+</nav>
+
+<main id="main" class="wrap">
+<header class="page-head">
+<p class="eyebrow">$ ./verify_kev.py --weekly</p>
+<h1>KEV this week <span class="accent">· coverage</span></h1>
+<p class="lead">What CISA added to the Known Exploited Vulnerabilities catalog this week, and which of those entries already have a hunt pack in this repo. Entries without a pack say so plainly.</p>
+<p class="sub" style="margin:8px 0 0;font-size:14px"><a href="./">← back to all projects</a></p>
+</header>
+
+<div class="card">
+<h2>Last checked</h2>
+<p>Last checked 2026-11-27 against the CISA KEV catalog (version 2026.11.25, released 2026-11-25). Coverage now: 12 KEV labs covering 17 of 24 tracked in-catalog CVEs. Hunt packs use synthetic training data.</p>
+<p><button class="btn" id="showWeek" data-count="kev-week-view" aria-expanded="false">Show this week's KEV entries</button></p>
+<div id="weekTable" hidden>
+<table>
+<thead><tr><th>CVE</th><th>Vendor / product</th><th>Added</th><th>Due</th><th>Coverage</th></tr></thead>
+<tbody>
+<tr><td>CVE-2026-133469</td><td>Vates Xen Orchestra</td><td>Added 2026-11-25</td><td>Due 2026-11-28</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-133324</td><td>Mitel MiCollab</td><td>Added 2026-11-25</td><td>Due 2026-11-28</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-133323</td><td>Mitel MiCollab</td><td>Added 2026-11-25</td><td>Due 2026-11-28</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-133311</td><td>Mitel MiCollab</td><td>Added 2026-11-25</td><td>Due 2026-12-09</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-133303</td><td>Mitel MiCollab</td><td>Added 2026-11-25</td><td>Due 2026-11-28</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-133275</td><td>Mitel MiCollab</td><td>Added 2026-11-25</td><td>Due 2026-11-28</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-103406</td><td>Hewlett Packard Enterprise (HPE) Juniper Session Smart Conductor and Session Smart Router</td><td>Added 2026-11-25</td><td>Due 2026-11-28</td><td>not covered yet</td></tr>
+<tr><td>CVE-2025-41450</td><td>Danfoss AK-SM 800A Series</td><td>Added 2026-11-25</td><td>Due 2026-12-09</td><td>not covered yet</td></tr>
+<tr><td>CVE-2023-25915</td><td>Danfoss AK-SM 800A Series</td><td>Added 2026-11-25</td><td>Due 2026-11-28</td><td>not covered yet</td></tr>
+<tr><td>CVE-2023-25914</td><td>Danfoss AK-SM 800A Series</td><td>Added 2026-11-25</td><td>Due 2026-11-28</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-132224</td><td>Optimizely Web Experimentation</td><td>Added 2026-11-24</td><td>Due 2026-11-27</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-132165</td><td>Drupal Core</td><td>Added 2026-11-24</td><td>Due 2026-11-27</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-131914</td><td>Idunno AntiCsrf</td><td>Added 2026-11-24</td><td>Due 2026-11-27</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-134624</td><td>N-able MailAssure</td><td>Added 2026-11-23</td><td>Due 2026-11-26</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-133968</td><td>Project MONAI MONAI Label</td><td>Added 2026-11-23</td><td>Due 2026-11-26</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-76466</td><td>Cisco Expressway Series</td><td>Added 2026-11-20</td><td>Due 2026-11-23</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-129448</td><td>Apache Roller</td><td>Added 2026-11-20</td><td>Due 2026-11-23</td><td>not covered yet</td></tr>
+<tr><td>CVE-2026-123890</td><td>Broadcom VMware vCenter</td><td>Added 2026-11-20</td><td>Due 2026-11-23</td><td>not covered yet</td></tr>
+<tr><td>CVE-2025-42884</td><td>SAP NetWeaver</td><td>Added 2026-11-20</td><td>Due 2026-11-23</td><td>not covered yet</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h2>Most recent tracked entries</h2>
+<p>The newest catalog entries this repo tracks, newest first. Coverage links to the shipped hunt checklist; intel-only entries have no pack yet.</p>
+<table>
+<thead><tr><th>CVE</th><th>Vendor / product</th><th>Added</th><th>Due</th><th>Coverage</th></tr></thead>
+<tbody>
+<tr><td>CVE-2024-10441</td><td>Synology DiskStation Manager (DSM)</td><td>Added 2026-11-18</td><td>Due 2026-11-21</td><td><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2024-10441.md">synology-dsm</a></td></tr>
+<tr><td>CVE-2026-123039</td><td>Check Point Multiple Products</td><td>Added 2026-11-13</td><td>Due 2026-11-16</td><td><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-checkpoint-dynamiccli.md">checkpoint-dynamiccli</a></td></tr>
+<tr><td>CVE-2026-116606</td><td>Barracuda Networks Barracuda Email Security Gateway (ESG)</td><td>Added 2026-11-10</td><td>Due 2026-11-13</td><td><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-barracuda-esg.md">barracuda-esg</a></td></tr>
+<tr><td>CVE-2026-111560</td><td>Barracuda Networks Multiple Products</td><td>Added 2026-11-10</td><td>Due 2026-11-13</td><td><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-barracuda-esg.md">barracuda-esg</a></td></tr>
+<tr><td>CVE-2026-123158</td><td>OpenBSD OpenSSH</td><td>Added 2026-11-09</td><td>Due 2026-11-12</td><td><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-123158.md">openssh-password-bypass</a></td></tr>
+<tr><td>CVE-2026-119977</td><td>WordPress WordPress Core</td><td>Added 2026-11-03</td><td>Due 2026-11-06</td><td><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-cve-2026-119977.md">wordpress-upgrade</a></td></tr>
+<tr><td>CVE-2026-109619</td><td>PHP Group PHP</td><td>Added 2026-10-26</td><td>Due 2026-10-29</td><td><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-php2shell.md">php2shell</a></td></tr>
+<tr><td>CVE-2026-109618</td><td>PHP Group PHP</td><td>Added 2026-10-26</td><td>Due 2026-10-29</td><td><a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/hunt-checklist-php2shell.md">php2shell</a></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card">
+<h2>Sources</h2>
+<p class="links"><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">CISA KEV catalog</a> · <a href="https://github.com/szzxli/soc-home-lab/blob/main/07-kev-hunting/kev-manifest.json">coverage manifest</a> · <a href="https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py">weekly verifier</a></p>
+<p>Privacy: we use <a href="https://www.goatcounter.com" rel="noopener">GoatCounter</a>, a privacy-friendly, cookie-free page-view counter (no personal data, no cookies; its small script loads from gc.zgo.at).</p>
+</div>
+</main>
+<script src="js/analytics.js" defer></script>
+<script>
+(function () {
+  var btn = document.getElementById('showWeek');
+  var box = document.getElementById('weekTable');
+  if (!btn || !box) return;
+  btn.addEventListener('click', function () {
+    var show = box.hidden;
+    box.hidden = !show;
+    btn.setAttribute('aria-expanded', show ? 'true' : 'false');
+    btn.textContent = show ? "Hide this week's KEV entries" : "Show this week's KEV entries";
+  });
+})();
+</script>
+<script>(function(w,d,l){var q=l.search,skip=/[?&](v|cb|_|nocount)=|[?&]cachebust/i.test(q);try{var s=w.localStorage;if(/[?&]nocount=1(&|$)/.test(q))s.setItem('skipgc','t');if(/[?&]nocount=0(&|$)/.test(q))s.removeItem('skipgc');if(s.getItem('skipgc')==='t')skip=true}catch(e){}w.gcSkip=skip;if(skip)return;var g=d.createElement('script');g.async=true;g.src='https://gc.zgo.at/count.js';g.setAttribute('data-goatcounter','https://szzxli.goatcounter.com/count');(d.head||d.documentElement).appendChild(g)})(window,document,location);</script>
+</body>
+</html>

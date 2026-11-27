@@ -6,6 +6,8 @@ Hands-on cybersecurity lab projects: a mini-SOC on AWS, a Python IOC analyzer, a
 
 🔗 **https://github.com/szzxli/soc-home-lab**
 
+[![KEV labs](web/img/kev-labs.svg)](https://szzxli.github.io/soc-home-lab/web/kev-this-week.html?ref=gh-badge)
+
 ## Where to start
 
 No AWS account needed to start. Pick the path that matches you — each is a short sequence, not the whole repo.
@@ -80,6 +82,8 @@ Browse the full lab site: [Project site](https://szzxli.github.io/soc-home-lab/w
 - **Hunt packs (checklist + synthetic log + reference detection in soc-skills):** Plex2Shell CVE-2026-96652/96654/96655/96656 · Bricksforge CVE-2026-85097 · Ivanti Connect Secure CVE-2026-104935 · Siemens Software Center CVE-2026-110936 · Redis CVE-2026-25243 · AI agent tool endpoints without auth (CVE-2026-77936 / 75128 / 77932 / 109442 / 109437) · M365 app-identity persistence (ConnectWise incident, no CVE)
 - **Hunt packs (checklist + synthetic log + reference detection in [`07-kev-hunting/detect/`](./07-kev-hunting/detect/)):** Atlassian CVE-2026-21589 · Nextcloud CVE-2026-110447 · BeyondTrust Remote Support CVE-2026-102764 (noisy log + exercises in the 07 README) · WordPress Core CVE-2026-119977 · OpenSSH CVE-2026-123158 · Synology DSM CVE-2024-10441 · ARTEX agentic attack framework traffic (no CVE). TP/FP on the noisy logs: [NOISY_DATA.md](./NOISY_DATA.md)
 - **Intel only, with the reason recorded in the [07 README](./07-kev-hunting/README.md):** SiteGuard CVE-2026-106931 · PAN-OS CVE-2026-0322 · Microsoft Windows Command Injection Vulnerability (CVE-2026-96951) · Cisco SEG CVE-2026-76519 · Ahsay CVE-2026-105133 / CVE-2026-105134 · Fortinet CVE-2025-61624
+
+**This week:** [KEV this week](https://szzxli.github.io/soc-home-lab/web/kev-this-week.html?ref=kev-week) lists the newest catalog entries and which ones already have a hunt pack here.
 
 **Skills:** Threat-intel consumption, IOC extraction, log hunting, detection engineering, incident documentation.
 
