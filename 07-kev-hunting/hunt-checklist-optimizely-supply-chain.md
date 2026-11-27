@@ -8,7 +8,7 @@ Work top to bottom. Check the box when done, note what you found.
 >
 > **Sources:** [CISA KEV catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 >
-> **Verified against CISA KEV on 2026-11-23 (catalog version 2026.11.23).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
+> **Verified against CISA KEV on 2026-11-27 (catalog version 2026.11.25).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
 <!-- kev-verify:end -->
 Detection and forensic triage only — do not attempt to reproduce the attack.
 
