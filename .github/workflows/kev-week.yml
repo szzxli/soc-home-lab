@@ -1,0 +1,55 @@
+# Regenerates web/kev-this-week.html and web/img/kev-labs.svg from
+# 07-kev-hunting/kev-manifest.json plus the live CISA KEV feed, so the public
+# weekly page and badge stay current. Runs after the Monday KEV verify check;
+# commits only when the generated files actually change.
+name: KEV week page
+
+on:
+  schedule:
+    - cron: "37 15 * * 1"   # every Monday 15:37 UTC, after KEV verify (14:17)
+  push:
+    branches: [main]
+    paths:
+      - "07-kev-hunting/kev-manifest.json"
+      - "tools/gen_kev_week.py"
+      - ".github/workflows/kev-week.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kev-week
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    if: github.repository == 'szzxli/soc-home-lab'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate the weekly page and badge
+        run: python tools/gen_kev_week.py
+
+      - name: Keep every KEV claim honest
+        run: python tools/verify_kev.py
+
+      - name: Commit when the generated files changed
+        run: |
+          if git diff --quiet -- web/kev-this-week.html web/img/kev-labs.svg; then
+            echo "No change this week."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/kev-this-week.html web/img/kev-labs.svg
+          git commit -m "kev-week: regenerate weekly KEV page and badge"
+          git push origin HEAD:main
