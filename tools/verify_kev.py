@@ -57,6 +57,11 @@ INTEL_RE = re.compile(r"<!-- kev-verify-intel:begin.*?-->.*?<!-- kev-verify-inte
 SCAN_GLOBS = ("README.md", "START_HERE.md", "NOISY_DATA.md", "07-kev-hunting/*.md",
               "08-nodered-flow-audit/*.md", "web/*.html", "06-ghostaction-supply-chain/*.md")
 
+# Pages generated from the feed itself (tools/gen_kev_week.py): every CVE ID on
+# them comes straight from the CISA feed, so the "tracked in the manifest"
+# check (rule 3) does not apply. The claim checks (rule 4) still run on them.
+GENERATED_FEED_PAGES = {"web/kev-this-week.html"}
+
 CVE_RE = re.compile(r"CVE-(\d{4})-(\d{4,7})((?:\s*/\s*\d{4,7}(?![\d.]))*)", re.I)
 POSITIVE = re.compile(r"KEV: listed|(?<!not )\bIn CISA KEV\b|\bNow in CISA KEV\b|\bKEV-listed\b|"
                       r"·\s*KEV\b(?!\s*[:-])|\bKEV \d{4}-\d{2}-\d{2}|^\|.*\|\s*Listed\b", re.I | re.M)
@@ -251,6 +256,8 @@ def scan_claims(manifest: dict, feed: dict, root: Path = ROOT) -> list:
             clean = unit.replace("*", "")
             cves = _cves_in(clean)
             for c in cves:
+                if rel in GENERATED_FEED_PAGES:
+                    continue  # feed-generated page: rule 4 below still applies
                 if c not in known and not c.endswith(("-YYYY", "-NNNNN")):
                     problems.append(f"{rel}:{n}: {c} is not tracked in {MANIFEST} (typo or untracked CVE?)")
             for m in DATA_ATTR.finditer(unit):
