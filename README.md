@@ -15,8 +15,9 @@ No AWS account needed to start. Pick the path that matches you — each is a sho
 **Path 1 — Start here, no AWS needed (browser only):**
 
 1. **[▶ Try the live demo](https://szzxli.github.io/soc-home-lab/web/demo.html?ref=gh-shl)** — the CloudTrail IOC analyzer in your browser: a detection report on a sample log in about 10 seconds, nothing to install, nothing leaves the page.
-2. **[Lab 03: phishing email triage](./03-phishing-analysis-lab/)** — work through a reconstructed training phish: header forensics, SPF/DKIM/DMARC, URL analysis. No setup.
-3. Then run [lab 02 itself](./02-python-ioc-analyzer/) with Python (Path 2 below).
+2. **[▶ Try the Sigma playground](https://szzxli.github.io/soc-home-lab/web/sigma.html?ref=sigma-play)** — run the shipped Sigma rules on synthetic samples in your browser and copy a link that restores the same run.
+3. **[Lab 03: phishing email triage](./03-phishing-analysis-lab/)** — work through a reconstructed training phish: header forensics, SPF/DKIM/DMARC, URL analysis. No setup.
+4. Then run [lab 02 itself](./02-python-ioc-analyzer/) with Python (Path 2 below).
 
 **Path 2 — Practicing detection (Python, local only):**
 
@@ -34,6 +35,8 @@ Then pick a [noisy KEV pack](./07-kev-hunting/) and write your own detection bef
 [Lab 01: mini-soc](./01-mini-soc/) is the only lab that needs your own AWS account, and it costs money — see [Cost & cleanup](#cost--cleanup). Optional: do it after Paths 1–2, or skip it.
 
 Browse the full lab site: [Project site](https://szzxli.github.io/soc-home-lab/web/?ref=gh-shl)
+
+ATT&CK Navigator layer: [Open the cited-technique layer](https://szzxli.github.io/soc-home-lab/web/attack-layer.html?ref=attck-nav) — lab coverage only, built only from technique IDs already cited in shipped artifacts.
 
 📊 Skills quantified: these projects are graded against a public rubric and mapped to the NIST NICE framework in the companion repo **[szzxli/soc-skills](https://github.com/szzxli/soc-skills)** — including a one-page HR-readable skill profile.
 

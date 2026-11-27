@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sigma Hunt Playground · SOC Home Lab</title>
+<meta name="description" content="Run shipped Sigma rules in your browser on synthetic training samples and share the run with a deep link.">
+<link rel="canonical" href="https://szzxli.github.io/soc-home-lab/web/sigma.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="soc-home-lab">
+<meta property="og:title" content="Sigma Hunt Playground · SOC Home Lab">
+<meta property="og:description" content="Run shipped Sigma rules in your browser on synthetic training samples and share the run with a deep link.">
+<meta property="og:url" content="https://szzxli.github.io/soc-home-lab/web/sigma.html">
+<meta property="og:image" content="https://opengraph.githubassets.com/1/szzxli/soc-home-lab">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sigma Hunt Playground · SOC Home Lab">
+<meta name="twitter:description" content="Run shipped Sigma rules in your browser on synthetic training samples and share the run with a deep link.">
+<meta name="twitter:image" content="https://opengraph.githubassets.com/1/szzxli/soc-home-lab">
+<link rel="stylesheet" href="css/style.css?v=20261029">
+<style>
+.rule-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin: 8px 0 12px; }
+.rule-choice { display: block; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; background: var(--panel-2); font-size: 14px; }
+.rule-choice input { margin-right: 6px; }
+select { background: #05070b; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 8px; font-family: var(--sans); }
+fieldset { border: 1px solid var(--border); border-radius: 8px; margin: 12px 0; }
+legend { color: var(--dim); font-size: 14px; padding: 0 6px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main">
+<div class="wrap">
+<a class="brand" href="./">soc<span>-home-lab</span></a>
+<ul>
+<li class="opt"><a href="./#labs">Labs</a></li>
+<li><a href="./#kev">KEV hunts</a></li>
+<li><a href="kev-this-week.html">KEV this week</a></li>
+<li><a href="demo.html">Demo</a></li>
+<li><a href="sigma.html" aria-current="page">Sigma</a></li>
+<li><a href="attack-layer.html">ATT&CK layer</a></li>
+<li class="opt"><a href="https://github.com/szzxli/soc-home-lab/blob/main/START_HERE.md" data-count="open-start-here">Start here</a></li>
+<li><a href="https://github.com/szzxli/soc-home-lab">GitHub</a></li>
+</ul>
+</div>
+</nav>
+
+<main id="main" class="wrap">
+<header class="page-head">
+<p class="eyebrow">$ ./sigma_engine.py --rules rules/ --input sample_auth_log.json</p>
+<h1>Sigma Hunt <span class="accent">· playground</span></h1>
+<p class="lead">The shipped Sigma rules from <a href="https://github.com/szzxli/soc-home-lab/tree/main/02-python-ioc-analyzer/rules">02-python-ioc-analyzer/rules</a>, running entirely in your browser on synthetic training samples. No server, no data leaves this page.</p>
+<p class="sub" style="margin:8px 0 0;font-size:14px"><a href="./">← back to all projects</a></p>
+</header>
+
+<div class="card">
+<h2>1 · Pick a sample and rules</h2>
+<div class="controls">
+<label>Sample <select id="sampleSelect" aria-label="Sample"></select></label>
+<button class="btn" id="runSigma" data-count="sigma-play-run">▶ Run</button>
+<button class="btn btn-ghost" id="copySigmaLink" data-count="sigma-play-share">Copy link</button>
+</div>
+<p class="notice">⚠ <b>Synthetic training data.</b> The built-in samples are synthetic training data shipped with the repo. Pasted JSON is analyzed in your browser, never leaves it, and is never put in a share link.</p>
+<fieldset>
+<legend>Shipped Sigma rules</legend>
+<div class="rule-list" id="ruleList"></div>
+</fieldset>
+<div id="customWrap" hidden>
+<label for="customJson" class="sub" style="font-size:14px">Your JSON (optional, stays in this browser)</label>
+<textarea id="customJson" placeholder='Paste a JSON array or {"Records": [...]} here, then click Run.'></textarea>
+</div>
+<div class="meta" id="shareStatus" role="status" style="font-size:13px;color:var(--dim);margin-top:8px;"></div>
+</div>
+
+<div class="card">
+<h2>2 · Matches</h2>
+<div id="results" aria-live="polite"><p class="sub">No run yet. Pick a sample and rules, then click Run.</p></div>
+</div>
+
+<details>
+<summary>How matching works</summary>
+<div class="body">
+<p>This page uses a focused matcher for the shipped rules only: dotted field lookup, value lists are OR, items in one selection are AND, <code>contains</code> and <code>endswith</code> are case-insensitive, and conditions use <code>and</code>, <code>or</code>, <code>not</code> and parentheses. It is not a general Sigma compiler.</p>
+<p class="sub">The same shipped rules and samples are covered by <a href="https://github.com/szzxli/soc-home-lab/blob/main/02-python-ioc-analyzer/tests/test_sigma_engine.py">tests/test_sigma_engine.py</a> in the repo.</p>
+</div>
+</details>
+
+<details>
+<summary>Next step: run it on your machine</summary>
+<div class="body">
+<pre><code>git clone https://github.com/szzxli/soc-home-lab
+cd soc-home-lab/02-python-ioc-analyzer
+pip install -r requirements.txt &amp;&amp; python -m pytest tests/ -v</code></pre>
+<p class="links"><a href="demo.html">→ Back to the IOC demo</a> · <a href="./#kev">→ Then try a KEV hunt pack</a> · <a href="./">← back to all projects</a></p>
+</div>
+</details>
+</main>
+
+<footer>
+<div class="wrap">
+<p>SOC Home Lab · <a href="https://github.com/szzxli/soc-home-lab">github.com/szzxli/soc-home-lab</a> · MIT License</p>
+<p>Privacy: we use <a href="https://www.goatcounter.com" rel="noopener">GoatCounter</a>, a privacy-friendly, cookie-free page-view counter (no personal data, no cookies; its small script loads from gc.zgo.at). Logs you paste into the playground are analyzed in your browser and never leave it.</p>
+</div>
+</footer>
+
+<script src="js/sigma-data.js"></script>
+<script src="js/sigma.js"></script>
+<script src="js/analytics.js" defer></script>
+<!-- GoatCounter: privacy-friendly, cookie-free page-view counter (no personal data). -->
+<script>/* GoatCounter loader: test visits are never counted. ?nocount=1 turns counting off in this browser (localStorage skipgc=t, GoatCounter's own flag; ?nocount=0 turns it back on); URLs with v=, cb=, cachebust, _= or nocount are skipped too. */
+(function(w,d,l){var q=l.search,skip=/[?&](v|cb|_|nocount)=|[?&]cachebust/i.test(q);try{var s=w.localStorage;if(/[?&]nocount=1(&|$)/.test(q))s.setItem('skipgc','t');if(/[?&]nocount=0(&|$)/.test(q))s.removeItem('skipgc');if(s.getItem('skipgc')==='t')skip=true}catch(e){}w.gcSkip=skip;if(skip)return;var g=d.createElement('script');g.async=true;g.src='https://gc.zgo.at/count.js';g.setAttribute('data-goatcounter','https://szzxli.goatcounter.com/count');(d.head||d.documentElement).appendChild(g)})(window,document,location);</script>
+</body>
+</html>
