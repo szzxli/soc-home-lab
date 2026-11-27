@@ -33,6 +33,8 @@ Then pick a [noisy KEV pack](./07-kev-hunting/) and write your own detection bef
 
 Browse the full lab site: [Project site](https://szzxli.github.io/soc-home-lab/web/?ref=gh-shl)
 
+ATT&CK Navigator layer: [Open the cited-technique layer](https://szzxli.github.io/soc-home-lab/web/attack-layer.html?ref=attck-nav) — lab coverage only, built only from technique IDs already cited in shipped artifacts.
+
 📊 Skills quantified: these projects are graded against a public rubric and mapped to the NIST NICE framework in the companion repo **[szzxli/soc-skills](https://github.com/szzxli/soc-skills)** — including a one-page HR-readable skill profile.
 
 > All datasets, log samples, and email artifacts in this repo are **synthetic training samples** — clearly labeled as such. No real incidents, real logs, or real phishing emails are presented here.

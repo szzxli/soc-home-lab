@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATT&CK Navigator Layer · SOC Home Lab</title>
+<meta name="description" content="Download or open the soc-home-lab ATT&CK Navigator layer built only from technique IDs already cited in shipped lab artifacts.">
+<link rel="canonical" href="https://szzxli.github.io/soc-home-lab/web/attack-layer.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="soc-home-lab">
+<meta property="og:title" content="ATT&CK Navigator Layer · SOC Home Lab">
+<meta property="og:description" content="A Navigator layer for techniques cited by ID in shipped soc-home-lab artifacts. Lab coverage only.">
+<meta property="og:url" content="https://szzxli.github.io/soc-home-lab/web/attack-layer.html">
+<meta property="og:image" content="https://opengraph.githubassets.com/1/szzxli/soc-home-lab">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ATT&CK Navigator Layer · SOC Home Lab">
+<meta name="twitter:description" content="A Navigator layer for techniques cited by ID in shipped soc-home-lab artifacts. Lab coverage only.">
+<meta name="twitter:image" content="https://opengraph.githubassets.com/1/szzxli/soc-home-lab">
+<link rel="stylesheet" href="css/style.css?v=20261029">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main">
+<div class="wrap">
+<a class="brand" href="./">soc<span>-home-lab</span></a>
+<ul>
+<li class="opt"><a href="./#labs">Labs</a></li>
+<li><a href="./#kev">KEV hunts</a></li>
+<li><a href="demo.html">Demo</a></li>
+<li><a href="attack-layer.html" aria-current="page">ATT&CK layer</a></li>
+<li><a href="https://github.com/szzxli/soc-home-lab">GitHub</a></li>
+</ul>
+</div>
+</nav>
+<main id="main" class="wrap">
+<h1>ATT&CK Navigator layer</h1>
+<p>This page publishes a MITRE ATT&CK Navigator layer for soc-home-lab. The layer includes only technique IDs that already appear in shipped lab artifacts. It is a map of cited lab coverage, not a claim of job readiness, professional certification, or complete ATT&CK coverage.</p>
+<p>
+<a class="btn btn-primary" href="layers/soc-home-lab.json" download data-count="attack-layer-export">Download layer JSON</a>
+<a class="btn btn-ghost" href="https://mitre-attack.github.io/attack-navigator/enterprise/#layerURL=https%3A%2F%2Fszzxli.github.io%2Fsoc-home-lab%2Fweb%2Flayers%2Fsoc-home-lab.json" target="_blank" rel="noopener" data-count="attack-layer-open">Open in ATT&CK Navigator</a>
+</p>
+<h2>What is in the layer</h2>
+<p>Each technique below is cited by ID in the named shipped artifact. Techniques are not added from lab titles, tactic names, or nearby prose.</p>
+<ul>
+<li><strong>T1190</strong> — cited by Sigma tag <code>attack.t1190</code> in <code>08-nodered-flow-audit/detect/nodered-post-flows.yml</code>.</li>
+<li><strong>T1059</strong> — cited by Sigma tag <code>attack.t1059</code> in <code>08-nodered-flow-audit/detect/nodered-exec-tmp-write.yml</code>.</li>
+<li><strong>T1059.004</strong> — cited in <code>07-kev-hunting/detect/php2shell-wazuh-rules.xml</code>, Wazuh rules 100100 and 100110.</li>
+<li><strong>T1105</strong> — cited in <code>07-kev-hunting/detect/php2shell-wazuh-rules.xml</code>, Wazuh rule 100101.</li>
+<li><strong>T1505.003</strong> — cited in <code>07-kev-hunting/detect/php2shell-wazuh-rules.xml</code>, Wazuh rule 100102.</li>
+</ul>
+<h2>What is not in the layer</h2>
+<p>Labs and artifacts that do not cite a technique ID are left out. Tactic-only mentions are not converted into technique IDs, and untagged detection rules are not assigned techniques here. If a shipped artifact later cites a technique ID, the layer can be updated from that citation.</p>
+<h2>Use it</h2>
+<p>Download the JSON and open it with the Navigator's existing-layer loader, or use the open button above. The layer file is served from this site at <code>layers/soc-home-lab.json</code>.</p>
+</main>
+<footer>
+<div class="wrap">
+<p>SOC Home Lab · <a href="https://github.com/szzxli/soc-home-lab">github.com/szzxli/soc-home-lab</a> · MIT License</p>
+<p>Privacy: we use <a href="https://www.goatcounter.com" rel="noopener">GoatCounter</a>, a privacy-friendly, cookie-free page-view counter (no personal data, no cookies; its small script loads from gc.zgo.at). The layer file is a static JSON document; no profile or progress data is uploaded.</p>
+</div>
+</footer>
+<script src="js/analytics.js" defer></script>
+<!-- GoatCounter: privacy-friendly, cookie-free page-view counter (no personal data). -->
+<script>/* GoatCounter loader: test visits are never counted. ?nocount=1 turns counting off in this browser (localStorage skipgc=t, GoatCounter's own flag; ?nocount=0 turns it back on); URLs with v=, cb=, cachebust, _= or nocount are skipped too. */
+(function(w,d,l){var q=l.search,skip=/[?&](v|cb|_|nocount)=|[?&]cachebust/i.test(q);try{var s=w.localStorage;if(/[?&]nocount=1(&|$)/.test(q))s.setItem('skipgc','t');if(/[?&]nocount=0(&|$)/.test(q))s.removeItem('skipgc');if(s.getItem('skipgc')==='t')skip=true}catch(e){}w.gcSkip=skip;if(skip)return;var g=d.createElement('script');g.async=true;g.src='https://gc.zgo.at/count.js';g.setAttribute('data-goatcounter','https://szzxli.goatcounter.com/count');(d.head||d.documentElement).appendChild(g)})(window,document,location);</script>
+</body>
+</html>
