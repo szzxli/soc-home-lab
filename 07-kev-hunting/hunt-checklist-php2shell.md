@@ -10,7 +10,7 @@ Detection and forensic triage only — do not attempt to reproduce the flaw or r
 >
 > **Sources:** CISA KEV: [109618](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-109618) · [109619](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-109619) · NVD: [109618](https://nvd.nist.gov/vuln/detail/CVE-2026-109618) · [109619](https://nvd.nist.gov/vuln/detail/CVE-2026-109619) · Vendor advisory: [PHP security advisories GHSA-w8hw-w9fx-j79w / GHSA-6wmf-4rv5-p3rp](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w)
 >
-> **Verified against CISA KEV on 2026-11-23 (catalog version 2026.11.23).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
+> **Verified against CISA KEV on 2026-11-27 (catalog version 2026.11.25).** Re-checked weekly by [`tools/verify_kev.py`](https://github.com/szzxli/soc-home-lab/blob/main/tools/verify_kev.py).
 <!-- kev-verify:end -->
 
 ## 1. Am I even in scope?

@@ -89,7 +89,7 @@ cd soc-home-lab
 **KEV accuracy:** every CVE, vendor / product name, KEV date added, federal
 due date and "in KEV / not in KEV" label above was checked against the official
 [CISA KEV JSON feed](https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json):
-last verified 2026-11-23 (catalog version 2026.11.23). Each hunt checklist
+last verified 2026-11-27 (catalog version 2026.11.25). Each hunt checklist
 starts with its KEV status, a Sources line (CISA KEV, NVD, vendor advisory where
 cited) and that date. [`tools/verify_kev.py`](./tools/verify_kev.py) re-checks
 all of it, weekly and on every pull request, and opens an issue if anything
